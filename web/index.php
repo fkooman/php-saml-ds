@@ -57,7 +57,17 @@ try {
         ]
     );
 
-    $wayf = new Wayf($config, $twigTpl, $cookie, sprintf('%s/data', dirname(__DIR__)));
+    $wayf = new Wayf(
+        sprintf('%s/data', dirname(__DIR__)),
+        $config,
+        $twigTpl,
+        $cookie
+    );
+    // set the IdP entityID if it was provided in the cookie as the last
+    // chosen IdP
+    if (array_key_exists('entityID', $_COOKIE)) {
+        $wayf->setEntityID($_COOKIE['entityID']);
+    }
     $wayf->run($request)->send();
 } catch (Exception $e) {
     $errorMessage = sprintf('[500] (%s): %s', get_class($e), $e->getMessage());

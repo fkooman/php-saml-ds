@@ -37,12 +37,29 @@ class Wayf
     /** @var string */
     private $dataDir;
 
-    public function __construct(Config $config, TplInterface $tpl, CookieInterface $cookie, $dataDir)
+    /** @var string|null */
+    private $entityID = null;
+
+    /**
+     * @param string                            $dataDir
+     * @param Config                            $config
+     * @param TplInterface                      $tplInterface
+     * @param \fkooman\SeCookie\CookieInterface $cookie
+     */
+    public function __construct($dataDir, Config $config, TplInterface $tpl, CookieInterface $cookie)
     {
         $this->config = $config;
         $this->tpl = $tpl;
         $this->cookie = $cookie;
         $this->dataDir = $dataDir;
+    }
+
+    /**
+     * @param string $entityID
+     */
+    public function setEntityID($entityID)
+    {
+        $this->entityID = $entityID;
     }
 
     /**
@@ -99,12 +116,11 @@ class Wayf
 
         // do we have an already previous chosen IdP?
         $lastChosen = false;
-        if ($this->cookie->has('entityID')) {
-            $idpEntityID = $this->cookie->get('entityID');
-            if (in_array($idpEntityID, $this->config->get('spList')->get($spEntityID)->get('idpList'))) {
-                $lastChosen = $idpList[$idpEntityID];
+        if (!is_null($this->entityID)) {
+            if (in_array($this->entityID, $this->config->get('spList')->get($spEntityID)->get('idpList'))) {
+                $lastChosen = $idpList[$this->entityID];
                 // remove the last chosen IdP from the list of IdPs
-                unset($idpList[$idpEntityID]);
+                unset($idpList[$this->entityID]);
             }
         }
 
