@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d9fb6cf80a3eab6e6eece3d5d710b58",
+    "content-hash": "023202338c2c38d189fed3eba77c174f",
     "packages": [
         {
             "name": "fkooman/secookie",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-secookie.git",
-                "reference": "48af39a0f43d42b895372dae54638d92a2c1f2aa"
+                "reference": "65470e07fc685378111248483a9351c0f656fa02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-secookie/zipball/48af39a0f43d42b895372dae54638d92a2c1f2aa",
-                "reference": "48af39a0f43d42b895372dae54638d92a2c1f2aa",
+                "url": "https://api.github.com/repos/fkooman/php-secookie/zipball/65470e07fc685378111248483a9351c0f656fa02",
+                "reference": "65470e07fc685378111248483a9351c0f656fa02",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 }
             ],
             "description": "Secure Cookie and Session library for PHP",
-            "time": "2017-06-14 11:38:02"
+            "time": "2017-06-30T11:42:28+00:00"
         },
         {
             "name": "twig/twig",
@@ -671,16 +671,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.20",
+            "version": "5.7.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3cb94a5f8c07a03c8b7527ed7468a2926203f58b"
+                "reference": "3b91adfb64264ddec5a2dee9851f354aa66327db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3cb94a5f8c07a03c8b7527ed7468a2926203f58b",
-                "reference": "3cb94a5f8c07a03c8b7527ed7468a2926203f58b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3b91adfb64264ddec5a2dee9851f354aa66327db",
+                "reference": "3b91adfb64264ddec5a2dee9851f354aa66327db",
                 "shasum": ""
             },
             "require": {
@@ -749,7 +749,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-05-22T07:42:55+00:00"
+            "time": "2017-06-21T08:11:54+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1431,9 +1431,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "fkooman/secookie": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

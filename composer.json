@@ -23,7 +23,7 @@
         "ext-pcre": "*",
         "ext-spl": "*",
         "ext-xml": "*",
-        "fkooman/secookie": "dev-master",
+        "fkooman/secookie": "^1",
         "php": ">=5.4.0",
         "twig/twig": "^1"
     },
