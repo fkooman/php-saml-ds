@@ -2,8 +2,6 @@
 
 This is a SAML discovery service written in PHP.
 
-**NOTE**: this is work in progress! Feel free to test though!
-
 It follows 
 [Identity Provider Discovery Service Protocol and Profile](https://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-idp-discovery.pdf) 
 because [mod_auth_mellon](https://github.com/UNINETT/mod_auth_mellon) 
