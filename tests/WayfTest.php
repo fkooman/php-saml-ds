@@ -96,6 +96,26 @@ class WayfTest extends PHPUnit_Framework_TestCase
         $this->assertSame('https://foo.example.org/callback?foo=bar&IdP=https%3A%2F%2Fidp.tuxed.net%2Fsimplesamlphp%2Fsaml2%2Fidp%2Fmetadata.php', $response->getHeader('Location'));
     }
 
+    public function testNoIdP()
+    {
+        $request = new Request(
+            [
+                'REQUEST_METHOD' => 'GET',
+            ],
+            [
+                'filter' => 'engine',
+                'entityID' => 'https://noidp.example.org/saml',
+                'returnIDParam' => 'IdP',
+                'return' => 'https://foo.example.org/callback?foo=bar',
+            ],
+            []
+        );
+
+        $response = $this->w->run($request);
+        $this->assertSame(500, $response->getStatusCode());
+        $this->assertSame('{"error":{"errorCode":500,"errorMessage":"the SP \"https:\/\/noidp.example.org\/saml\" has no IdPs configured"}}', $response->getBody());
+    }
+
     public function testChooseIdP()
     {
         $request = new Request(

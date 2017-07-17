@@ -76,6 +76,9 @@ class Config
         }
 
         if (is_array($this->data[$key])) {
+            if (0 === count($this->data[$key])) {
+                return [];
+            }
             // if all we get is a "flat" array with sequential numeric keys
             // return the array instead of an object
             $k = array_keys($this->data[$key]);

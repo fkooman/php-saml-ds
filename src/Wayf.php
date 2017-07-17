@@ -92,26 +92,25 @@ class Wayf
      */
     private function get(Request $request)
     {
-        // begin input
-        $spEntityID = $request->getQueryParameter('entityID');
-        $returnIDParam = $request->getQueryParameter('returnIDParam');
-        $return = $request->getQueryParameter('return');
+        $spEntityID = Validate::spEntityID($request->getQueryParameter('entityID'), $this->config->get('spList')->keys());
+        $returnIDParam = Validate::returnIDParam($request->getQueryParameter('returnIDParam'));
+        $return = Validate::return($request->getQueryParameter('return'));
         $filter = false;
         if ($request->hasQueryParameter('filter')) {
-            $filter = $request->getQueryParameter('filter');
+            $filter = Validate::filter($request->getQueryParameter('filter'));
         }
-        // end input
 
         $idpList = $this->getIdPList($spEntityID);
-        // XXX what if the count is 0?
+        if (0 === count($idpList)) {
+            throw new HttpException(sprintf('the SP "%s" has no IdPs configured', $spEntityID), 500);
+        }
         if (1 === count($idpList)) {
-            // we only have 1 IdP, so redirect immediately back to the SP
+            // we only have exactly 1 IdP, so redirect immediately back to the SP
             $idpEntityID = array_keys($idpList)[0];
 
             return $this->returnTo($return, $returnIDParam, $idpEntityID);
         }
 
-        // XXX make sure there is a displayName!
         $displayName = $this->config->get('spList')->get($spEntityID)->get('displayName');
 
         // do we have an already previous chosen IdP?
@@ -158,22 +157,10 @@ class Wayf
      */
     private function post(Request $request)
     {
-        // begin input
-        $spEntityID = $request->getQueryParameter('entityID');
-        $returnIDParam = $request->getQueryParameter('returnIDParam');
-        $return = $request->getQueryParameter('return');
-        $idpEntityID = $request->getPostParameter('idpEntityID');
-        // end input
-
-        $idpList = $this->getIdPList($spEntityID);
-
-        // XXX can we not idplist for that? Do we even need IdPList?
-        if (!in_array($idpEntityID, $this->config->get('spList')->get($spEntityID)->get('idpList'))) {
-            throw new HttpException(
-                sprintf('the IdP "%s" is not listed for this SP', $idpEntityID),
-                400
-            );
-        }
+        $spEntityID = Validate::spEntityID($request->getQueryParameter('entityID'), $this->config->get('spList')->keys());
+        $returnIDParam = Validate::returnIDParam($request->getQueryParameter('returnIDParam'));
+        $return = Validate::return($request->getQueryParameter('return'));
+        $idpEntityID = Validate::idpEntityID($request->getPostParameter('idpEntityID'), $this->config->get('spList')->get($spEntityID)->get('idpList'));
 
         $this->cookie->set('entityID', $idpEntityID);
 
@@ -197,14 +184,6 @@ class Wayf
      */
     private function getIdPList($spEntityID)
     {
-        // make sure the SP exists in the config
-        if (!$this->config->get('spList')->has($spEntityID)) {
-            throw new HttpException(
-                sprintf('SP with entityID "%s" not registered in discovery service', $spEntityID),
-                400
-            );
-        }
-
         // load the IdP List of this SP
         $encodedEntityID = self::encodeEntityID($spEntityID);
         $idpListFile = sprintf('%s/%s.json', $this->dataDir, $encodedEntityID);
@@ -217,10 +196,11 @@ class Wayf
             throw new RuntimeException(sprintf('unable to decode "%s"', $idpListFile));
         }
 
-        // XXX maybe start on array_values of idpList?
-        // XXX check return value?
         uasort($idpList, function ($a, $b) {
-            // XXX make sure they have the field 'displayName'!
+            if (!array_key_exists('displayName', $a) || !array_key_exists('displayName', $b)) {
+                throw new RuntimeException('missing "displayName" in IdP data');
+            }
+
             return strcasecmp($a['displayName'], $b['displayName']);
         });
 

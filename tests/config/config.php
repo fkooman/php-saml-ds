@@ -35,5 +35,15 @@ return [
                 'https://idp.tuxed.net/simplesamlphp/saml2/idp/metadata.php',
             ],
         ],
+
+        'https://noidp.example.org/saml' => [
+            // the "displayName" for this SP
+            'displayName' => 'My SAML SP',
+
+            // list of entityIDs of the IdPs that are shown in the discovery
+            // page. Their information is extracted from the SAML metadata
+            'idpList' => [
+            ],
+        ],
     ],
 ];
