@@ -53,7 +53,7 @@ class Validate
         return $returnIDParam;
     }
 
-    public static function return($return)
+    public static function returnUrl($return)
     {
         $filterFlags = FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED | FILTER_FLAG_PATH_REQUIRED | FILTER_FLAG_QUERY_REQUIRED;
         if (false === filter_var($return, FILTER_VALIDATE_URL, $filterFlags)) {

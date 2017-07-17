@@ -94,7 +94,7 @@ class Wayf
     {
         $spEntityID = Validate::spEntityID($request->getQueryParameter('entityID'), $this->config->get('spList')->keys());
         $returnIDParam = Validate::returnIDParam($request->getQueryParameter('returnIDParam'));
-        $return = Validate::return($request->getQueryParameter('return'));
+        $return = Validate::returnUrl($request->getQueryParameter('return'));
         $filter = false;
         if ($request->hasQueryParameter('filter')) {
             $filter = Validate::filter($request->getQueryParameter('filter'));
@@ -159,7 +159,7 @@ class Wayf
     {
         $spEntityID = Validate::spEntityID($request->getQueryParameter('entityID'), $this->config->get('spList')->keys());
         $returnIDParam = Validate::returnIDParam($request->getQueryParameter('returnIDParam'));
-        $return = Validate::return($request->getQueryParameter('return'));
+        $return = Validate::returnUrl($request->getQueryParameter('return'));
         $idpEntityID = Validate::idpEntityID($request->getPostParameter('idpEntityID'), $this->config->get('spList')->get($spEntityID)->get('idpList'));
 
         $this->cookie->set('entityID', $idpEntityID);
