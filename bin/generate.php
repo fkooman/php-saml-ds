@@ -15,7 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));
+$autoloadFiles = [
+    sprintf('%s/src/autoload.php', dirname(__DIR__)),
+    sprintf('%s/vendor/autoload.php', dirname(__DIR__)),
+];
+
+foreach ($autoloadFiles as $autoloadFile) {
+    if (file_exists($autoloadFile)) {
+        require_once $autoloadFile;
+        break;
+    }
+}
 
 use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\HttpClient\CurlHttpClient;
