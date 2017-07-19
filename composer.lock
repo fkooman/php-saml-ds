@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "023202338c2c38d189fed3eba77c174f",
+    "content-hash": "3b220c11a8eb81faaa2c12165af6e378",
     "packages": [
         {
             "name": "fkooman/secookie",
@@ -1436,7 +1436,6 @@
     "prefer-lowest": false,
     "platform": {
         "ext-curl": "*",
-        "ext-date": "*",
         "ext-filter": "*",
         "ext-imagick": "*",
         "ext-json": "*",
