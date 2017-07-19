@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.1 (TBD)
+## 1.0.1 (2017-07-19)
 - better input validation on query and post parameters
 - handle no configured IdPs
 
