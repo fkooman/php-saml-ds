@@ -56,6 +56,12 @@ With logos (optional):
 
 ![screenshot](contrib/screenshot_logos.png)
 
+# Templates
+
+In case you want to override the default template, it usually suffices to copy
+`views/base.twig` to `config/views/base.twig` and modify it there, e.g. adding
+additional CSS files.
+
 # Requirements
 
 The software is written in PHP, and requires PHP >= 5.4 together with the 
