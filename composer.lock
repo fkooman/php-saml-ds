@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "fkooman/secookie",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-secookie.git",
-                "reference": "65470e07fc685378111248483a9351c0f656fa02"
+                "reference": "06c5bd0066649e6bd2dc8b28a2f53fce6a017cec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-secookie/zipball/65470e07fc685378111248483a9351c0f656fa02",
-                "reference": "65470e07fc685378111248483a9351c0f656fa02",
+                "url": "https://api.github.com/repos/fkooman/php-secookie/zipball/06c5bd0066649e6bd2dc8b28a2f53fce6a017cec",
+                "reference": "06c5bd0066649e6bd2dc8b28a2f53fce6a017cec",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 }
             ],
             "description": "Secure Cookie and Session library for PHP",
-            "time": "2017-06-30T11:42:28+00:00"
+            "time": "2017-08-07T19:29:48+00:00"
         },
         {
             "name": "twig/twig",
