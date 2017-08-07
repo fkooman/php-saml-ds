@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.3 (TBD)
+## 1.0.3 (2017-08-07)
 - support memory for multiple favorite IdPs, automatically migrating old 
   "entityID" cookie to new "favoriteIdPs"
 - cleanup CSS
