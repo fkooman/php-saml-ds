@@ -37,8 +37,8 @@ class Wayf
     /** @var string */
     private $dataDir;
 
-    /** @var string|null */
-    private $entityID = null;
+    /** @var array */
+    private $favoriteIdPs = [];
 
     /**
      * @param string                            $dataDir
@@ -55,11 +55,21 @@ class Wayf
     }
 
     /**
-     * @param string $entityID
+     * @param array $favoriteIdPs
      */
-    public function setEntityID($entityID)
+    public function setFavoriteIdPs(array $favoriteIdPs)
     {
-        $this->entityID = $entityID;
+        // this information comes directly from cookie, so user can manipulate
+        // this!
+        foreach ($favoriteIdPs as $favoriteIdP) {
+            if (!is_string($favoriteIdP)) {
+                // ignore non-string values, we should probably be more
+                // strict here and just fail instead
+                continue;
+            }
+
+            $this->favoriteIdPs[] = $favoriteIdP;
+        }
     }
 
     /**
@@ -114,18 +124,17 @@ class Wayf
         $displayName = $this->config->get('spList')->get($spEntityID)->get('displayName');
 
         // do we have an already previous chosen IdP?
-        $lastChosen = false;
-        if (!is_null($this->entityID)) {
-            if (in_array($this->entityID, $this->config->get('spList')->get($spEntityID)->get('idpList'))) {
-                $lastChosen = $idpList[$this->entityID];
+        $lastChosenList = [];
+        foreach ($this->favoriteIdPs as $favoriteIdP) {
+            if (in_array($favoriteIdP, $this->config->get('spList')->get($spEntityID)->get('idpList'))) {
+                $lastChosenList[] = $idpList[$favoriteIdP];
                 // remove the last chosen IdP from the list of IdPs
-                unset($idpList[$this->entityID]);
+                unset($idpList[$favoriteIdP]);
             }
         }
 
         if ($filter) {
             // remove entries not matching the value in filter
-            $idpListCount = count($idpList);
             foreach ($idpList as $k => $v) {
                 $inKeywords = false !== stripos(implode(' ', $v['keywords']), $filter);
                 if (!$inKeywords) {
@@ -152,7 +161,7 @@ class Wayf
                 'returnIDParam' => $returnIDParam,
                 'return' => $return,
                 'displayName' => $displayName,
-                'lastChosen' => $lastChosen,
+                'lastChosenList' => $lastChosenList,
                 'idpList' => array_values($idpList),
             ]
         );
@@ -170,7 +179,22 @@ class Wayf
         $return = Validate::returnUrl($request->getQueryParameter('return'));
         $idpEntityID = Validate::idpEntityID($request->getPostParameter('idpEntityID'), $this->config->get('spList')->get($spEntityID)->get('idpList'));
 
-        $this->cookie->set('entityID', $idpEntityID);
+        // add the chosen IdP to the cookie if it is not yet there, or move
+        // it to the first position if it was there already
+        $favoriteList = [$idpEntityID];
+        foreach ($this->favoriteIdPs as $favoriteIdP) {
+            if (!in_array($favoriteIdP, $favoriteList)) {
+                $favoriteList[] = $favoriteIdP;
+            }
+        }
+        // make sure we only store a maximum 3 favorite IdPs, that seems to be
+        // enough for most use cases
+        $this->cookie->set(
+            'favoriteIdPs',
+            json_encode(
+                array_slice($favoriteList, 0, 3)
+            )
+        );
 
         return $this->returnTo($return, $returnIDParam, $idpEntityID);
     }

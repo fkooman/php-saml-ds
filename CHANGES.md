@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3 (TBD)
+- support memory for multiple favorite IdPs, automatically migrating old 
+  "entityID" cookie to new "favoriteIdPs"
+- cleanup CSS
+- change default footer text
+
 ## 1.0.2 (2017-07-28)
 - implement simple cache busting for WAYF CSS (#19)
 - add documentation on how to override templates

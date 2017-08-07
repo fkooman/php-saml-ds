@@ -53,7 +53,7 @@ class WayfTest extends PHPUnit_Framework_TestCase
 
         $response = $this->w->run($request);
         $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('{"discovery":{"useLogos":false,"filter":false,"entityID":"https:\/\/sp.example.org\/saml","encodedEntityID":"https_sp.example.org_saml","mTime":0,"returnIDParam":"IdP","return":"https:\/\/foo.example.org\/callback?foo=bar","displayName":"My SAML SP","lastChosen":false,"idpList":[{"entityID":"https:\/\/idp.tuxed.net\/simplesamlphp\/saml2\/idp\/metadata.php","displayName":"FrKoIdP","keywords":["FrKoIdP"],"encodedEntityID":"https_idp.tuxed.net_simplesamlphp_saml_idp_metadata.php"},{"entityID":"https:\/\/engine.surfconext.nl\/authentication\/idp\/metadata","displayName":"SURFconext | SURFnet","keywords":["SURFconext","engine","SURFconext | SURFnet"],"encodedEntityID":"https_engine.surfconext.nl_authentication_idp_metadata"}]}}', $response->getBody());
+        $this->assertSame('{"discovery":{"useLogos":false,"filter":false,"entityID":"https:\/\/sp.example.org\/saml","encodedEntityID":"https_sp.example.org_saml","mTime":0,"returnIDParam":"IdP","return":"https:\/\/foo.example.org\/callback?foo=bar","displayName":"My SAML SP","lastChosenList":[],"idpList":[{"entityID":"https:\/\/idp.tuxed.net\/simplesamlphp\/saml2\/idp\/metadata.php","displayName":"FrKoIdP","keywords":["FrKoIdP"],"encodedEntityID":"https_idp.tuxed.net_simplesamlphp_saml_idp_metadata.php"},{"entityID":"https:\/\/engine.surfconext.nl\/authentication\/idp\/metadata","displayName":"SURFconext | SURFnet","keywords":["SURFconext","engine","SURFconext | SURFnet"],"encodedEntityID":"https_engine.surfconext.nl_authentication_idp_metadata"}]}}', $response->getBody());
     }
 
     public function testShowDiscoveryFilter()
@@ -73,7 +73,7 @@ class WayfTest extends PHPUnit_Framework_TestCase
 
         $response = $this->w->run($request);
         $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('{"discovery":{"useLogos":false,"filter":"engine","entityID":"https:\/\/sp.example.org\/saml","encodedEntityID":"https_sp.example.org_saml","mTime":0,"returnIDParam":"IdP","return":"https:\/\/foo.example.org\/callback?foo=bar","displayName":"My SAML SP","lastChosen":false,"idpList":[{"entityID":"https:\/\/engine.surfconext.nl\/authentication\/idp\/metadata","displayName":"SURFconext | SURFnet","keywords":["SURFconext","engine","SURFconext | SURFnet"],"encodedEntityID":"https_engine.surfconext.nl_authentication_idp_metadata"}]}}', $response->getBody());
+        $this->assertSame('{"discovery":{"useLogos":false,"filter":"engine","entityID":"https:\/\/sp.example.org\/saml","encodedEntityID":"https_sp.example.org_saml","mTime":0,"returnIDParam":"IdP","return":"https:\/\/foo.example.org\/callback?foo=bar","displayName":"My SAML SP","lastChosenList":[],"idpList":[{"entityID":"https:\/\/engine.surfconext.nl\/authentication\/idp\/metadata","displayName":"SURFconext | SURFnet","keywords":["SURFconext","engine","SURFconext | SURFnet"],"encodedEntityID":"https_engine.surfconext.nl_authentication_idp_metadata"}]}}', $response->getBody());
     }
 
     public function testOneIdP()

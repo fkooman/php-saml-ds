@@ -73,11 +73,27 @@ try {
         $twigTpl,
         $cookie
     );
-    // set the IdP entityID if it was provided in the cookie as the last
-    // chosen IdP
-    if (array_key_exists('entityID', $_COOKIE)) {
-        $wayf->setEntityID($_COOKIE['entityID']);
+
+    // provide the favorite IdP list
+    if (array_key_exists('favoriteIdPs', $_COOKIE)) {
+        $favoriteIdPs = json_decode($_COOKIE['favoriteIdPs'], true);
+        // json_decode returns null on error
+        if (is_array($favoriteIdPs)) {
+            $wayf->setFavoriteIdPs($favoriteIdPs);
+        }
+    } else {
+        // legacy, migrate old 'entityID' cookie to new 'favoriteIdPs' and
+        // delete the old cookie
+        if (array_key_exists('entityID', $_COOKIE)) {
+            $entityID = $_COOKIE['entityID'];
+            if (is_string($entityID)) {
+                $cookie->set('favoriteIdPs', json_encode([$entityID]));
+                $wayf->setFavoriteIdPs([$entityID]);
+            }
+            $cookie->delete('entityID');
+        }
     }
+
     $wayf->run($request)->send();
 } catch (Exception $e) {
     $errorMessage = sprintf('[500] (%s): %s', get_class($e), $e->getMessage());

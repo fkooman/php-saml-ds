@@ -10,18 +10,20 @@
         <input type="hidden" name="entityID" value="{{ entityID }}">
         <input type="hidden" name="return" value="{{ return }}">
 
-        <input {% if not lastChosen and not filter %}autofocus="autofocus"{% endif %} value="{{ filter }}" name="filter" id="filter" tabindex="1" type="text" autocomplete="off" placeholder="Search for an institution...">
+        <input {% if lastChosenList is not empty and not filter %}autofocus="autofocus"{% endif %} value="{{ filter }}" name="filter" id="filter" tabindex="1" type="text" autocomplete="off" placeholder="Search for an institution...">
     </form>
 
-    {% if lastChosen %}
+    {% if lastChosenList is not empty %}
         <div id="lastChosen">
             <div class="listHeader">Previously chosen</div>
             <ul>
+                {% for key, idp in lastChosenList %}
                 <li>
                     <form class="entity" method="post">
-                        <button class="{{ lastChosen.encodedEntityID }}" autofocus="autofocus" name="idpEntityID" value="{{ lastChosen.entityID }}" tabindex="2">{{ lastChosen.displayName }}</button>
+                        <button class="{{ idp.encodedEntityID }}" autofocus="autofocus" name="idpEntityID" value="{{ idp.entityID }}" tabindex="{{ key + 2 }}">{{ idp.displayName }}</button>
                     </form>
                 </li>
+                {% endfor %}
             </ul>
         </div>
     {% endif %}
@@ -33,7 +35,7 @@
                 {% for key, idp in idpList %}
                     <li>
                         <form class="entity" method="post">
-                            <button {% if filter and key == 0 %}autofocus="autofocus"{% endif %} name="idpEntityID" value="{{ idp.entityID }}" tabindex="{{ key + 2 }}" class="{{ idp.encodedEntityID }}" data-keywords="{{ idp.keywords|join(' ') }}">{{ idp.displayName }}</button>
+                            <button {% if filter and key == 0 %}autofocus="autofocus"{% endif %} name="idpEntityID" value="{{ idp.entityID }}" tabindex="{{ key + lastChosenList|length + 2 }}" class="{{ idp.encodedEntityID }}" data-keywords="{{ idp.keywords|join(' ') }}">{{ idp.displayName }}</button>
                         </form>
                     </li>
                 {% endfor %}
