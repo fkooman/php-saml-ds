@@ -1,13 +1,8 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 body {
     font-family: "Helvetica Neue", "Calibri Light", Roboto, sans-serif;
     background-color: #eee;
     color: #555;
+    margin: 0;
 }
 
 p {
@@ -19,7 +14,7 @@ div.header {
     padding: 1em;
     border-bottom: 2px #555 solid;
     box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    margin-bottom: 3em;
+    margin-bottom: 1em;
 }
 
 div.container {
@@ -34,7 +29,8 @@ ul {
     list-style: none;
     background-color: #fff;
     box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    margin-bottom: 2em;
+    margin: 0 0 1em 0;
+    padding: 0;
 }
 
 ul li:not(:last-child) {
@@ -62,6 +58,7 @@ form.entity button::-moz-focus-inner {
 }
 
 form.filter input {
+    box-sizing: border-box;
     width: 100%;
     font-size: 100%;
     margin-bottom: 1em;
@@ -78,6 +75,7 @@ div.listHeader {
     background-color: #eee;
     line-height: 1em;
     font-size: 85%;
+    box-sizing: border-box;
 }
 
 div.footer {
