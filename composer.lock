@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "fkooman/secookie",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-secookie.git",
-                "reference": "06c5bd0066649e6bd2dc8b28a2f53fce6a017cec"
+                "reference": "9f63939f14ed1206a0b011d4735d4ed75163f660"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-secookie/zipball/06c5bd0066649e6bd2dc8b28a2f53fce6a017cec",
-                "reference": "06c5bd0066649e6bd2dc8b28a2f53fce6a017cec",
+                "url": "https://api.github.com/repos/fkooman/php-secookie/zipball/9f63939f14ed1206a0b011d4735d4ed75163f660",
+                "reference": "9f63939f14ed1206a0b011d4735d4ed75163f660",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 }
             ],
             "description": "Secure Cookie and Session library for PHP",
-            "time": "2017-08-07T19:29:48+00:00"
+            "time": "2017-08-08T10:23:03+00:00"
         },
         {
             "name": "twig/twig",
@@ -267,16 +267,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "3.2.1",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "183824db76118b9dddffc7e522b91fa175f75119"
+                "reference": "4aada1f93c72c35e22fb1383b47fee43b8f1d157"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/183824db76118b9dddffc7e522b91fa175f75119",
-                "reference": "183824db76118b9dddffc7e522b91fa175f75119",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/4aada1f93c72c35e22fb1383b47fee43b8f1d157",
+                "reference": "4aada1f93c72c35e22fb1383b47fee43b8f1d157",
                 "shasum": ""
             },
             "require": {
@@ -308,7 +308,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-08-04T20:55:59+00:00"
+            "time": "2017-08-08T06:39:58+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
