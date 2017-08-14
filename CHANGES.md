@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5 (TBD)
+- clean the CSS to not show outline on Chrome/Epiphany of the search box and 
+  IdP buttons
+
 ## 1.0.4 (2017-08-14)
 - fix "autofocus" on search box and previously selected IdPs (#24)
 

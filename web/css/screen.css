@@ -50,6 +50,11 @@ form.entity button:hover, form.entity button:active, form.entity button:focus {
     background-color: #555;
     color: #fff;
     cursor: pointer;
+    outline: none;
+}
+
+form.filter input:focus {
+    outline: none;
 }
 
 form.entity button::-moz-focus-inner {
