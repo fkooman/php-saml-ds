@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.4 (2017-08-14)
+- fix "autofocus" on search box and previously selected IdPs (#24)
+
 ## 1.0.3 (2017-08-07)
 - support memory for multiple favorite IdPs, automatically migrating old 
   "entityID" cookie to new "favoriteIdPs"
