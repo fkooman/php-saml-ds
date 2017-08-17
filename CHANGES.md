@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.5 (TBD)
+## 1.0.5 (2017-08-17)
 - clean the CSS to not show outline on Chrome/Epiphany of the search box and 
   IdP buttons
 
