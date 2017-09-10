@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.6 (2017-09-10)
+- update `fkooman/secookie`
+
 ## 1.0.5 (2017-08-17)
 - clean the CSS to not show outline on Chrome/Epiphany of the search box and 
   IdP buttons
