@@ -14,36 +14,39 @@
  * limitations under the License.
  */
 
+"use strict";
+
 document.addEventListener("DOMContentLoaded", function () {
-    "use strict";
     // disable standard form submit when JS is enabled
-    document.querySelector("form.filter").addEventListener("submit", function (e) {
-        e.preventDefault();
-    });
+    if(null !== document.querySelector("form.filter")) {
+        document.querySelector("form.filter").addEventListener("submit", function (e) {
+            e.preventDefault();
+        });
 
-    document.querySelector("form.filter input#filter").addEventListener("keyup", function () {
-        var filter = this.value.toUpperCase();
-        var entries = document.querySelectorAll("ul#disco li");
-        var visibleCount = 0;
-        var keywords;
-        var i;
-        for (i = 0; i < entries.length; i += 1) {
-            // look through the keywords
-            keywords = entries[i].querySelector("form.entity button").dataset.keywords;
-            if (keywords.toUpperCase().indexOf(filter) !== -1) {
-                entries[i].style.display = "list-item";
-                visibleCount += 1;
-            } else {
-                entries[i].style.display = "none";
+        document.querySelector("form.filter input#filter").addEventListener("keyup", function () {
+            var filter = this.value.toUpperCase();
+            var entries = document.querySelectorAll("ul#disco li");
+            var visibleCount = 0;
+            var keywords;
+            var i;
+            for (i = 0; i < entries.length; i += 1) {
+                // look through the keywords
+                keywords = entries[i].querySelector("form.entity button").dataset.keywords;
+                if (keywords.toUpperCase().indexOf(filter) !== -1) {
+                    entries[i].style.display = "list-item";
+                    visibleCount += 1;
+                } else {
+                    entries[i].style.display = "none";
+                }
             }
-        }
 
-        if (0 === visibleCount) {
-            // hide the accessList, as there are no entries matching the search
-            document.getElementById("accessList").style.display = "none";
-        } else {
-            // show the accessList (again)
-            document.getElementById("accessList").style.display = "block";
-        }
-    });
+            if (0 === visibleCount) {
+                // hide the accessList, as there are no entries matching the search
+                document.getElementById("accessList").style.display = "none";
+            } else {
+                // show the accessList (again)
+                document.getElementById("accessList").style.display = "block";
+            }
+        });
+    }
 });
