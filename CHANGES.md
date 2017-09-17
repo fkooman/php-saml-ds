@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.7 (TBD)
+- cleanup autoloader finder
+- cleanup JS:
+  - move "use strict" to top
+  - only bind event to form in DOM when it is actually there, i.e. not on error
+    pages
+
 ## 1.0.6 (2017-09-10)
 - update `fkooman/secookie`
 
