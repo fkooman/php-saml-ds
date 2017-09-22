@@ -37,6 +37,10 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
 
     private $errorLog = [];
 
+    /**
+     * @param string                                          $logoDir
+     * @param \fkooman\SAML\DS\HttpClient\HttpClientInterface $httpClient
+     */
     public function __construct($logoDir, HttpClientInterface $httpClient)
     {
         if (!@file_exists($logoDir)) {
@@ -62,33 +66,32 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
      */
     public function prepare($encodedEntityID, array $logoList)
     {
-        if (0 === count($logoList)) {
-            // no logo available from metadata, use placeholder instead
-            $logoData = base64_decode(self::PLACEHOLDER_IMAGE);
-            $mediaType = 'image/png';
-            $this->errorLog[] = sprintf('no logo defined in metadata for "%s", using placeholder', $encodedEntityID);
-        } else {
+        // placeholder if retrieving logo fails
+        $logoData = base64_decode(self::PLACEHOLDER_IMAGE);
+        $fileExtension = 'png';
+
+        if (0 !== count($logoList)) {
             $logoUri = self::getBestLogoUri($logoList);
             try {
                 list($logoData, $mediaType) = $this->obtainLogo($logoUri);
+                $fileExtension = self::mediaTypeToExtension($mediaType);
             } catch (LogoException $e) {
-                // there was an error obtaining the logo, use placeholder
-                // instead
-                $logoData = base64_decode(self::PLACEHOLDER_IMAGE);
-                $mediaType = 'image/png';
-                $this->errorLog[] = sprintf('unable to obtain logo for "%s", using placeholder', $encodedEntityID);
+                $this->errorLog[] = sprintf(
+                    'unable to obtain logo for "%s": %s',
+                    $encodedEntityID,
+                    $e->getMessage()
+                );
             }
         }
 
-        $fileExtension = self::mediaTypeToExtension($mediaType);
         $originalFileName = sprintf('%s/%s.orig.%s', $this->logoDir, $encodedEntityID, $fileExtension);
 
         // store the original logo
-        // XXX maybe we do NOT need to store it, feed it to imagick directly?
         if (false === @file_put_contents($originalFileName, $logoData)) {
             throw new RuntimeException(sprintf('unable to write to "%s"', $originalFileName));
         }
 
+        // optimize the logo
         $optimizedLogoData = self::optimize($originalFileName);
         $optimizedFileName = sprintf('%s/%s.png', $this->logoDir, $encodedEntityID);
         if (false === @file_put_contents($optimizedFileName, $optimizedLogoData)) {
@@ -96,6 +99,11 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
         }
     }
 
+    /**
+     * @param string $originalFileName
+     *
+     * @return string
+     */
     private static function optimize($originalFileName)
     {
         try {
@@ -113,7 +121,9 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     }
 
     /**
-     * @return array|false
+     * @param string $logoUri
+     *
+     * @return array
      */
     private function obtainLogo($logoUri)
     {
@@ -143,6 +153,11 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
         }
     }
 
+    /**
+     * @param string $logoUri
+     *
+     * @return array
+     */
     private static function extractDataUriLogo($logoUri)
     {
         // XXX do some better error checking to protect against broken dataUris
@@ -156,11 +171,21 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
         return [$logoData, $mediaType];
     }
 
+    /**
+     * @param string $uri
+     *
+     * @return bool
+     */
     private static function isDataUri($uri)
     {
         return 0 === strpos($uri, 'data:');
     }
 
+    /**
+     * @param array $logoList
+     *
+     * @return string
+     */
     private static function getBestLogoUri(array $logoList)
     {
         // we keep the logo where the highest width is indicated assuming it
@@ -172,8 +197,19 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
         return $logoList[count($logoList) - 1]['uri'];
     }
 
+    /**
+     * @param string $mediaType
+     *
+     * @return string
+     */
     private static function mediaTypeToExtension($mediaType)
     {
+        // strip crap behind the media type
+        // "image/png;charset=UTF-8" is NOT a valid image media type...
+        if (false !== $colonPos = strpos($mediaType, ';')) {
+            $mediaType = trim(substr($mediaType, 0, $colonPos));
+        }
+
         switch ($mediaType) {
             case 'image/gif':
                 return 'gif';
@@ -187,6 +223,8 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
             case 'image/vnd.microsoft.icon':
             case 'image/x-icon':
                 return 'ico';
+            case 'image/svg+xml':
+                return 'svg';
             default:
                 throw new LogoException(sprintf('"%s" is an unsupported media type', $mediaType));
         }
