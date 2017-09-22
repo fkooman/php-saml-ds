@@ -6,6 +6,8 @@
   - move "use strict" to top
   - only bind event to form in DOM when it is actually there, i.e. not on error
     pages
+- more robust logo downloader (tested on eduGAIN metadata)
+- show entityID of IdP that does not have HTTP-Redirect binding
 
 ## 1.0.6 (2017-09-10)
 - update `fkooman/secookie`
