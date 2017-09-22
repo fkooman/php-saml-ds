@@ -97,7 +97,7 @@ class Parser
             return [
                 'entityID' => $entityID,
                 'displayName' => $displayName,
-                'SSO' => $this->getSSO($idpDescriptor[0]),
+                'SSO' => $this->getSSO($entityID, $idpDescriptor[0]),
                 'signingCert' => $this->getSigningCert($idpDescriptor[0]),
                 'keywords' => $this->getKeywords($entityInfo[0]),
                 'logoList' => $this->extractEntityLogo($entityInfo[0]),
@@ -112,11 +112,11 @@ class Parser
      *
      * @return string
      */
-    private function getSSO(SimpleXMLElement $xml)
+    private function getSSO($entityID, SimpleXMLElement $xml)
     {
         $result = $xml->xpath('md:SingleSignOnService[@Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"]');
         if (0 === count($result)) {
-            throw new ParserException('no SingleSignOnService HTTP-Redirect binding');
+            throw new ParserException(sprintf('no SingleSignOnService HTTP-Redirect binding for "%s"', $entityID));
         }
 
         return (string) $result[0]['Location'];

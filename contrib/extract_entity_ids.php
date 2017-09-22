@@ -29,7 +29,9 @@ try {
         }
     }
 
-    var_export($idpEntityIDs);
+    foreach ($idpEntityIDs as $entityID) {
+        echo sprintf("'%s',", $entityID).PHP_EOL;
+    }
 } catch (Exception $e) {
     echo sprintf('ERROR: %s', $e->getMessage());
     exit(1);
