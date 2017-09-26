@@ -75,6 +75,15 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
             try {
                 list($logoData, $mediaType) = $this->obtainLogo($logoUri);
                 $fileExtension = self::mediaTypeToExtension($mediaType);
+
+                $originalFileName = sprintf('%s/%s.orig.%s', $this->logoDir, $encodedEntityID, $fileExtension);
+                // store the original logo
+                if (false === @file_put_contents($originalFileName, $logoData)) {
+                    throw new RuntimeException(sprintf('unable to write to "%s"', $originalFileName));
+                }
+
+                // optimize the logo
+                $logoData = self::optimize($originalFileName);
             } catch (LogoException $e) {
                 $this->errorLog[] = sprintf(
                     'unable to obtain logo for "%s": %s',
@@ -84,17 +93,8 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
             }
         }
 
-        $originalFileName = sprintf('%s/%s.orig.%s', $this->logoDir, $encodedEntityID, $fileExtension);
-
-        // store the original logo
-        if (false === @file_put_contents($originalFileName, $logoData)) {
-            throw new RuntimeException(sprintf('unable to write to "%s"', $originalFileName));
-        }
-
-        // optimize the logo
-        $optimizedLogoData = self::optimize($originalFileName);
         $optimizedFileName = sprintf('%s/%s.png', $this->logoDir, $encodedEntityID);
-        if (false === @file_put_contents($optimizedFileName, $optimizedLogoData)) {
+        if (false === @file_put_contents($optimizedFileName, $logoData)) {
             throw new RuntimeException(sprintf('unable to write to "%s"', $optimizedFileName));
         }
     }
