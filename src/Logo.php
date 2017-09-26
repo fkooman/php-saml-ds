@@ -75,7 +75,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
             $logoUri = self::getBestLogoUri($logoList);
             try {
                 list($logoData, $mediaType) = $this->obtainLogo($logoUri);
-                $fileExtension = self::mediaTypeToExtension($mediaType);
+                $fileExtension = self::mediaTypeToExtension($encodedEntityID, $mediaType);
 
                 $originalFileName = sprintf('%s/%s.orig.%s', $this->logoDir, $encodedEntityID, $fileExtension);
                 // store the original logo
@@ -199,15 +199,23 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     }
 
     /**
+     * @param string $encodedEntityID
      * @param string $mediaType
      *
      * @return string
      */
-    private static function mediaTypeToExtension($mediaType)
+    private function mediaTypeToExtension($encodedEntityID, $mediaType)
     {
         // strip crap behind the media type
         // "image/png;charset=UTF-8" is NOT a valid image media type...
         if (false !== $colonPos = strpos($mediaType, ';')) {
+            // XXX we should add this to error log
+            $this->errorLog[] = sprintf(
+                'needed to strip media type "%s" for "%s"',
+                $mediaType,
+                $encodedEntityID
+            );
+
             $mediaType = trim(substr($mediaType, 0, $colonPos));
         }
 
