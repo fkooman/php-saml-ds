@@ -35,6 +35,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     /** @var \fkooman\SAML\DS\HttpClient\HttpClientInterface */
     private $httpClient;
 
+    /** @var array */
     private $errorLog = [];
 
     /**
