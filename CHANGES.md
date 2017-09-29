@@ -1,13 +1,13 @@
 # Changelog
 
-## 1.0.7 (TBD)
+## 1.0.7 (2017-09-29)
 - cleanup autoloader finder
 - cleanup JS:
   - move "use strict" to top
   - only bind event to form in DOM when it is actually there, i.e. not on error
     pages
 - more robust logo downloader (tested on eduGAIN metadata)
-- show entityID of IdP that does not have HTTP-Redirect binding
+- show entityID of IdP that does not have HTTP-Redirect binding which we need
 
 ## 1.0.6 (2017-09-10)
 - update `fkooman/secookie`
