@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.8 (...)
+## 1.0.8 (2017-10-01)
 - follow 301/302 redirects (issue #28)
 - trim whitespaces at start and end of logo URL from metadata (issue #29)
 
