@@ -2,6 +2,7 @@
 
 ## 1.0.8 (...)
 - follow 301/302 redirects (issue #28)
+- trim whitespaces at start and end of logo URL from metadata (issue #29)
 
 ## 1.0.7 (2017-09-29)
 - cleanup autoloader finder

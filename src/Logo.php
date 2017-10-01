@@ -195,7 +195,8 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
             return $a['width'] < $b['width'] ? -1 : ($a['width'] > $b['width'] ? 1 : 0);
         });
 
-        return $logoList[count($logoList) - 1]['uri'];
+        // trim URL as some metadata files contain extra whitespaces
+        return trim($logoList[count($logoList) - 1]['uri']);
     }
 
     /**
