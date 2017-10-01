@@ -62,7 +62,7 @@ class CurlHttpClient implements HttpClientInterface
         $defaultCurlOptions = [
             CURLOPT_HEADER => false,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_FOLLOWLOCATION => true, // follow redirects
             CURLOPT_PROTOCOLS => $this->httpsOnly ? CURLPROTO_HTTPS : CURLPROTO_HTTPS | CURLPROTO_HTTP,
             CURLOPT_HEADERFUNCTION => function ($curlChannel, $headerData) use (&$headerList) {
                 if (false !== strpos($headerData, ':')) {
