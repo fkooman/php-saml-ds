@@ -50,6 +50,9 @@ class Request
         return $this->serverData['REQUEST_METHOD'];
     }
 
+    /**
+     * @return string
+     */
     public function getServerName()
     {
         return $this->serverData['SERVER_NAME'];
@@ -63,11 +66,21 @@ class Request
         return $this->getData;
     }
 
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
     public function hasQueryParameter($key)
     {
         return array_key_exists($key, $this->getData) && !empty($this->getData[$key]);
     }
 
+    /**
+     * @param string $key
+     *
+     * @return string
+     */
     public function getQueryParameter($key)
     {
         if (!$this->hasQueryParameter($key)) {
@@ -85,6 +98,11 @@ class Request
         return $this->postData;
     }
 
+    /**
+     * @param string $key
+     *
+     * @return string
+     */
     public function getPostParameter($key)
     {
         if (!array_key_exists($key, $this->postData) && !empty($this->postData[$key])) {
@@ -95,6 +113,8 @@ class Request
     }
 
     /**
+     * @param string $key
+     *
      * @return string|null
      */
     public function getHeader($key)

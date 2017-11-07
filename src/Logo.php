@@ -64,11 +64,13 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     /**
      * @param string $encodedEntityID
      * @param array  $logoList
+     *
+     * @return void
      */
     public function prepare($encodedEntityID, array $logoList)
     {
         // placeholder if retrieving logo fails
-        $logoData = base64_decode(self::PLACEHOLDER_IMAGE);
+        $logoData = base64_decode(self::PLACEHOLDER_IMAGE, true);
         $fileExtension = 'png';
 
         if (0 !== count($logoList)) {
@@ -165,7 +167,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
         $mediaType = substr($logoUri, 5, strpos($logoUri, ';') - 5);
         $encodedLogoData = substr($logoUri, strpos($logoUri, ','));
 
-        if (false === $logoData = base64_decode($encodedLogoData)) {
+        if (false === $logoData = base64_decode($encodedLogoData, true)) {
             throw new LogoException('unable to decode data URI logo');
         }
 
@@ -191,7 +193,14 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     {
         // we keep the logo where the highest width is indicated assuming it
         // will be the best quality
-        usort($logoList, function ($a, $b) {
+        usort($logoList, 
+        /**
+         * @param array $a
+         * @param array $b
+         *
+         * @return int
+         */
+        function ($a, $b) {
             return $a['width'] < $b['width'] ? -1 : ($a['width'] > $b['width'] ? 1 : 0);
         });
 
@@ -205,7 +214,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
      *
      * @return string
      */
-    private function mediaTypeToExtension($encodedEntityID, $mediaType)
+    private static function mediaTypeToExtension($encodedEntityID, $mediaType)
     {
         // strip crap behind the media type
         // "image/png;charset=UTF-8" is NOT a valid image media type...

@@ -48,6 +48,9 @@ class Parser
         return $this->errorLog;
     }
 
+    /**
+     * @return array
+     */
     public function getEntitiesInfo(array $entityIDList)
     {
         $entityDescriptors = [];
@@ -58,6 +61,9 @@ class Parser
         return $entityDescriptors;
     }
 
+    /**
+     * @return array
+     */
     private function extractEntityLogo(SimpleXMLElement $xml)
     {
         $logoList = [];
@@ -74,6 +80,8 @@ class Parser
     }
 
     /**
+     * @param string $entityID
+     *
      * @return array
      */
     private function extractEntityInfo($entityID)
@@ -109,6 +117,8 @@ class Parser
 
     /**
      * Get the HTTP-Redirect binding.
+     *
+     * @param string $entityID
      *
      * @return string
      */
@@ -156,6 +166,11 @@ class Parser
         return self::trimCert((string) $result[0]);
     }
 
+    /**
+     * @param string $certData
+     *
+     * @return string
+     */
     private static function trimCert($certData)
     {
         return str_replace(
@@ -189,6 +204,9 @@ class Parser
         return explode(' ', $result[0]);
     }
 
+    /**
+     * @return string|null
+     */
     private function getOrganizationDisplayName(SimpleXMLElement $xml)
     {
         $result = $xml->xpath('md:Organization/md:OrganizationDisplayName[@xml:lang="en"]');

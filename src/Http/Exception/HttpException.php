@@ -24,11 +24,17 @@ class HttpException extends Exception
     /** @var array */
     private $headers = [];
 
+    /**
+     * @return void
+     */
     public function setHeaders(array $headers)
     {
         $this->headers = $headers;
     }
 
+    /**
+     * @return array
+     */
     public function getHeaders()
     {
         return $this->headers;

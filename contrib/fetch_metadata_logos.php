@@ -122,7 +122,7 @@ class MetadataLogos
             $encodedLogo = explode(',', $logoUrl, 2)[1];
             $ext = self::getExtension($mimeType);
 
-            return [base64_decode($encodedLogo), $ext];
+            return [base64_decode($encodedLogo, true), $ext];
         }
 
         $ctx = stream_context_create(

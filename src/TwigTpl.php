@@ -70,11 +70,17 @@ class TwigTpl implements TplInterface
         $this->defaultVariables = [];
     }
 
+    /**
+     * @return void
+     */
     public function setDefault(array $templateVariables)
     {
         $this->defaultVariables = $templateVariables;
     }
 
+    /**
+     * @return void
+     */
     public function addDefault(array $templateVariables)
     {
         $this->defaultVariables = array_merge(
@@ -82,6 +88,9 @@ class TwigTpl implements TplInterface
         );
     }
 
+    /**
+     * @return void
+     */
     public function addFilter(Twig_SimpleFilter $filter)
     {
         $this->twig->addFilter($filter);

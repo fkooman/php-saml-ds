@@ -64,7 +64,13 @@ class CurlHttpClient implements HttpClientInterface
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true, // follow redirects
             CURLOPT_PROTOCOLS => $this->httpsOnly ? CURLPROTO_HTTPS : CURLPROTO_HTTPS | CURLPROTO_HTTP,
-            CURLOPT_HEADERFUNCTION => function ($curlChannel, $headerData) use (&$headerList) {
+            CURLOPT_HEADERFUNCTION => /**
+             * @param resource $curlChannel
+             * @param string $headerData
+             *
+             * @return int
+             */
+            function ($curlChannel, $headerData) use (&$headerList) {
                 if (false !== strpos($headerData, ':')) {
                     list($key, $value) = explode(':', $headerData, 2);
                     $headerList[trim($key)] = trim($value);
@@ -98,6 +104,9 @@ class CurlHttpClient implements HttpClientInterface
         );
     }
 
+    /**
+     * @return void
+     */
     private function curlReset()
     {
         // requires PHP >= 5.5 for curl_reset

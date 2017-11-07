@@ -22,9 +22,12 @@ use fkooman\SAML\DS\Http\Request;
 
 class Validate
 {
+    /**
+     * @return void
+     */
     public static function request(Request $request)
     {
-        if (!in_array($request->getMethod(), ['GET', 'POST', 'HEAD'])) {
+        if (!in_array($request->getMethod(), ['GET', 'POST', 'HEAD'], true)) {
             $e = new HttpException('only "GET", "HEAD" and "POST" are supported', 405);
             $e->setHeaders(['Allow' => 'GET,HEAD,POST']);
 
@@ -34,7 +37,7 @@ class Validate
 
     public static function spEntityID($spEntityID, array $spEntityIDs)
     {
-        if (!in_array($spEntityID, $spEntityIDs)) {
+        if (!in_array($spEntityID, $spEntityIDs, true)) {
             throw new HttpException(
                 sprintf('SP with entityID "%s" not registered in discovery service', $spEntityID),
                 400
@@ -46,7 +49,7 @@ class Validate
 
     public static function returnIDParam($returnIDParam)
     {
-        if (!in_array($returnIDParam, ['IdP', 'idpentityid'])) {
+        if (!in_array($returnIDParam, ['IdP', 'idpentityid'], true)) {
             throw new HttpException('unsupported "returnIDParam"', 400);
         }
 
@@ -74,7 +77,7 @@ class Validate
 
     public static function idpEntityID($idpEntityID, array $idpEntityIDs)
     {
-        if (!in_array($idpEntityID, $idpEntityIDs)) {
+        if (!in_array($idpEntityID, $idpEntityIDs, true)) {
             throw new HttpException(
                 sprintf('IdP with entityID "%s" not available for this SP', $idpEntityID),
                 400

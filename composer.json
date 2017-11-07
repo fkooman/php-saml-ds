@@ -27,6 +27,6 @@
         "twig/twig": "^1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5"
+        "phpunit/phpunit": "^4.8.35|^5|^6"
     }
 }

@@ -22,9 +22,9 @@ use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\Http\Request;
 use fkooman\SAML\DS\Tests\Http\TestCookie;
 use fkooman\SAML\DS\Wayf;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class WayfTest extends PHPUnit_Framework_TestCase
+class WayfTest extends TestCase
 {
     /** @var Wayf */
     private $w;

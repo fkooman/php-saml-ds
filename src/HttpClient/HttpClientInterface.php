@@ -20,6 +20,8 @@ namespace fkooman\SAML\DS\HttpClient;
 interface HttpClientInterface
 {
     /**
+     * @param string $requestUri
+     *
      * @return Response
      */
     public function get($requestUri, array $requestHeaders = []);

@@ -56,6 +56,8 @@ class Wayf
 
     /**
      * @param array $favoriteIdPs
+     *
+     * @return void
      */
     public function setFavoriteIdPs(array $favoriteIdPs)
     {
@@ -126,7 +128,7 @@ class Wayf
         // do we have an already previous chosen IdP?
         $lastChosenList = [];
         foreach ($this->favoriteIdPs as $favoriteIdP) {
-            if (in_array($favoriteIdP, $this->config->get('spList')->get($spEntityID)->get('idpList'))) {
+            if (in_array($favoriteIdP, $this->config->get('spList')->get($spEntityID)->get('idpList'), true)) {
                 $lastChosenList[] = $idpList[$favoriteIdP];
                 // remove the last chosen IdP from the list of IdPs
                 unset($idpList[$favoriteIdP]);
@@ -183,7 +185,7 @@ class Wayf
         // it to the first position if it was there already
         $favoriteList = [$idpEntityID];
         foreach ($this->favoriteIdPs as $favoriteIdP) {
-            if (!in_array($favoriteIdP, $favoriteList)) {
+            if (!in_array($favoriteIdP, $favoriteList, true)) {
                 $favoriteList[] = $favoriteIdP;
             }
         }
@@ -228,7 +230,14 @@ class Wayf
             throw new RuntimeException(sprintf('unable to decode "%s"', $idpListFile));
         }
 
-        uasort($idpList, function ($a, $b) {
+        uasort($idpList, 
+	/**
+         * @param array $a
+         * @param array $b
+         *
+         * @return int
+         */
+        function ($a, $b) {
             if (!array_key_exists('displayName', $a) || !array_key_exists('displayName', $b)) {
                 throw new RuntimeException('missing "displayName" in IdP data');
             }
@@ -240,6 +249,10 @@ class Wayf
     }
 
     /**
+     * @param string $return
+     * @param string $returnIDParam
+     * @param string $idpEntityID
+     *
      * @return Http\Response
      */
     private function returnTo($return, $returnIDParam, $idpEntityID)
