@@ -66,7 +66,7 @@ class CurlHttpClient implements HttpClientInterface
             CURLOPT_PROTOCOLS => $this->httpsOnly ? CURLPROTO_HTTPS : CURLPROTO_HTTPS | CURLPROTO_HTTP,
             CURLOPT_HEADERFUNCTION => /**
              * @param resource $curlChannel
-             * @param string $headerData
+             * @param string   $headerData
              *
              * @return int
              */

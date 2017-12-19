@@ -77,7 +77,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
             $logoUri = self::getBestLogoUri($logoList);
             try {
                 list($logoData, $mediaType) = $this->obtainLogo($logoUri);
-                $fileExtension = self::mediaTypeToExtension($encodedEntityID, $mediaType);
+                $fileExtension = $this->mediaTypeToExtension($encodedEntityID, $mediaType);
 
                 $originalFileName = sprintf('%s/%s.orig.%s', $this->logoDir, $encodedEntityID, $fileExtension);
                 // store the original logo
@@ -193,7 +193,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     {
         // we keep the logo where the highest width is indicated assuming it
         // will be the best quality
-        usort($logoList, 
+        usort($logoList,
         /**
          * @param array $a
          * @param array $b
@@ -214,7 +214,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
      *
      * @return string
      */
-    private static function mediaTypeToExtension($encodedEntityID, $mediaType)
+    private function mediaTypeToExtension($encodedEntityID, $mediaType)
     {
         // strip crap behind the media type
         // "image/png;charset=UTF-8" is NOT a valid image media type...

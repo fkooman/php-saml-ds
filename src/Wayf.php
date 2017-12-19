@@ -43,7 +43,7 @@ class Wayf
     /**
      * @param string                            $dataDir
      * @param Config                            $config
-     * @param TplInterface                      $tplInterface
+     * @param TplInterface                      $tpl
      * @param \fkooman\SeCookie\CookieInterface $cookie
      */
     public function __construct($dataDir, Config $config, TplInterface $tpl, CookieInterface $cookie)
@@ -230,8 +230,8 @@ class Wayf
             throw new RuntimeException(sprintf('unable to decode "%s"', $idpListFile));
         }
 
-        uasort($idpList, 
-	/**
+        uasort($idpList,
+        /**
          * @param array $a
          * @param array $b
          *

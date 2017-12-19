@@ -31,13 +31,14 @@ class Response
     /**
      * @param int $statusCode
      * @apram array $headers
+     *
      * @param string $body
      */
     public function __construct($statusCode = 200, array $headers = [], $body = '')
     {
-        $this->statusCode = (int) $statusCode;
+        $this->statusCode = $statusCode;
         $this->headers = $headers;
-        $this->body = (string) $body;
+        $this->body = $body;
     }
 
     /**
