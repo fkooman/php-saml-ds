@@ -15,14 +15,8 @@
  * limitations under the License.
  */
 $baseDir = dirname(__DIR__);
-
-// find the autoloader (package installs, composer)
-foreach (['src', 'vendor'] as $autoloadDir) {
-    if (@file_exists(sprintf('%s/%s/autoload.php', $baseDir, $autoloadDir))) {
-        require_once sprintf('%s/%s/autoload.php', $baseDir, $autoloadDir);
-        break;
-    }
-}
+/** @psalm-suppress UnresolvableInclude */
+require_once sprintf('%s/vendor/autoload.php', $baseDir);
 
 use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\Http\Request;

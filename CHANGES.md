@@ -4,6 +4,7 @@
 - source formatting
 - add support for PHPUnit 6
 - update `phpunit.xml.dist`
+- cleanup autoloading
 
 # 1.0.8 (2017-10-01)
 - follow 301/302 redirects (issue #28)
