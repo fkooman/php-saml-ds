@@ -25,11 +25,11 @@ use fkooman\SAML\DS\Logo;
 use fkooman\SAML\DS\Parser;
 use fkooman\SAML\DS\TwigTpl;
 
-$logoDir = sprintf('%s/data/logo/idp', dirname(__DIR__));
+$logoDir = sprintf('%s/data/logo/idp', $baseDir);
 
 try {
-    $config = Config::fromFile(sprintf('%s/config/config.php', dirname(__DIR__)));
-    $metadataFiles = glob(sprintf('%s/config/metadata/*.xml', dirname(__DIR__)));
+    $config = Config::fromFile(sprintf('%s/config/config.php', $baseDir));
+    $metadataFiles = glob(sprintf('%s/config/metadata/*.xml', $baseDir));
     $parser = new Parser($metadataFiles);
 
     foreach ($config->get('spList')->keys() as $entityID) {
@@ -38,7 +38,7 @@ try {
         $entityDescriptors = $parser->getEntitiesInfo($config->get('spList')->get($entityID)->get('idpList'));
         $twigTpl = new TwigTpl(
             [
-                sprintf('%s/views', dirname(__DIR__)),
+                sprintf('%s/views', $baseDir),
             ]
         );
         $metadataContent = $twigTpl->render(
@@ -49,7 +49,7 @@ try {
         );
 
         // write a minimal SAML IdP file for every IdP for use by mod_auth_mellon
-        $metadataFile = sprintf('%s/data/%s.xml', dirname(__DIR__), $encodedEntityID);
+        $metadataFile = sprintf('%s/data/%s.xml', $baseDir, $encodedEntityID);
         if (false === @file_put_contents($metadataFile, $metadataContent)) {
             throw new RuntimeException(sprintf('unable to write "%s"', $metadataFile));
         }
@@ -96,7 +96,7 @@ try {
             unset($entityDescriptors[$k]['logoList']);
         }
 
-        $idpListFile = sprintf('%s/data/%s.json', dirname(__DIR__), $encodedEntityID);
+        $idpListFile = sprintf('%s/data/%s.json', $baseDir, $encodedEntityID);
         if (false === @file_put_contents($idpListFile, json_encode($entityDescriptors))) {
             throw new RuntimeException(sprintf('unable to write "%s"', $idpListFile));
         }

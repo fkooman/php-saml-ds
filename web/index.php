@@ -36,16 +36,16 @@ set_error_handler(
 );
 
 try {
-    $config = Config::fromFile(sprintf('%s/config/config.php', dirname(__DIR__)));
+    $config = Config::fromFile(sprintf('%s/config/config.php', $baseDir));
     $templateCache = null;
     if ($config->get('enableTemplateCache')) {
-        $templateCache = sprintf('%s/data/tpl', dirname(__DIR__));
+        $templateCache = sprintf('%s/data/tpl', $baseDir);
     }
 
     $twigTpl = new TwigTpl(
         [
-            sprintf('%s/views', dirname(__DIR__)),
-            sprintf('%s/config/views', dirname(__DIR__)),
+            sprintf('%s/views', $baseDir),
+            sprintf('%s/config/views', $baseDir),
         ],
         $templateCache
     );
@@ -60,7 +60,7 @@ try {
     );
 
     $wayf = new Wayf(
-        sprintf('%s/data', dirname(__DIR__)),
+        sprintf('%s/data', $baseDir),
         $config,
         $twigTpl,
         $cookie
