@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.9 (...)
+## 1.0.9 (2017-12-20)
 - source formatting
 - add support for PHPUnit 6
 - update `phpunit.xml.dist`
