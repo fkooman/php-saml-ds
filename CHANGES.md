@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.10 (...)
+## 1.0.10 (2018-01-22)
 - support installed style templates
 
 ## 1.0.9 (2017-12-20)
