@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.0 (...)
+- support installed style templates
+
 ## 1.0.9 (2017-12-20)
 - source formatting
 - add support for PHPUnit 6

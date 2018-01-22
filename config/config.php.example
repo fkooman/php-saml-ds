@@ -7,6 +7,10 @@ return [
     // enable the Twig template cache
     'enableTemplateCache' => true,
 
+    // override default branding style (templates/CSS) with custom style.
+    // NOTE: the styling/branding MUST be installed for this to work!
+    //'styleName' => 'eduVPN',
+
     // whether or not to display logos on the discovery page, these are 
     // extracted from the (IdP) metadata if available
     'useLogos' => false,

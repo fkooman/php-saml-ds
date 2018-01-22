@@ -42,11 +42,16 @@ try {
         $templateCache = sprintf('%s/data/tpl', $baseDir);
     }
 
+    $templateDirs = [
+        sprintf('%s/views', $baseDir),
+        sprintf('%s/config/views', $baseDir),
+    ];
+    if ($config->has('styleName')) {
+        $templateDirs[] = sprintf('%s/views/%s', $baseDir, $config->get('styleName'));
+    }
+
     $twigTpl = new TwigTpl(
-        [
-            sprintf('%s/views', $baseDir),
-            sprintf('%s/config/views', $baseDir),
-        ],
+        $templateDirs,
         $templateCache
     );
 
