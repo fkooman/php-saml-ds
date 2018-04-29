@@ -102,11 +102,21 @@ class Request
     /**
      * @param string $key
      *
+     * @return bool
+     */
+    public function hasPostParameter($key)
+    {
+        return array_key_exists($key, $this->postData) && !empty($this->postData[$key]);
+    }
+
+    /**
+     * @param string $key
+     *
      * @return string
      */
     public function getPostParameter($key)
     {
-        if (!array_key_exists($key, $this->postData) && !empty($this->postData[$key])) {
+        if (!$this->hasPostParameter($key)) {
             throw new HttpException(sprintf('post parameter "%s" not provided', $key), 400);
         }
 

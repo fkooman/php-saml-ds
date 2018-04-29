@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.11 (...)
+- fix bug when POST submit misses a parameter
+
 ## 1.0.10 (2018-01-22)
 - support installed style templates
 
