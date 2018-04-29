@@ -17,9 +17,9 @@
  * limitations under the License.
  */
 
-$baseDir = dirname(__DIR__);
+$baseDir = \dirname(__DIR__);
 /** @psalm-suppress UnresolvableInclude */
-require_once sprintf('%s/vendor/autoload.php', $baseDir);
+require_once \sprintf('%s/vendor/autoload.php', $baseDir);
 
 use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\HttpClient\CurlHttpClient;
@@ -27,20 +27,20 @@ use fkooman\SAML\DS\Logo;
 use fkooman\SAML\DS\Parser;
 use fkooman\SAML\DS\TwigTpl;
 
-$logoDir = sprintf('%s/data/logo/idp', $baseDir);
+$logoDir = \sprintf('%s/data/logo/idp', $baseDir);
 
 try {
-    $config = Config::fromFile(sprintf('%s/config/config.php', $baseDir));
-    $metadataFiles = glob(sprintf('%s/config/metadata/*.xml', $baseDir));
+    $config = Config::fromFile(\sprintf('%s/config/config.php', $baseDir));
+    $metadataFiles = \glob(\sprintf('%s/config/metadata/*.xml', $baseDir));
     $parser = new Parser($metadataFiles);
 
     foreach ($config->get('spList')->keys() as $entityID) {
         // convert all special characters in entityID to _ (same method as mod_auth_mellon)
-        $encodedEntityID = preg_replace('/__*/', '_', preg_replace('/[^A-Za-z.]/', '_', $entityID));
+        $encodedEntityID = \preg_replace('/__*/', '_', \preg_replace('/[^A-Za-z.]/', '_', $entityID));
         $entityDescriptors = $parser->getEntitiesInfo($config->get('spList')->get($entityID)->get('idpList'));
         $twigTpl = new TwigTpl(
             [
-                sprintf('%s/views', $baseDir),
+                \sprintf('%s/views', $baseDir),
             ]
         );
         $metadataContent = $twigTpl->render(
@@ -51,9 +51,9 @@ try {
         );
 
         // write a minimal SAML IdP file for every IdP for use by mod_auth_mellon
-        $metadataFile = sprintf('%s/data/%s.xml', $baseDir, $encodedEntityID);
-        if (false === @file_put_contents($metadataFile, $metadataContent)) {
-            throw new RuntimeException(sprintf('unable to write "%s"', $metadataFile));
+        $metadataFile = \sprintf('%s/data/%s.xml', $baseDir, $encodedEntityID);
+        if (false === @\file_put_contents($metadataFile, $metadataContent)) {
+            throw new RuntimeException(\sprintf('unable to write "%s"', $metadataFile));
         }
 
         // (optionally) download and convert the logos from the IdP metadata
@@ -62,14 +62,14 @@ try {
             $logo = new Logo($logoDir, $httpClient);
             foreach ($entityDescriptors as $k => $v) {
                 $logo->prepare(
-                    preg_replace('/__*/', '_', preg_replace('/[^A-Za-z.]/', '_', $k)),
+                    \preg_replace('/__*/', '_', \preg_replace('/[^A-Za-z.]/', '_', $k)),
                     $v['logoList']
                 );
             }
 
             foreach ($entityDescriptors as $k => $v) {
-                $entityDescriptors[$k]['encodedEntityID'] = preg_replace('/__*/', '_', preg_replace('/[^A-Za-z.]/', '_', $k));
-                $entityDescriptors[$k]['cssEncodedEntityID'] = preg_replace('/\./', '\.', $entityDescriptors[$k]['encodedEntityID']);
+                $entityDescriptors[$k]['encodedEntityID'] = \preg_replace('/__*/', '_', \preg_replace('/[^A-Za-z.]/', '_', $k));
+                $entityDescriptors[$k]['cssEncodedEntityID'] = \preg_replace('/\./', '\.', $entityDescriptors[$k]['encodedEntityID']);
             }
 
             $logoCss = $twigTpl->render(
@@ -78,19 +78,19 @@ try {
                     'entityDescriptors' => $entityDescriptors,
                 ]
             );
-            $logoCssFile = sprintf('%s/%s.css', $logoDir, $encodedEntityID);
-            if (false === @file_put_contents($logoCssFile, $logoCss)) {
-                throw new RuntimeException(sprintf('unable to write "%s"', $logoCssFile));
+            $logoCssFile = \sprintf('%s/%s.css', $logoDir, $encodedEntityID);
+            if (false === @\file_put_contents($logoCssFile, $logoCss)) {
+                throw new RuntimeException(\sprintf('unable to write "%s"', $logoCssFile));
             }
 
             foreach ($logo->getErrorLog() as $logEntry) {
-                echo sprintf('LOGO: %s', $logEntry).PHP_EOL;
+                echo \sprintf('LOGO: %s', $logEntry).PHP_EOL;
             }
         }
 
         // add/remove data we (don't) need for displaying the discovery page
         foreach ($entityDescriptors as $k => $v) {
-            $entityDescriptors[$k]['encodedEntityID'] = preg_replace('/__*/', '_', preg_replace('/[^A-Za-z.]/', '_', $k));
+            $entityDescriptors[$k]['encodedEntityID'] = \preg_replace('/__*/', '_', \preg_replace('/[^A-Za-z.]/', '_', $k));
             // add the displayName also to the keywords
             $entityDescriptors[$k]['keywords'][] = $entityDescriptors[$k]['displayName'];
             unset($entityDescriptors[$k]['signingCert']);
@@ -98,16 +98,16 @@ try {
             unset($entityDescriptors[$k]['logoList']);
         }
 
-        $idpListFile = sprintf('%s/data/%s.json', $baseDir, $encodedEntityID);
-        if (false === @file_put_contents($idpListFile, json_encode($entityDescriptors))) {
-            throw new RuntimeException(sprintf('unable to write "%s"', $idpListFile));
+        $idpListFile = \sprintf('%s/data/%s.json', $baseDir, $encodedEntityID);
+        if (false === @\file_put_contents($idpListFile, \json_encode($entityDescriptors))) {
+            throw new RuntimeException(\sprintf('unable to write "%s"', $idpListFile));
         }
     }
 
     foreach ($parser->getErrorLog() as $logEntry) {
-        echo sprintf('PARSER: %s', $logEntry).PHP_EOL;
+        echo \sprintf('PARSER: %s', $logEntry).PHP_EOL;
     }
 } catch (Exception $e) {
-    echo sprintf('ERROR: %s', $e->getMessage()).PHP_EOL;
+    echo \sprintf('ERROR: %s', $e->getMessage()).PHP_EOL;
     exit(1);
 }

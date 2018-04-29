@@ -30,17 +30,17 @@ class CurlHttpClient implements HttpClientInterface
 
     public function __construct(array $configData = [])
     {
-        if (false === $this->curlChannel = curl_init()) {
+        if (false === $this->curlChannel = \curl_init()) {
             throw new RuntimeException('unable to create cURL channel');
         }
-        if (array_key_exists('httpsOnly', $configData)) {
+        if (\array_key_exists('httpsOnly', $configData)) {
             $this->httpsOnly = (bool) $configData['httpsOnly'];
         }
     }
 
     public function __destruct()
     {
-        curl_close($this->curlChannel);
+        \curl_close($this->curlChannel);
     }
 
     public function get($requestUri, array $requestHeaders = [])
@@ -72,34 +72,34 @@ class CurlHttpClient implements HttpClientInterface
              * @return int
              */
             function ($curlChannel, $headerData) use (&$headerList) {
-                if (false !== strpos($headerData, ':')) {
-                    list($key, $value) = explode(':', $headerData, 2);
-                    $headerList[trim($key)] = trim($value);
+                if (false !== \strpos($headerData, ':')) {
+                    list($key, $value) = \explode(':', $headerData, 2);
+                    $headerList[\trim($key)] = \trim($value);
                 }
 
-                return strlen($headerData);
+                return \strlen($headerData);
             },
         ];
 
-        if (0 !== count($requestHeaders)) {
+        if (0 !== \count($requestHeaders)) {
             $curlRequestHeaders = [];
             foreach ($requestHeaders as $k => $v) {
-                $curlRequestHeaders[] = sprintf('%s: %s', $k, $v);
+                $curlRequestHeaders[] = \sprintf('%s: %s', $k, $v);
             }
             $defaultCurlOptions[CURLOPT_HTTPHEADER] = $curlRequestHeaders;
         }
 
-        if (false === curl_setopt_array($this->curlChannel, $curlOptions + $defaultCurlOptions)) {
+        if (false === \curl_setopt_array($this->curlChannel, $curlOptions + $defaultCurlOptions)) {
             throw new RuntimeException('unable to set cURL options');
         }
 
-        if (false === $responseData = curl_exec($this->curlChannel)) {
-            $curlError = curl_error($this->curlChannel);
-            throw new RuntimeException(sprintf('failure performing the HTTP request: "%s"', $curlError));
+        if (false === $responseData = \curl_exec($this->curlChannel)) {
+            $curlError = \curl_error($this->curlChannel);
+            throw new RuntimeException(\sprintf('failure performing the HTTP request: "%s"', $curlError));
         }
 
         return new Response(
-            curl_getinfo($this->curlChannel, CURLINFO_HTTP_CODE),
+            \curl_getinfo($this->curlChannel, CURLINFO_HTTP_CODE),
             $responseData,
             $headerList
         );
@@ -111,15 +111,15 @@ class CurlHttpClient implements HttpClientInterface
     private function curlReset()
     {
         // requires PHP >= 5.5 for curl_reset
-        if (function_exists('curl_reset')) {
-            curl_reset($this->curlChannel);
+        if (\function_exists('curl_reset')) {
+            \curl_reset($this->curlChannel);
 
             return;
         }
 
         // reset the request method to GET, that is enough to allow for
         // multiple requests using the same cURL channel
-        if (false === curl_setopt_array(
+        if (false === \curl_setopt_array(
             $this->curlChannel,
             [
                 CURLOPT_HTTPGET => true,

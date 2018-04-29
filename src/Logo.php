@@ -45,9 +45,9 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
      */
     public function __construct($logoDir, HttpClientInterface $httpClient)
     {
-        if (!@file_exists($logoDir)) {
-            if (false === @mkdir($logoDir, 0711, true)) {
-                throw new RuntimeException(sprintf('unable to create folder "%s"', $logoDir));
+        if (!@\file_exists($logoDir)) {
+            if (false === @\mkdir($logoDir, 0711, true)) {
+                throw new RuntimeException(\sprintf('unable to create folder "%s"', $logoDir));
             }
         }
         $this->logoDir = $logoDir;
@@ -71,25 +71,25 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     public function prepare($encodedEntityID, array $logoList)
     {
         // placeholder if retrieving logo fails
-        $logoData = base64_decode(self::PLACEHOLDER_IMAGE, true);
+        $logoData = \base64_decode(self::PLACEHOLDER_IMAGE, true);
         $fileExtension = 'png';
 
-        if (0 !== count($logoList)) {
+        if (0 !== \count($logoList)) {
             $logoUri = self::getBestLogoUri($logoList);
             try {
                 list($logoData, $mediaType) = $this->obtainLogo($logoUri);
                 $fileExtension = $this->mediaTypeToExtension($encodedEntityID, $mediaType);
 
-                $originalFileName = sprintf('%s/%s.orig.%s', $this->logoDir, $encodedEntityID, $fileExtension);
+                $originalFileName = \sprintf('%s/%s.orig.%s', $this->logoDir, $encodedEntityID, $fileExtension);
                 // store the original logo
-                if (false === @file_put_contents($originalFileName, $logoData)) {
-                    throw new RuntimeException(sprintf('unable to write to "%s"', $originalFileName));
+                if (false === @\file_put_contents($originalFileName, $logoData)) {
+                    throw new RuntimeException(\sprintf('unable to write to "%s"', $originalFileName));
                 }
 
                 // optimize the logo
                 $logoData = self::optimize($originalFileName);
             } catch (LogoException $e) {
-                $this->errorLog[] = sprintf(
+                $this->errorLog[] = \sprintf(
                     'unable to obtain logo for "%s": %s',
                     $encodedEntityID,
                     $e->getMessage()
@@ -97,9 +97,9 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
             }
         }
 
-        $optimizedFileName = sprintf('%s/%s.png', $this->logoDir, $encodedEntityID);
-        if (false === @file_put_contents($optimizedFileName, $logoData)) {
-            throw new RuntimeException(sprintf('unable to write to "%s"', $optimizedFileName));
+        $optimizedFileName = \sprintf('%s/%s.png', $this->logoDir, $encodedEntityID);
+        if (false === @\file_put_contents($optimizedFileName, $logoData)) {
+            throw new RuntimeException(\sprintf('unable to write to "%s"', $optimizedFileName));
         }
     }
 
@@ -120,7 +120,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
 
             return $optimizedFileName;
         } catch (ImagickException $e) {
-            throw new LogoException(sprintf('unable to convert logo (%s)', $e->getMessage()));
+            throw new LogoException(\sprintf('unable to convert logo (%s)', $e->getMessage()));
         }
     }
 
@@ -136,24 +136,24 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
         }
 
         // logoUri MUST be a valid URL now
-        if (false === filter_var($logoUri, FILTER_VALIDATE_URL)) {
-            throw new LogoException(sprintf('"%s" is an invalid URI', $logoUri));
+        if (false === \filter_var($logoUri, FILTER_VALIDATE_URL)) {
+            throw new LogoException(\sprintf('"%s" is an invalid URI', $logoUri));
         }
 
         // try to get the logo and content-type
         try {
             $clientResponse = $this->httpClient->get($logoUri);
             if (!$clientResponse->isOkay()) {
-                throw new LogoException(sprintf('got a HTTP %d response from HTTP request to "%s" ', $clientResponse->getStatusCode(), $logoUri));
+                throw new LogoException(\sprintf('got a HTTP %d response from HTTP request to "%s" ', $clientResponse->getStatusCode(), $logoUri));
             }
 
             if (null === $contentType = $clientResponse->getHeader('Content-Type')) {
-                throw new LogoException(sprintf('unable to determine Content-Type for "%s"', $logoUri));
+                throw new LogoException(\sprintf('unable to determine Content-Type for "%s"', $logoUri));
             }
 
             return [$clientResponse->getBody(), $contentType];
         } catch (RuntimeException $e) {
-            throw new LogoException(sprintf('unable to retrieve logo: "%s"', $e->getMessage()));
+            throw new LogoException(\sprintf('unable to retrieve logo: "%s"', $e->getMessage()));
         }
     }
 
@@ -165,10 +165,10 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     private static function extractDataUriLogo($logoUri)
     {
         // XXX do some better error checking to protect against broken dataUris
-        $mediaType = substr($logoUri, 5, strpos($logoUri, ';') - 5);
-        $encodedLogoData = substr($logoUri, strpos($logoUri, ','));
+        $mediaType = \substr($logoUri, 5, \strpos($logoUri, ';') - 5);
+        $encodedLogoData = \substr($logoUri, \strpos($logoUri, ','));
 
-        if (false === $logoData = base64_decode($encodedLogoData, true)) {
+        if (false === $logoData = \base64_decode($encodedLogoData, true)) {
             throw new LogoException('unable to decode data URI logo');
         }
 
@@ -182,7 +182,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
      */
     private static function isDataUri($uri)
     {
-        return 0 === strpos($uri, 'data:');
+        return 0 === \strpos($uri, 'data:');
     }
 
     /**
@@ -194,7 +194,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     {
         // we keep the logo where the highest width is indicated assuming it
         // will be the best quality
-        usort($logoList,
+        \usort($logoList,
         /**
          * @param array $a
          * @param array $b
@@ -206,7 +206,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
         });
 
         // trim URL as some metadata files contain extra whitespaces
-        return trim($logoList[count($logoList) - 1]['uri']);
+        return \trim($logoList[\count($logoList) - 1]['uri']);
     }
 
     /**
@@ -219,15 +219,15 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     {
         // strip crap behind the media type
         // "image/png;charset=UTF-8" is NOT a valid image media type...
-        if (false !== $colonPos = strpos($mediaType, ';')) {
+        if (false !== $colonPos = \strpos($mediaType, ';')) {
             // XXX we should add this to error log
-            $this->errorLog[] = sprintf(
+            $this->errorLog[] = \sprintf(
                 'needed to strip media type "%s" for "%s"',
                 $mediaType,
                 $encodedEntityID
             );
 
-            $mediaType = trim(substr($mediaType, 0, $colonPos));
+            $mediaType = \trim(\substr($mediaType, 0, $colonPos));
         }
 
         switch ($mediaType) {
@@ -246,7 +246,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
             case 'image/svg+xml':
                 return 'svg';
             default:
-                throw new LogoException(sprintf('"%s" is an unsupported media type', $mediaType));
+                throw new LogoException(\sprintf('"%s" is an unsupported media type', $mediaType));
         }
     }
 }

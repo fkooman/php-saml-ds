@@ -32,8 +32,8 @@ class Parser
     public function __construct(array $metadataFiles)
     {
         foreach ($metadataFiles as $metadataFile) {
-            if (false === $xml = @simplexml_load_file($metadataFile)) {
-                throw new RuntimeException(sprintf('unable to read file "%s"', $metadataFile));
+            if (false === $xml = @\simplexml_load_file($metadataFile)) {
+                throw new RuntimeException(\sprintf('unable to read file "%s"', $metadataFile));
             }
             // $xml->registerXPathNamespace('md', 'urn:oasis:names:tc:SAML:2.0:metadata');
             // $xml->registerXPathNamespace('mdui', 'urn:oasis:names:tc:SAML:metadata:ui');
@@ -91,8 +91,8 @@ class Parser
         // collection of entries wrapped in EntitiesDescriptor
 
         foreach ($this->metadata as $xml) {
-            $entityInfo = $xml->xpath(sprintf('//md:EntityDescriptor[@entityID="%s"]', $entityID));
-            if (0 === count($entityInfo)) {
+            $entityInfo = $xml->xpath(\sprintf('//md:EntityDescriptor[@entityID="%s"]', $entityID));
+            if (0 === \count($entityInfo)) {
                 // entityID not found, try next metadata file
                 continue;
             }
@@ -100,7 +100,7 @@ class Parser
 
             if (null === $displayName = $this->getDisplayName($entityInfo[0])) {
                 $displayName = $entityID;
-                $this->errorLog[] = sprintf('no DisplayName or OrganizationDisplayName for "%s", using entityID', $entityID);
+                $this->errorLog[] = \sprintf('no DisplayName or OrganizationDisplayName for "%s", using entityID', $entityID);
             }
 
             return [
@@ -113,7 +113,7 @@ class Parser
             ];
         }
 
-        throw new ParserException(sprintf('entity "%s" not found in any of the metadata files', $entityID));
+        throw new ParserException(\sprintf('entity "%s" not found in any of the metadata files', $entityID));
     }
 
     /**
@@ -126,8 +126,8 @@ class Parser
     private function getSSO($entityID, SimpleXMLElement $xml)
     {
         $result = $xml->xpath('md:SingleSignOnService[@Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"]');
-        if (0 === count($result)) {
-            throw new ParserException(sprintf('no SingleSignOnService HTTP-Redirect binding for "%s"', $entityID));
+        if (0 === \count($result)) {
+            throw new ParserException(\sprintf('no SingleSignOnService HTTP-Redirect binding for "%s"', $entityID));
         }
 
         return (string) $result[0]['Location'];
@@ -142,7 +142,7 @@ class Parser
     {
         $xml->registerXPathNamespace('ds', 'http://www.w3.org/2000/09/xmldsig#');
         $result = $xml->xpath('md:KeyDescriptor[@use="signing"]/ds:KeyInfo/ds:X509Data/ds:X509Certificate');
-        if (0 === count($result)) {
+        if (0 === \count($result)) {
             // no explicit entry found for "signing", assume the one specified
             // is *also* used for signing, e.g. in the case no explicit "use"
             // is provided
@@ -160,7 +160,7 @@ class Parser
     private function getGenericCert(SimpleXMLElement $xml)
     {
         $result = $xml->xpath('md:KeyDescriptor/ds:KeyInfo/ds:X509Data/ds:X509Certificate');
-        if (0 === count($result)) {
+        if (0 === \count($result)) {
             return null;
         }
 
@@ -174,7 +174,7 @@ class Parser
      */
     private static function trimCert($certData)
     {
-        return str_replace(
+        return \str_replace(
             [' ', "\t", "\n", "\r", "\0", "\x0B"],
             '',
             $certData
@@ -184,12 +184,12 @@ class Parser
     private function getDisplayName(SimpleXMLElement $xml)
     {
         $result = $xml->xpath('md:IDPSSODescriptor/md:Extensions/mdui:UIInfo/mdui:DisplayName[@xml:lang="en"]');
-        if (0 === count($result)) {
+        if (0 === \count($result)) {
             // try OrganizationDisplayName
             return $this->getOrganizationDisplayName($xml);
         }
 
-        return trim((string) $result[0]);
+        return \trim((string) $result[0]);
     }
 
     /**
@@ -198,11 +198,11 @@ class Parser
     private function getKeywords(SimpleXMLElement $xml)
     {
         $result = $xml->xpath('md:IDPSSODescriptor/md:Extensions/mdui:UIInfo/mdui:Keywords[@xml:lang="en"]');
-        if (0 === count($result)) {
+        if (0 === \count($result)) {
             return [];
         }
 
-        return explode(' ', $result[0]);
+        return \explode(' ', $result[0]);
     }
 
     /**
@@ -211,10 +211,10 @@ class Parser
     private function getOrganizationDisplayName(SimpleXMLElement $xml)
     {
         $result = $xml->xpath('md:Organization/md:OrganizationDisplayName[@xml:lang="en"]');
-        if (0 === count($result)) {
+        if (0 === \count($result)) {
             return null;
         }
 
-        return trim((string) $result[0]);
+        return \trim((string) $result[0]);
     }
 }

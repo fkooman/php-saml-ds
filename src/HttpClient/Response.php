@@ -49,10 +49,10 @@ class Response
     {
         $fmtHdrs = '';
         foreach ($this->responseHeaders as $k => $v) {
-            $fmtHdrs .= sprintf('%s: %s', $k, $v).PHP_EOL;
+            $fmtHdrs .= \sprintf('%s: %s', $k, $v).PHP_EOL;
         }
 
-        return implode(
+        return \implode(
             PHP_EOL,
             [
                 $this->statusCode,
@@ -96,7 +96,7 @@ class Response
     public function getHeader($key)
     {
         foreach ($this->responseHeaders as $k => $v) {
-            if (strtoupper($key) === strtoupper($k)) {
+            if (\strtoupper($key) === \strtoupper($k)) {
                 return $v;
             }
         }
@@ -109,8 +109,8 @@ class Response
      */
     public function json()
     {
-        $decodedJson = json_decode($this->responseBody, true);
-        if (null === $decodedJson && JSON_ERROR_NONE !== json_last_error()) {
+        $decodedJson = \json_decode($this->responseBody, true);
+        if (null === $decodedJson && JSON_ERROR_NONE !== \json_last_error()) {
             // XXX better exception!!!
             throw new RuntimeException('unable to decode JSON');
         }

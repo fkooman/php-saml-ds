@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 
-$baseDir = dirname(__DIR__);
+$baseDir = \dirname(__DIR__);
 /** @psalm-suppress UnresolvableInclude */
-require_once sprintf('%s/vendor/autoload.php', $baseDir);
+require_once \sprintf('%s/vendor/autoload.php', $baseDir);
 
 use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\Http\Request;
@@ -27,9 +27,9 @@ use fkooman\SAML\DS\TwigTpl;
 use fkooman\SAML\DS\Wayf;
 use fkooman\SeCookie\Cookie;
 
-set_error_handler(
+\set_error_handler(
     function ($severity, $message, $file, $line) {
-        if (!(error_reporting() & $severity)) {
+        if (!(\error_reporting() & $severity)) {
             // This error code is not included in error_reporting
             return;
         }
@@ -38,18 +38,18 @@ set_error_handler(
 );
 
 try {
-    $config = Config::fromFile(sprintf('%s/config/config.php', $baseDir));
+    $config = Config::fromFile(\sprintf('%s/config/config.php', $baseDir));
     $templateCache = null;
     if ($config->get('enableTemplateCache')) {
-        $templateCache = sprintf('%s/data/tpl', $baseDir);
+        $templateCache = \sprintf('%s/data/tpl', $baseDir);
     }
 
     $templateDirs = [
-        sprintf('%s/views', $baseDir),
-        sprintf('%s/config/views', $baseDir),
+        \sprintf('%s/views', $baseDir),
+        \sprintf('%s/config/views', $baseDir),
     ];
     if ($config->has('styleName')) {
-        $templateDirs[] = sprintf('%s/views/%s', $baseDir, $config->get('styleName'));
+        $templateDirs[] = \sprintf('%s/views/%s', $baseDir, $config->get('styleName'));
     }
 
     $twigTpl = new TwigTpl(
@@ -67,26 +67,26 @@ try {
     );
 
     $wayf = new Wayf(
-        sprintf('%s/data', $baseDir),
+        \sprintf('%s/data', $baseDir),
         $config,
         $twigTpl,
         $cookie
     );
 
     // provide the favorite IdP list
-    if (array_key_exists('favoriteIdPs', $_COOKIE)) {
-        $favoriteIdPs = json_decode($_COOKIE['favoriteIdPs'], true);
+    if (\array_key_exists('favoriteIdPs', $_COOKIE)) {
+        $favoriteIdPs = \json_decode($_COOKIE['favoriteIdPs'], true);
         // json_decode returns null on error
-        if (is_array($favoriteIdPs)) {
+        if (\is_array($favoriteIdPs)) {
             $wayf->setFavoriteIdPs($favoriteIdPs);
         }
     } else {
         // legacy, migrate old 'entityID' cookie to new 'favoriteIdPs' and
         // delete the old cookie
-        if (array_key_exists('entityID', $_COOKIE)) {
+        if (\array_key_exists('entityID', $_COOKIE)) {
             $entityID = $_COOKIE['entityID'];
-            if (is_string($entityID)) {
-                $cookie->set('favoriteIdPs', json_encode([$entityID]));
+            if (\is_string($entityID)) {
+                $cookie->set('favoriteIdPs', \json_encode([$entityID]));
                 $wayf->setFavoriteIdPs([$entityID]);
             }
             $cookie->delete('entityID');
@@ -95,12 +95,12 @@ try {
 
     $wayf->run($request)->send();
 } catch (Exception $e) {
-    $errorMessage = sprintf('[500] (%s): %s', get_class($e), $e->getMessage());
+    $errorMessage = \sprintf('[500] (%s): %s', \get_class($e), $e->getMessage());
     $response = new Response(
         500,
         ['Content-Type' => 'text/plain'],
-        htmlentities($errorMessage, ENT_QUOTES, 'UTF-8')
+        \htmlentities($errorMessage, ENT_QUOTES, 'UTF-8')
     );
     $response->send();
-    error_log(sprintf('%s {%s}', $errorMessage, $e->getTraceAsString()));
+    \error_log(\sprintf('%s {%s}', $errorMessage, $e->getTraceAsString()));
 }

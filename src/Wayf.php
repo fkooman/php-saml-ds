@@ -65,7 +65,7 @@ class Wayf
         // this information comes directly from cookie, so user can manipulate
         // this!
         foreach ($favoriteIdPs as $favoriteIdP) {
-            if (!is_string($favoriteIdP)) {
+            if (!\is_string($favoriteIdP)) {
                 // ignore non-string values, we should probably be more
                 // strict here and just fail instead
                 continue;
@@ -82,7 +82,7 @@ class Wayf
     {
         try {
             Validate::request($request);
-            $requestMethod = strtolower($request->getMethod());
+            $requestMethod = \strtolower($request->getMethod());
 
             return $this->$requestMethod($request);
         } catch (HttpException $e) {
@@ -114,12 +114,12 @@ class Wayf
         }
 
         $idpList = $this->getIdPList($spEntityID);
-        if (0 === count($idpList)) {
-            throw new HttpException(sprintf('the SP "%s" has no IdPs configured', $spEntityID), 500);
+        if (0 === \count($idpList)) {
+            throw new HttpException(\sprintf('the SP "%s" has no IdPs configured', $spEntityID), 500);
         }
-        if (1 === count($idpList)) {
+        if (1 === \count($idpList)) {
             // we only have exactly 1 IdP, so redirect immediately back to the SP
-            $idpEntityID = array_keys($idpList)[0];
+            $idpEntityID = \array_keys($idpList)[0];
 
             return $this->returnTo($return, $returnIDParam, $idpEntityID);
         }
@@ -129,7 +129,7 @@ class Wayf
         // do we have an already previous chosen IdP?
         $lastChosenList = [];
         foreach ($this->favoriteIdPs as $favoriteIdP) {
-            if (in_array($favoriteIdP, $this->config->get('spList')->get($spEntityID)->get('idpList'), true)) {
+            if (\in_array($favoriteIdP, $this->config->get('spList')->get($spEntityID)->get('idpList'), true)) {
                 $lastChosenList[] = $idpList[$favoriteIdP];
                 // remove the last chosen IdP from the list of IdPs
                 unset($idpList[$favoriteIdP]);
@@ -139,7 +139,7 @@ class Wayf
         if ($filter) {
             // remove entries not matching the value in filter
             foreach ($idpList as $k => $v) {
-                $inKeywords = false !== stripos(implode(' ', $v['keywords']), $filter);
+                $inKeywords = false !== \stripos(\implode(' ', $v['keywords']), $filter);
                 if (!$inKeywords) {
                     unset($idpList[$k]);
                 }
@@ -148,7 +148,7 @@ class Wayf
 
         // determine the last modified date for the custom CSS, to bust the
         // cache
-        if (false === $mTime = @filemtime(sprintf('%s/logo/idp/%s.css', $this->dataDir, self::encodeEntityID($spEntityID)))) {
+        if (false === $mTime = @\filemtime(\sprintf('%s/logo/idp/%s.css', $this->dataDir, self::encodeEntityID($spEntityID)))) {
             // in case it fails, set to 0 effectivly disabling cache busting
             $mTime = 0;
         }
@@ -165,7 +165,7 @@ class Wayf
                 'return' => $return,
                 'displayName' => $displayName,
                 'lastChosenList' => $lastChosenList,
-                'idpList' => array_values($idpList),
+                'idpList' => \array_values($idpList),
             ]
         );
 
@@ -186,7 +186,7 @@ class Wayf
         // it to the first position if it was there already
         $favoriteList = [$idpEntityID];
         foreach ($this->favoriteIdPs as $favoriteIdP) {
-            if (!in_array($favoriteIdP, $favoriteList, true)) {
+            if (!\in_array($favoriteIdP, $favoriteList, true)) {
                 $favoriteList[] = $favoriteIdP;
             }
         }
@@ -194,8 +194,8 @@ class Wayf
         // enough for most use cases
         $this->cookie->set(
             'favoriteIdPs',
-            json_encode(
-                array_slice($favoriteList, 0, 3)
+            \json_encode(
+                \array_slice($favoriteList, 0, 3)
             )
         );
 
@@ -209,7 +209,7 @@ class Wayf
      */
     private static function encodeEntityID($entityID)
     {
-        return preg_replace('/__*/', '_', preg_replace('/[^A-Za-z.]/', '_', $entityID));
+        return \preg_replace('/__*/', '_', \preg_replace('/[^A-Za-z.]/', '_', $entityID));
     }
 
     /**
@@ -221,17 +221,17 @@ class Wayf
     {
         // load the IdP List of this SP
         $encodedEntityID = self::encodeEntityID($spEntityID);
-        $idpListFile = sprintf('%s/%s.json', $this->dataDir, $encodedEntityID);
-        if (false === $jsonData = @file_get_contents($idpListFile)) {
-            throw new RuntimeException(sprintf('unable to read "%s"', $idpListFile));
+        $idpListFile = \sprintf('%s/%s.json', $this->dataDir, $encodedEntityID);
+        if (false === $jsonData = @\file_get_contents($idpListFile)) {
+            throw new RuntimeException(\sprintf('unable to read "%s"', $idpListFile));
         }
 
-        $idpList = json_decode($jsonData, true);
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new RuntimeException(sprintf('unable to decode "%s"', $idpListFile));
+        $idpList = \json_decode($jsonData, true);
+        if (JSON_ERROR_NONE !== \json_last_error()) {
+            throw new RuntimeException(\sprintf('unable to decode "%s"', $idpListFile));
         }
 
-        uasort($idpList,
+        \uasort($idpList,
         /**
          * @param array $a
          * @param array $b
@@ -239,11 +239,11 @@ class Wayf
          * @return int
          */
         function ($a, $b) {
-            if (!array_key_exists('displayName', $a) || !array_key_exists('displayName', $b)) {
+            if (!\array_key_exists('displayName', $a) || !\array_key_exists('displayName', $b)) {
                 throw new RuntimeException('missing "displayName" in IdP data');
             }
 
-            return strcasecmp($a['displayName'], $b['displayName']);
+            return \strcasecmp($a['displayName'], $b['displayName']);
         });
 
         return $idpList;
@@ -258,10 +258,10 @@ class Wayf
      */
     private function returnTo($return, $returnIDParam, $idpEntityID)
     {
-        $returnTo = sprintf(
+        $returnTo = \sprintf(
             '%s&%s',
             $return,
-            http_build_query(
+            \http_build_query(
                 [
                     $returnIDParam => $idpEntityID,
                 ]

@@ -31,10 +31,10 @@ class WayfTest extends TestCase
 
     public function setUp()
     {
-        $config = Config::fromFile(sprintf('%s/config/config.php', __DIR__));
+        $config = Config::fromFile(\sprintf('%s/config/config.php', __DIR__));
         $tpl = new TestTpl();
         $cookie = new TestCookie();
-        $this->w = new Wayf(sprintf('%s/data', __DIR__), $config, $tpl, $cookie);
+        $this->w = new Wayf(\sprintf('%s/data', __DIR__), $config, $tpl, $cookie);
     }
 
     public function testShowDiscovery()

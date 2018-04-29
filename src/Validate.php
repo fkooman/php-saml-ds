@@ -28,7 +28,7 @@ class Validate
      */
     public static function request(Request $request)
     {
-        if (!in_array($request->getMethod(), ['GET', 'POST', 'HEAD'], true)) {
+        if (!\in_array($request->getMethod(), ['GET', 'POST', 'HEAD'], true)) {
             $e = new HttpException('only "GET", "HEAD" and "POST" are supported', 405);
             $e->setHeaders(['Allow' => 'GET,HEAD,POST']);
 
@@ -38,9 +38,9 @@ class Validate
 
     public static function spEntityID($spEntityID, array $spEntityIDs)
     {
-        if (!in_array($spEntityID, $spEntityIDs, true)) {
+        if (!\in_array($spEntityID, $spEntityIDs, true)) {
             throw new HttpException(
-                sprintf('SP with entityID "%s" not registered in discovery service', $spEntityID),
+                \sprintf('SP with entityID "%s" not registered in discovery service', $spEntityID),
                 400
             );
         }
@@ -50,7 +50,7 @@ class Validate
 
     public static function returnIDParam($returnIDParam)
     {
-        if (!in_array($returnIDParam, ['IdP', 'idpentityid'], true)) {
+        if (!\in_array($returnIDParam, ['IdP', 'idpentityid'], true)) {
             throw new HttpException('unsupported "returnIDParam"', 400);
         }
 
@@ -60,7 +60,7 @@ class Validate
     public static function returnUrl($return)
     {
         $filterFlags = FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED | FILTER_FLAG_PATH_REQUIRED | FILTER_FLAG_QUERY_REQUIRED;
-        if (false === filter_var($return, FILTER_VALIDATE_URL, $filterFlags)) {
+        if (false === \filter_var($return, FILTER_VALIDATE_URL, $filterFlags)) {
             throw new HttpException('invalid "return" URL', 400);
         }
 
@@ -69,7 +69,7 @@ class Validate
 
     public static function filter($filter)
     {
-        if (1 !== preg_match('/^[a-zA-Z0-9]*$/', $filter)) {
+        if (1 !== \preg_match('/^[a-zA-Z0-9]*$/', $filter)) {
             throw new HttpException('invalid "filter" string', 400);
         }
 
@@ -78,9 +78,9 @@ class Validate
 
     public static function idpEntityID($idpEntityID, array $idpEntityIDs)
     {
-        if (!in_array($idpEntityID, $idpEntityIDs, true)) {
+        if (!\in_array($idpEntityID, $idpEntityIDs, true)) {
             throw new HttpException(
-                sprintf('IdP with entityID "%s" not available for this SP', $idpEntityID),
+                \sprintf('IdP with entityID "%s" not available for this SP', $idpEntityID),
                 400
             );
         }

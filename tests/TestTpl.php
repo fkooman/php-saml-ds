@@ -24,7 +24,7 @@ class TestTpl implements TplInterface
 {
     public function render($templateName, array $templateVariables)
     {
-        return json_encode(
+        return \json_encode(
             [
                 $templateName => $templateVariables,
             ]

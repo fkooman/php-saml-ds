@@ -17,24 +17,24 @@
  */
 
 try {
-    if (false === $md = @simplexml_load_file($argv[1])) {
-        throw new RuntimeException(sprintf('unable to read file "%s"', $argv[1]));
+    if (false === $md = @\simplexml_load_file($argv[1])) {
+        throw new RuntimeException(\sprintf('unable to read file "%s"', $argv[1]));
     }
 
     $idpEntityIDs = [];
     $entityDescriptors = $md->xpath('//md:EntityDescriptor');
 
     foreach ($entityDescriptors as $entityDescriptor) {
-        $ssoCount = count($entityDescriptor->xpath('md:IDPSSODescriptor'));
+        $ssoCount = \count($entityDescriptor->xpath('md:IDPSSODescriptor'));
         if (0 !== $ssoCount) {
             $idpEntityIDs[] = (string) $entityDescriptor['entityID'];
         }
     }
 
     foreach ($idpEntityIDs as $entityID) {
-        echo sprintf("'%s',", $entityID).PHP_EOL;
+        echo \sprintf("'%s',", $entityID).PHP_EOL;
     }
 } catch (Exception $e) {
-    echo sprintf('ERROR: %s', $e->getMessage());
+    echo \sprintf('ERROR: %s', $e->getMessage());
     exit(1);
 }

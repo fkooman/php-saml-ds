@@ -42,20 +42,20 @@ class TwigTpl implements TplInterface
     {
         $existingTemplateDirs = [];
         foreach ($templateDirs as $templateDir) {
-            if (false !== is_dir($templateDir)) {
+            if (false !== \is_dir($templateDir)) {
                 $existingTemplateDirs[] = $templateDir;
             }
         }
-        $existingTemplateDirs = array_reverse($existingTemplateDirs);
+        $existingTemplateDirs = \array_reverse($existingTemplateDirs);
 
         $environmentOptions = [
             'strict_variables' => true,
         ];
 
         if (null !== $cacheDir) {
-            if (false === is_dir($cacheDir)) {
-                if (false === @mkdir($cacheDir, 0700, true)) {
-                    throw new RuntimeException(sprintf('unable to create directory "%s"', $cacheDir));
+            if (false === \is_dir($cacheDir)) {
+                if (false === @\mkdir($cacheDir, 0700, true)) {
+                    throw new RuntimeException(\sprintf('unable to create directory "%s"', $cacheDir));
                 }
             }
             $environmentOptions['cache'] = $cacheDir;
@@ -84,7 +84,7 @@ class TwigTpl implements TplInterface
      */
     public function addDefault(array $templateVariables)
     {
-        $this->defaultVariables = array_merge(
+        $this->defaultVariables = \array_merge(
             $this->defaultVariables, $templateVariables
         );
     }
@@ -108,10 +108,10 @@ class TwigTpl implements TplInterface
      */
     public function render($templateName, array $templateVariables)
     {
-        $templateVariables = array_merge($this->defaultVariables, $templateVariables);
+        $templateVariables = \array_merge($this->defaultVariables, $templateVariables);
 
         return $this->twig->render(
-            sprintf(
+            \sprintf(
                 '%s.twig',
                 $templateName
             ),

@@ -74,7 +74,7 @@ class Request
      */
     public function hasQueryParameter($key)
     {
-        return array_key_exists($key, $this->getData) && !empty($this->getData[$key]);
+        return \array_key_exists($key, $this->getData) && !empty($this->getData[$key]);
     }
 
     /**
@@ -85,7 +85,7 @@ class Request
     public function getQueryParameter($key)
     {
         if (!$this->hasQueryParameter($key)) {
-            throw new HttpException(sprintf('query parameter "%s" not provided', $key), 400);
+            throw new HttpException(\sprintf('query parameter "%s" not provided', $key), 400);
         }
 
         return $this->getData[$key];
@@ -106,7 +106,7 @@ class Request
      */
     public function hasPostParameter($key)
     {
-        return array_key_exists($key, $this->postData) && !empty($this->postData[$key]);
+        return \array_key_exists($key, $this->postData) && !empty($this->postData[$key]);
     }
 
     /**
@@ -117,7 +117,7 @@ class Request
     public function getPostParameter($key)
     {
         if (!$this->hasPostParameter($key)) {
-            throw new HttpException(sprintf('post parameter "%s" not provided', $key), 400);
+            throw new HttpException(\sprintf('post parameter "%s" not provided', $key), 400);
         }
 
         return $this->postData[$key];
@@ -130,7 +130,7 @@ class Request
      */
     public function getHeader($key)
     {
-        return array_key_exists($key, $this->serverData) ? $this->serverData[$key] : null;
+        return \array_key_exists($key, $this->serverData) ? $this->serverData[$key] : null;
     }
 
     /**
@@ -138,9 +138,9 @@ class Request
      */
     public function getRoot()
     {
-        $rootDir = dirname($this->serverData['SCRIPT_NAME']);
+        $rootDir = \dirname($this->serverData['SCRIPT_NAME']);
         if ('/' !== $rootDir) {
-            return sprintf('%s/', $rootDir);
+            return \sprintf('%s/', $rootDir);
         }
 
         return $rootDir;
