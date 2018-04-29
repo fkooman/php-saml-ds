@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.11 (...)
+## 1.0.11 (2018-04-29)
 - fix bug when POST submit misses a parameter
 
 ## 1.0.10 (2018-01-22)
