@@ -103,7 +103,7 @@ They were not really what I wanted.
 
 # Development
 
-    $ git clone https://git.tuxed.net/fkooman/php-saml-ds.git
+    $ git clone https://git.tuxed.net/fkooman/php-saml-ds
     $ cd php-saml-ds
     $ composer install
     $ cp config/config.php.example config/config.php
