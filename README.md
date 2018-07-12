@@ -86,7 +86,9 @@ Specify the entityIDs of the IdPs you want to support in the
 To run the generator, make sure the metadata files are located in the 
 `config/metadata` directory and a writable `data/` directory exists.
 
+```bash
     $ php bin/generate.php
+```
 
 This will generate the JSON and XML file mentioned above, and download and 
 scale/compress all IdP logos if enabled, and if they are available in the 
