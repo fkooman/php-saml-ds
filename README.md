@@ -103,31 +103,41 @@ They were not really what I wanted.
 
 # Development
 
+```bash
     $ git clone https://git.tuxed.net/fkooman/php-saml-ds
     $ cd php-saml-ds
     $ composer install
     $ cp config/config.php.example config/config.php
+```
 
 Now, you need to configure something in `config/config.php` and add some 
 metadata files to read from in `config/metadata`, e.g.:
     
+```bash
     $ mkdir config/metadata
     $ curl -L -o config/metadata/SURFconext.xml https://engine.surfconext.nl/authentication/proxy/idps-metadata
+```
 
 Create a `data/` directory and run the `generator` script that creates a JSON 
 and SAML metadata file and (optionally) fetches the logos specified in the 
 metadata:
 
+```bash
     $ mkdir data
     $ php bin/generate.php
+```
 
 Create a symlink, so the logos are available under the `web/` directory:
 
+```bash
     $ (cd web && ln -s ../data/logo)
+```
 
 Now, you can start the PHP built-in web server:
 
+```bash
     $ php -S localhost:8080 -t web/
+```
 
 Browse to [http://localhost:8080/index.php](http://localhost:8080/index.php) 
 and provide the following query parameters:
