@@ -181,6 +181,9 @@ class Parser
         );
     }
 
+    /**
+     * @return string
+     */
     private function getDisplayName(SimpleXMLElement $xml)
     {
         $result = $xml->xpath('md:IDPSSODescriptor/md:Extensions/mdui:UIInfo/mdui:DisplayName[@xml:lang="en"]');

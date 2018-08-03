@@ -43,6 +43,12 @@ class CurlHttpClient implements HttpClientInterface
         \curl_close($this->curlChannel);
     }
 
+    /**
+     * @param string               $requestUri
+     * @param array<string,string> $requestHeaders
+     *
+     * @return Response
+     */
     public function get($requestUri, array $requestHeaders = [])
     {
         return $this->exec(
@@ -53,6 +59,12 @@ class CurlHttpClient implements HttpClientInterface
         );
     }
 
+    /**
+     * @param array                $curlOptions
+     * @param array<string,string> $requestHeaders
+     *
+     * @return Response
+     */
     private function exec(array $curlOptions, array $requestHeaders)
     {
         // reset all cURL options

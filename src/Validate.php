@@ -36,6 +36,12 @@ class Validate
         }
     }
 
+    /**
+     * @param string        $spEntityID
+     * @param array<string> $spEntityIDs
+     *
+     * @return string
+     */
     public static function spEntityID($spEntityID, array $spEntityIDs)
     {
         if (!\in_array($spEntityID, $spEntityIDs, true)) {
@@ -48,6 +54,11 @@ class Validate
         return $spEntityID;
     }
 
+    /**
+     * @param string $returnIDParam
+     *
+     * @return string
+     */
     public static function returnIDParam($returnIDParam)
     {
         if (!\in_array($returnIDParam, ['IdP', 'idpentityid'], true)) {
@@ -57,6 +68,11 @@ class Validate
         return $returnIDParam;
     }
 
+    /**
+     * @param string $return
+     *
+     * @return string
+     */
     public static function returnUrl($return)
     {
         $filterFlags = FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED | FILTER_FLAG_PATH_REQUIRED | FILTER_FLAG_QUERY_REQUIRED;
@@ -67,6 +83,11 @@ class Validate
         return $return;
     }
 
+    /**
+     * @param string $filter
+     *
+     * @return string
+     */
     public static function filter($filter)
     {
         if (1 !== \preg_match('/^[a-zA-Z0-9]*$/', $filter)) {
@@ -76,6 +97,12 @@ class Validate
         return $filter;
     }
 
+    /**
+     * @param string        $idpEntityID
+     * @param array<string> $idpEntityIDs
+     *
+     * @return string
+     */
     public static function idpEntityID($idpEntityID, array $idpEntityIDs)
     {
         if (!\in_array($idpEntityID, $idpEntityIDs, true)) {

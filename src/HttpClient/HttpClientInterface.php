@@ -21,7 +21,8 @@ namespace fkooman\SAML\DS\HttpClient;
 interface HttpClientInterface
 {
     /**
-     * @param string $requestUri
+     * @param string                $requestUri
+     * @param array<string, string> $requestHeaders
      *
      * @return Response
      */

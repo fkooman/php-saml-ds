@@ -34,6 +34,8 @@ class Config
     }
 
     /**
+     * @psalm-suppress UnresolvableInclude
+     *
      * @param string $fileName
      *
      * @return self

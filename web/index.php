@@ -28,6 +28,14 @@ use fkooman\SAML\DS\Wayf;
 use fkooman\SeCookie\Cookie;
 
 \set_error_handler(
+    /**
+     * @param int    $severity
+     * @param string $message
+     * @param string $file
+     * @param int    $line
+     *
+     * @return void
+     */
     function ($severity, $message, $file, $line) {
         if (!(\error_reporting() & $severity)) {
             // This error code is not included in error_reporting
