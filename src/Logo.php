@@ -104,6 +104,42 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     }
 
     /**
+     * @param string $logoUri
+     *
+     * @return array<int, string>
+     */
+    public static function extractDataUriLogo($logoUri)
+    {
+        if (0 !== \strpos($logoUri, 'data:')) {
+            throw new LogoException('invalid data URI');
+        }
+        $logoUri = \substr($logoUri, 5);
+        if (false === $commaPos = \strpos($logoUri, ',')) {
+            throw new LogoException('invalid data URI: no data');
+        }
+        $dataHeader = \substr($logoUri, 0, $commaPos);
+        $headerParts = \explode(';', $dataHeader);
+        $headerCount = \count($headerParts);
+        if (2 > $headerCount) {
+            throw new LogoException('invalid data URI: not enough parts');
+        }
+        // first part MUST be content type for image
+        if (0 !== \strpos($headerParts[0], 'image/')) {
+            throw new LogoException('invalid data URI: no image media type');
+        }
+        $mediaType = $headerParts[0];
+        if ('base64' !== $headerParts[$headerCount - 1]) {
+            throw new LogoException('invalid data URI: media MUST be base64 encoded');
+        }
+
+        if (false === $logoData = \base64_decode(\substr($logoUri, $commaPos + 1), true)) {
+            throw new LogoException('invalida data URI: unable to decode logo');
+        }
+
+        return [$logoData, $mediaType];
+    }
+
+    /**
      * @param string $originalFileName
      *
      * @return string
@@ -155,28 +191,6 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
         } catch (RuntimeException $e) {
             throw new LogoException(\sprintf('unable to retrieve logo: "%s"', $e->getMessage()));
         }
-    }
-
-    /**
-     * @param string $logoUri
-     *
-     * @return array
-     */
-    private static function extractDataUriLogo($logoUri)
-    {
-        // XXX do some better error checking to protect against broken dataUris
-        // "empty" data URI: "data:,"
-        // data:;base64,XYZ
-        // data:image/png;base64,XYZ
-        // https://en.wikipedia.org/wiki/Data_URI_scheme
-        $mediaType = \substr($logoUri, 5, \strpos($logoUri, ';') - 5);
-        $encodedLogoData = \substr($logoUri, \strpos($logoUri, ','));
-
-        if (false === $logoData = \base64_decode($encodedLogoData, true)) {
-            throw new LogoException('unable to decode data URI logo');
-        }
-
-        return [$logoData, $mediaType];
     }
 
     /**
