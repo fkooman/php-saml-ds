@@ -165,6 +165,10 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     private static function extractDataUriLogo($logoUri)
     {
         // XXX do some better error checking to protect against broken dataUris
+        // "empty" data URI: "data:,"
+        // data:;base64,XYZ
+        // data:image/png;base64,XYZ
+        // https://en.wikipedia.org/wiki/Data_URI_scheme
         $mediaType = \substr($logoUri, 5, \strpos($logoUri, ';') - 5);
         $encodedLogoData = \substr($logoUri, \strpos($logoUri, ','));
 

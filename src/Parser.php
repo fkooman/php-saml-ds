@@ -182,7 +182,7 @@ class Parser
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     private function getDisplayName(SimpleXMLElement $xml)
     {
@@ -196,7 +196,7 @@ class Parser
     }
 
     /**
-     * @return array
+     * @return array<string>
      */
     private function getKeywords(SimpleXMLElement $xml)
     {
@@ -205,7 +205,7 @@ class Parser
             return [];
         }
 
-        return \explode(' ', $result[0]);
+        return \explode(' ', (string) $result[0]);
     }
 
     /**
