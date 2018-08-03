@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.12 (2018-08-03)
+- add `psalm.xml` for static code analysis
+- fix coding issues found by Psalm
+- fix and rewrite data URI handling and add test for it
+
 ## 1.0.11 (2018-04-29)
 - fix bug when POST submit misses a parameter
 
