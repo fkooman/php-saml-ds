@@ -17,9 +17,8 @@
  * limitations under the License.
  */
 
+require_once \dirname(__DIR__).'/vendor/autoload.php';
 $baseDir = \dirname(__DIR__);
-/** @psalm-suppress UnresolvableInclude */
-require_once \sprintf('%s/vendor/autoload.php', $baseDir);
 
 use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\HttpClient\CurlHttpClient;
