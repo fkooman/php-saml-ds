@@ -8,9 +8,9 @@
     }
 
     /* a list of all IdP logos to be used as backgrounds for the buttons */
-{% for entityDescriptor in entityDescriptors %}
-    form.entity button.{{ entityDescriptor.cssEncodedEntityID }} {
-        background-image: url("{{ entityDescriptor.encodedEntityID }}.png");
+<?php foreach ($entityDescriptors as $entityDescriptor): ?>
+    form.entity button.<?=$this->e($entityDescriptor['cssEncodedEntityID']); ?> {
+        background-image: url("<?=$this->e($entityDescriptor['encodedEntityID']); ?>.png");
     }
-{% endfor %}
+<?php endforeach; ?>
 }

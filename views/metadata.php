@@ -1,19 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <md:EntitiesDescriptor xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata">
-{% for entityDescriptor in entityDescriptors %}
-    <md:EntityDescriptor entityID="{{ entityDescriptor.entityID }}">
+<?php foreach ($entityDescriptors as $entityDescriptor): ?>
+    <md:EntityDescriptor entityID="<?=$this->e($entityDescriptor['entityID']); ?>">
         <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
           <md:KeyDescriptor use="signing">
             <ds:KeyInfo>
               <ds:X509Data>
                 <ds:X509Certificate>
-                    {{ entityDescriptor.signingCert }}
+                    <?=$this->e($entityDescriptor['signingCert']); ?>
                 </ds:X509Certificate>
               </ds:X509Data>
             </ds:KeyInfo>
           </md:KeyDescriptor>
-          <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="{{ entityDescriptor.SSO }}"/>
+          <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="<?=$this->e($entityDescriptor['SSO']); ?>"/>
         </md:IDPSSODescriptor>
     </md:EntityDescriptor>
-{% endfor %}
+<?php endforeach; ?>
 </md:EntitiesDescriptor>

@@ -23,7 +23,7 @@ require_once \sprintf('%s/vendor/autoload.php', $baseDir);
 use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\Http\Request;
 use fkooman\SAML\DS\Http\Response;
-use fkooman\SAML\DS\TwigTpl;
+use fkooman\SAML\DS\PlatesTpl;
 use fkooman\SAML\DS\Wayf;
 use fkooman\SeCookie\Cookie;
 
@@ -47,24 +47,7 @@ use fkooman\SeCookie\Cookie;
 
 try {
     $config = Config::fromFile(\sprintf('%s/config/config.php', $baseDir));
-    $templateCache = null;
-    if ($config->get('enableTemplateCache')) {
-        $templateCache = \sprintf('%s/data/tpl', $baseDir);
-    }
-
-    $templateDirs = [
-        \sprintf('%s/views', $baseDir),
-        \sprintf('%s/config/views', $baseDir),
-    ];
-    if ($config->has('styleName')) {
-        $templateDirs[] = \sprintf('%s/views/%s', $baseDir, $config->get('styleName'));
-    }
-
-    $twigTpl = new TwigTpl(
-        $templateDirs,
-        $templateCache
-    );
-
+    $platesTpl = new PlatesTpl(\sprintf('%s/views', $baseDir));
     $request = new Request($_SERVER, $_GET, $_POST);
     $cookie = new Cookie(
         [
@@ -77,7 +60,7 @@ try {
     $wayf = new Wayf(
         \sprintf('%s/data', $baseDir),
         $config,
-        $twigTpl,
+        $platesTpl,
         $cookie
     );
 

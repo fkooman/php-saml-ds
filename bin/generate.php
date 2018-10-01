@@ -24,7 +24,7 @@ use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\HttpClient\CurlHttpClient;
 use fkooman\SAML\DS\Logo;
 use fkooman\SAML\DS\Parser;
-use fkooman\SAML\DS\TwigTpl;
+use fkooman\SAML\DS\PlatesTpl;
 
 $logoDir = \sprintf('%s/data/logo/idp', $baseDir);
 
@@ -37,12 +37,10 @@ try {
         // convert all special characters in entityID to _ (same method as mod_auth_mellon)
         $encodedEntityID = \preg_replace('/__*/', '_', \preg_replace('/[^A-Za-z.]/', '_', $entityID));
         $entityDescriptors = $parser->getEntitiesInfo($config->get('spList')->get($entityID)->get('idpList'));
-        $twigTpl = new TwigTpl(
-            [
-                \sprintf('%s/views', $baseDir),
-            ]
+        $platesTpl = new PlatesTpl(
+            \sprintf('%s/views', $baseDir)
         );
-        $metadataContent = $twigTpl->render(
+        $metadataContent = $platesTpl->render(
             'metadata',
             [
                 'entityDescriptors' => $entityDescriptors,
@@ -71,7 +69,7 @@ try {
                 $entityDescriptors[$k]['cssEncodedEntityID'] = \preg_replace('/\./', '\.', $entityDescriptors[$k]['encodedEntityID']);
             }
 
-            $logoCss = $twigTpl->render(
+            $logoCss = $platesTpl->render(
                 'logo-css',
                 [
                     'entityDescriptors' => $entityDescriptors,
