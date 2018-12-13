@@ -16,14 +16,13 @@
  * limitations under the License.
  */
 
+require_once \dirname(__DIR__).'/vendor/autoload.php';
 $baseDir = \dirname(__DIR__);
-/** @psalm-suppress UnresolvableInclude */
-require_once \sprintf('%s/vendor/autoload.php', $baseDir);
 
 use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\Http\Request;
 use fkooman\SAML\DS\Http\Response;
-use fkooman\SAML\DS\PlatesTpl;
+use fkooman\SAML\DS\Template;
 use fkooman\SAML\DS\Wayf;
 use fkooman\SeCookie\Cookie;
 
@@ -47,7 +46,7 @@ use fkooman\SeCookie\Cookie;
 
 try {
     $config = Config::fromFile(\sprintf('%s/config/config.php', $baseDir));
-    $platesTpl = new PlatesTpl(\sprintf('%s/views', $baseDir));
+    $tpl = new Template([\sprintf('%s/views', $baseDir)]);
     $request = new Request($_SERVER, $_GET, $_POST);
     $cookie = new Cookie(
         [
@@ -60,7 +59,7 @@ try {
     $wayf = new Wayf(
         \sprintf('%s/data', $baseDir),
         $config,
-        $platesTpl,
+        $tpl,
         $cookie
     );
 
