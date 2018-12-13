@@ -35,7 +35,7 @@
                 <?php foreach ($idpList as $key => $idp): ?>
                     <li>
                         <form class="entity" method="post">
-                            <button <?php if ($filter && 0 === $key): ?>autofocus="autofocus"<?php endif; ?> name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" tabindex="<?= $key + \count($lastChosenList) + 2; ?>" class="<?=$this->e($idp['encodedEntityID']); ?>" data-keywords="<?=$this->e(\implode(' ', $idp['keywords'])); ?>"><?=$this->e($idp['displayName']); ?></button>
+                            <button <?php if ($filter && 0 === $key): ?>autofocus="autofocus"<?php endif; ?> name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" tabindex="<?=$key + \count($lastChosenList) + 2; ?>" class="<?=$this->e($idp['encodedEntityID']); ?>" data-keywords="<?=$this->e(\implode(' ', $idp['keywords'])); ?>"><?=$this->e($idp['displayName']); ?></button>
                         </form>
                     </li>
                 <?php endforeach; ?>
