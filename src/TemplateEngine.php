@@ -52,6 +52,7 @@ class TemplateEngine implements TplInterface
     {
         \extract($templateVariables);
         \ob_start();
+        /** @psalm-suppress UnresolvableInclude */
         include $this->templatePath($templateName);
         $templateStr = \ob_get_clean();
 
