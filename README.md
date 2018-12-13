@@ -59,7 +59,7 @@ With logos (optional):
 # Templates
 
 In case you want to override the default template, it usually suffices to copy
-`views/base.twig` to `config/views/base.twig` and modify it there, e.g. adding
+`views/base.php` to `config/views/base.php` and modify it there, e.g. adding
 additional CSS files.
 
 # Requirements
