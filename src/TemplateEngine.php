@@ -76,7 +76,7 @@ class TemplateEngine implements TplInterface
     public function start($sectionName)
     {
         if (null !== $this->activeSectionName) {
-            throw new TemplateException('we already have an active section');
+            throw new TemplateException(\sprintf('section "%s" already started', $this->activeSectionName));
         }
 
         $this->activeSectionName = $sectionName;
@@ -89,7 +89,7 @@ class TemplateEngine implements TplInterface
     public function stop()
     {
         if (null === $this->activeSectionName) {
-            throw new TemplateException('no active section');
+            throw new TemplateException('no section started');
         }
 
         $this->sectionList[$this->activeSectionName] = \ob_get_clean();
@@ -115,7 +115,7 @@ class TemplateEngine implements TplInterface
     public function section($sectionName)
     {
         if (!\array_key_exists($sectionName, $this->sectionList)) {
-            throw new TemplateException('section does not exist');
+            throw new TemplateException(\sprintf('section "%s" does not exist', $sectionName));
         }
 
         return $this->sectionList[$sectionName];
@@ -147,6 +147,6 @@ class TemplateEngine implements TplInterface
             }
         }
 
-        throw new TemplateException('template does not exist');
+        throw new TemplateException(\sprintf('template "%s" does not exist', $templateName));
     }
 }
