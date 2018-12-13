@@ -24,7 +24,7 @@ use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\HttpClient\CurlHttpClient;
 use fkooman\SAML\DS\Logo;
 use fkooman\SAML\DS\Parser;
-use fkooman\SAML\DS\Template;
+use fkooman\SAML\DS\TemplateEngine;
 
 $logoDir = \sprintf('%s/data/logo/idp', $baseDir);
 
@@ -37,12 +37,12 @@ try {
         // convert all special characters in entityID to _ (same method as mod_auth_mellon)
         $encodedEntityID = \preg_replace('/__*/', '_', \preg_replace('/[^A-Za-z.]/', '_', $entityID));
         $entityDescriptors = $parser->getEntitiesInfo($config->get('spList')->get($entityID)->get('idpList'));
-        $tpl = new Template(
+        $templateEngine = new TemplateEngine(
             [
                 \sprintf('%s/views', $baseDir),
             ]
         );
-        $metadataContent = $tpl->render(
+        $metadataContent = $templateEngine->render(
             'metadata',
             [
                 'entityDescriptors' => $entityDescriptors,
@@ -71,7 +71,7 @@ try {
                 $entityDescriptors[$k]['cssEncodedEntityID'] = \preg_replace('/\./', '\.', $entityDescriptors[$k]['encodedEntityID']);
             }
 
-            $logoCss = $tpl->render(
+            $logoCss = $templateEngine->render(
                 'logo-css',
                 [
                     'entityDescriptors' => $entityDescriptors,

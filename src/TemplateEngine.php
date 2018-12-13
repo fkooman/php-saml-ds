@@ -18,9 +18,9 @@
 
 namespace fkooman\SAML\DS;
 
-use Exception;
+use fkooman\SAML\DS\Exception\TemplateException;
 
-class Template implements TplInterface
+class TemplateEngine implements TplInterface
 {
     /** @var array */
     private $templateDirList;
@@ -76,7 +76,7 @@ class Template implements TplInterface
     public function start($sectionName)
     {
         if (null !== $this->activeSectionName) {
-            throw new Exception('we already have an active section');
+            throw new TemplateException('we already have an active section');
         }
 
         $this->activeSectionName = $sectionName;
@@ -89,7 +89,7 @@ class Template implements TplInterface
     public function stop()
     {
         if (null === $this->activeSectionName) {
-            throw new Exception('no active section');
+            throw new TemplateException('no active section');
         }
 
         $this->sectionList[$this->activeSectionName] = \ob_get_clean();
@@ -115,7 +115,7 @@ class Template implements TplInterface
     public function section($sectionName)
     {
         if (!\array_key_exists($sectionName, $this->sectionList)) {
-            throw new Exception('section does not exist');
+            throw new TemplateException('section does not exist');
         }
 
         return $this->sectionList[$sectionName];
@@ -147,6 +147,6 @@ class Template implements TplInterface
             }
         }
 
-        throw new Exception('template does not exist');
+        throw new TemplateException('template does not exist');
     }
 }
