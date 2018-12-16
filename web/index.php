@@ -36,7 +36,7 @@ try {
     if ($config->has('styleName')) {
         $templateDirs[] = \sprintf('%s/views/%s', $baseDir, $config->get('styleName'));
     }
-    $templateEngine = new TemplateEngine(\array_reverse($templateDirs));
+    $templateEngine = new TemplateEngine($templateDirs);
     $request = new Request($_SERVER, $_GET, $_POST);
     $cookie = new Cookie(
         [

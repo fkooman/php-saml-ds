@@ -22,8 +22,11 @@ use fkooman\SAML\DS\Exception\TemplateException;
 
 class TemplateEngine implements TplInterface
 {
-    /** @var array */
-    private $templateDirList;
+    /** @var array<string> */
+    private $templateFolderList;
+
+    /** @var null|string */
+    private $translationFile;
 
     /** @var null|string */
     private $activeSectionName = null;
@@ -34,12 +37,41 @@ class TemplateEngine implements TplInterface
     /** @var array */
     private $layoutList = [];
 
+    /** @var array */
+    private $templateVariables = [];
+
+    /** @var array */
+    private $callbackList = [];
+
     /**
-     * @param array $templateDirList
+     * @param array<string> $templateFolderList
+     * @param string        $translationFile
      */
-    public function __construct(array $templateDirList)
+    public function __construct(array $templateFolderList, $translationFile = null)
     {
-        $this->templateDirList = $templateDirList;
+        $this->templateFolderList = $templateFolderList;
+        $this->translationFile = $translationFile;
+    }
+
+    /**
+     * @param array $templateVariables
+     *
+     * @return void
+     */
+    public function addDefault(array $templateVariables)
+    {
+        $this->templateVariables = \array_merge($this->templateVariables, $templateVariables);
+    }
+
+    /**
+     * @param string   $callbackName
+     * @param callable $cb
+     *
+     * @return void
+     */
+    public function addCallback($callbackName, callable $cb)
+    {
+        $this->callbackList[$callbackName] = $cb;
     }
 
     /**
@@ -50,23 +82,34 @@ class TemplateEngine implements TplInterface
      */
     public function render($templateName, array $templateVariables = [])
     {
-        \extract($templateVariables);
+        $this->templateVariables = \array_merge($this->templateVariables, $templateVariables);
+        \extract($this->templateVariables);
         \ob_start();
         /** @psalm-suppress UnresolvableInclude */
         include $this->templatePath($templateName);
         $templateStr = \ob_get_clean();
+        if (0 === \count($this->layoutList)) {
+            // we have no layout defined, so simple template...
+            return $templateStr;
+        }
 
-        if (0 !== \count($this->layoutList)) {
-            $templateName = \array_keys($this->layoutList)[0];
-            $templateVariables = $this->layoutList[$templateName];
-
-            // because we use render we must empty the layoutlist
-            $this->layoutList = [];
-
-            return $this->render($templateName, $templateVariables);
+        foreach ($this->layoutList as $templateName => $templateVariables) {
+            unset($this->layoutList[$templateName]);
+            $templateStr .= $this->render($templateName, $templateVariables);
         }
 
         return $templateStr;
+    }
+
+    /**
+     * @param string $templateName
+     * @param array  $templateVariables
+     *
+     * @return string
+     */
+    private function insert($templateName, array $templateVariables = [])
+    {
+        return $this->render($templateName, $templateVariables);
     }
 
     /**
@@ -74,7 +117,7 @@ class TemplateEngine implements TplInterface
      *
      * @return void
      */
-    public function start($sectionName)
+    private function start($sectionName)
     {
         if (null !== $this->activeSectionName) {
             throw new TemplateException(\sprintf('section "%s" already started', $this->activeSectionName));
@@ -87,7 +130,7 @@ class TemplateEngine implements TplInterface
     /**
      * @return void
      */
-    public function stop()
+    private function stop()
     {
         if (null === $this->activeSectionName) {
             throw new TemplateException('no section started');
@@ -103,7 +146,7 @@ class TemplateEngine implements TplInterface
      *
      * @return void
      */
-    public function layout($layoutName, array $templateVariables = [])
+    private function layout($layoutName, array $templateVariables = [])
     {
         $this->layoutList[$layoutName] = $templateVariables;
     }
@@ -113,7 +156,7 @@ class TemplateEngine implements TplInterface
      *
      * @return string
      */
-    public function section($sectionName)
+    private function section($sectionName)
     {
         if (!\array_key_exists($sectionName, $this->sectionList)) {
             throw new TemplateException(\sprintf('section "%s" does not exist', $sectionName));
@@ -123,13 +166,95 @@ class TemplateEngine implements TplInterface
     }
 
     /**
+     * @param string      $v
+     * @param null|string $cb
+     *
+     * @return string
+     */
+    private function e($v, $cb = null)
+    {
+        if (null !== $cb) {
+            $v = $this->batch($v, $cb);
+        }
+
+        return \htmlentities($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    }
+
+    /**
+     * @param string $v
+     * @param string $cb
+     *
+     * @return string
+     */
+    private function batch($v, $cb)
+    {
+        $functionList = \explode('|', $cb);
+        foreach ($functionList as $f) {
+            if ('escape' === $f) {
+                $v = $this->e($v);
+                continue;
+            }
+            if (\array_key_exists($f, $this->callbackList)) {
+                $f = $this->callbackList[$f];
+            } else {
+                if (!\function_exists($f)) {
+                    throw new TemplateException(\sprintf('function "%s" does not exist', $f));
+                }
+            }
+            $v = \call_user_func($f, $v);
+        }
+
+        return $v;
+    }
+
+    /**
      * @param string $v
      *
      * @return string
      */
-    private function e($v)
+    private function t($v)
     {
-        return \htmlentities($v, ENT_QUOTES, 'UTF-8');
+        if (null === $this->translationFile) {
+            // no translation file, use original
+            $translatedText = $v;
+        } else {
+            /** @psalm-suppress UnresolvableInclude */
+            $translationData = include $this->translationFile;
+            if (\array_key_exists($v, $translationData)) {
+                // translation found
+                $translatedText = $translationData[$v];
+            } else {
+                // not found, use original
+                $translatedText = $v;
+            }
+        }
+
+        // find all string values, wrap the key, and escape the variable
+        $escapedVars = [];
+        foreach ($this->templateVariables as $k => $v) {
+            if (\is_string($v)) {
+                $escapedVars['%'.$k.'%'] = $this->e($v);
+            }
+        }
+
+        return \str_replace(\array_keys($escapedVars), \array_values($escapedVars), $translatedText);
+    }
+
+    /**
+     * @param string $templateName
+     *
+     * @return bool
+     */
+    private function exists($templateName)
+    {
+        foreach ($this->templateFolderList as $templateFolder) {
+            $templatePath = \sprintf('%s/%s.php', $templateFolder, $templateName);
+            if (\file_exists($templatePath)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -139,12 +264,10 @@ class TemplateEngine implements TplInterface
      */
     private function templatePath($templateName)
     {
-        foreach ($this->templateDirList as $templateDir) {
-            if (\file_exists($templateDir.'/'.$templateName)) {
-                return $templateDir.'/'.$templateName;
-            }
-            if (\file_exists($templateDir.'/'.$templateName.'.php')) {
-                return $templateDir.'/'.$templateName.'.php';
+        foreach (\array_reverse($this->templateFolderList) as $templateFolder) {
+            $templatePath = \sprintf('%s/%s.php', $templateFolder, $templateName);
+            if (\file_exists($templatePath)) {
+                return $templatePath;
             }
         }
 
