@@ -10,10 +10,10 @@
         <input type="hidden" name="entityID" value="<?=$this->e($entityID); ?>">
         <input type="hidden" name="return" value="<?=$this->e($return); ?>">
 
-        <input <?php if (!empty($lastChosenList)): ?> autofocus="autofocus"<?php endif; ?> value="<?=$this->e($filter); ?>" name="filter" id="filter" tabindex="1" type="text" autocomplete="off" placeholder="Search for an institution...">
+        <input <?php if (0 === \count($lastChosenList)): ?> autofocus="autofocus"<?php endif; ?> value="<?=$this->e($filter); ?>" name="filter" id="filter" tabindex="1" type="text" autocomplete="off" placeholder="Search for an institution...">
     </form>
 
-    <?php if (!empty($lastChosenList)): ?>
+    <?php if (0 !== \count($lastChosenList)): ?>
         <div id="lastChosen">
             <div class="listHeader">Previously chosen</div>
             <ul>
@@ -28,7 +28,7 @@
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($idpList)): ?>
+    <?php if (0 !== \count($idpList)): ?>
         <div id="accessList">
             <div class="listHeader">Institutes with access</div>
             <ul id="disco">
