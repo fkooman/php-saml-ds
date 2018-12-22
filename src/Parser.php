@@ -107,6 +107,7 @@ class Parser
                 'entityID' => $entityID,
                 'displayName' => $displayName,
                 'SSO' => $this->getSSO($entityID, $idpDescriptor[0]),
+                'SLO' => $this->getSLO($entityID, $idpDescriptor[0]),
                 'signingCert' => $this->getSigningCert($idpDescriptor[0]),
                 'keywords' => $this->getKeywords($entityInfo[0]),
                 'logoList' => $this->extractEntityLogo($entityInfo[0]),
@@ -117,7 +118,7 @@ class Parser
     }
 
     /**
-     * Get the HTTP-Redirect binding.
+     * Get the SSO HTTP-Redirect binding.
      *
      * @param string $entityID
      *
@@ -128,6 +129,23 @@ class Parser
         $result = $xml->xpath('md:SingleSignOnService[@Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"]');
         if (0 === \count($result)) {
             throw new ParserException(\sprintf('no SingleSignOnService HTTP-Redirect binding for "%s"', $entityID));
+        }
+
+        return (string) $result[0]['Location'];
+    }
+
+    /**
+     * Get the (optional) SLO HTTP-Redirect binding.
+     *
+     * @param string $entityID
+     *
+     * @return null|string
+     */
+    private function getSLO($entityID, SimpleXMLElement $xml)
+    {
+        $result = $xml->xpath('md:SingleLogoutService[@Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"]');
+        if (0 === \count($result)) {
+            return null;
         }
 
         return (string) $result[0]['Location'];
