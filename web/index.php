@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright 2017,2018  François Kooman <fkooman@tuxed.net>
+ * Copyright 2017,2018,2019  François Kooman <fkooman@tuxed.net>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,12 +36,15 @@ try {
     if ($config->has('styleName')) {
         $templateDirs[] = \sprintf('%s/views/%s', $baseDir, $config->get('styleName'));
     }
+
+    $secureCookie = $config->has('secureCookie') ? $config->get('secureCookie') : true;
+
     $templateEngine = new TemplateEngine($templateDirs);
     $request = new Request($_SERVER, $_GET, $_POST);
     $cookie = new Cookie(
         [
             'SameSite' => 'Lax',
-            'Secure' => $config->get('secureCookie'),
+            'Secure' => $secureCookie,
             'Max-Age' => 60 * 60 * 24 * 90,   // 90 days
         ]
     );

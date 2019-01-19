@@ -1,8 +1,7 @@
-#!/usr/bin/env php
 <?php
 
 /*
- * Copyright 2017,2018  François Kooman <fkooman@tuxed.net>
+ * Copyright 2017,2018,2019  François Kooman <fkooman@tuxed.net>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
