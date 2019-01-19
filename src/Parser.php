@@ -139,7 +139,7 @@ class Parser
      *
      * @param string $entityID
      *
-     * @return null|string
+     * @return string|null
      */
     private function getSLO($entityID, SimpleXMLElement $xml)
     {
@@ -200,7 +200,7 @@ class Parser
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     private function getDisplayName(SimpleXMLElement $xml)
     {

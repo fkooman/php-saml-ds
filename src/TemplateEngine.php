@@ -25,10 +25,10 @@ class TemplateEngine implements TplInterface
     /** @var array<string> */
     private $templateFolderList;
 
-    /** @var null|string */
+    /** @var string|null */
     private $translationFile;
 
-    /** @var null|string */
+    /** @var string|null */
     private $activeSectionName = null;
 
     /** @var array */
@@ -167,7 +167,7 @@ class TemplateEngine implements TplInterface
 
     /**
      * @param string      $v
-     * @param null|string $cb
+     * @param string|null $cb
      *
      * @return string
      */
