@@ -12,10 +12,10 @@
               </ds:X509Data>
             </ds:KeyInfo>
           </md:KeyDescriptor>
-          <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="<?=$this->e($entityDescriptor['SSO']); ?>"/>
 <?php if (null !== $entityDescriptor['SLO']): ?>
           <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="<?=$this->e($entityDescriptor['SLO']); ?>"/>
 <?php endif; ?>
+          <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="<?=$this->e($entityDescriptor['SSO']); ?>"/>
         </md:IDPSSODescriptor>
     </md:EntityDescriptor>
 <?php endforeach; ?>
