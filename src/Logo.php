@@ -63,37 +63,40 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     }
 
     /**
-     * @param string $encodedEntityID
-     * @param array  $logoList
+     * @param IdpInfo $idpInfo
      *
      * @return void
      */
-    public function prepare($encodedEntityID, array $logoList)
+    public function prepare(IdpInfo $idpInfo)
     {
         // placeholder if retrieving logo fails
         $logoData = \base64_decode(self::PLACEHOLDER_IMAGE, true);
         $fileExtension = 'png';
 
+        $logoList = $idpInfo->getLogos();
+        $encodedEntityID = $idpInfo->getEncodedEntityId();
         if (0 !== \count($logoList)) {
-            $logoUri = self::getBestLogoUri($logoList);
-            try {
-                list($logoData, $mediaType) = $this->obtainLogo($logoUri);
-                $fileExtension = $this->mediaTypeToExtension($encodedEntityID, $mediaType);
+            $logoInfo = self::getBestLogoUri($logoList);
+            if (null !== $logoInfo) {
+                try {
+                    list($logoData, $mediaType) = $this->obtainLogo($logoInfo->getUri());
+                    $fileExtension = $this->mediaTypeToExtension($encodedEntityID, $mediaType);
 
-                $originalFileName = \sprintf('%s/%s.orig.%s', $this->logoDir, $encodedEntityID, $fileExtension);
-                // store the original logo
-                if (false === @\file_put_contents($originalFileName, $logoData)) {
-                    throw new RuntimeException(\sprintf('unable to write to "%s"', $originalFileName));
+                    $originalFileName = \sprintf('%s/%s.orig.%s', $this->logoDir, $encodedEntityID, $fileExtension);
+                    // store the original logo
+                    if (false === @\file_put_contents($originalFileName, $logoData)) {
+                        throw new RuntimeException(\sprintf('unable to write to "%s"', $originalFileName));
+                    }
+
+                    // optimize the logo
+                    $logoData = self::optimize($originalFileName);
+                } catch (LogoException $e) {
+                    $this->errorLog[] = \sprintf(
+                        'unable to obtain logo for "%s": %s',
+                        $encodedEntityID,
+                        $e->getMessage()
+                    );
                 }
-
-                // optimize the logo
-                $logoData = self::optimize($originalFileName);
-            } catch (LogoException $e) {
-                $this->errorLog[] = \sprintf(
-                    'unable to obtain logo for "%s": %s',
-                    $encodedEntityID,
-                    $e->getMessage()
-                );
             }
         }
 
@@ -204,27 +207,24 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     }
 
     /**
-     * @param array $logoList
+     * @param array<LogoInfo> $logoList
      *
-     * @return string
+     * @return LogoInfo|null
      */
     private static function getBestLogoUri(array $logoList)
     {
         // we keep the logo where the highest width is indicated assuming it
         // will be the best quality
-        \usort($logoList,
-        /**
-         * @param array $a
-         * @param array $b
-         *
-         * @return int
-         */
-        function ($a, $b) {
-            return $a['width'] < $b['width'] ? -1 : ($a['width'] > $b['width'] ? 1 : 0);
-        });
+        $maxWidth = 0;
+        $maxLogo = null;
+        foreach ($logoList as $logoInfo) {
+            if ($logoInfo->getWidth() > $maxWidth) {
+                $maxWidth = $logoInfo->getWidth();
+                $maxLogo = $logoInfo;
+            }
+        }
 
-        // trim URL as some metadata files contain extra whitespaces
-        return \trim($logoList[\count($logoList) - 1]['uri']);
+        return $maxLogo;
     }
 
     /**

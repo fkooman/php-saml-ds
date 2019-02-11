@@ -8,9 +8,9 @@
     }
 
     /* a list of all IdP logos to be used as backgrounds for the buttons */
-<?php foreach ($entityDescriptors as $entityDescriptor): ?>
-    form.entity button.<?=$this->e($entityDescriptor['cssEncodedEntityID']); ?> {
-        background-image: url("<?=$this->e($entityDescriptor['encodedEntityID']); ?>.png");
+<?php foreach ($idpInfoList as $idpInfo): ?>
+    form.entity button.<?=$this->e($idpInfo->getCssEncodedEntityId()); ?> {
+        background-image: url("<?=$this->e($idpInfo->getEncodedEntityId()); ?>.png");
     }
 <?php endforeach; ?>
 }
