@@ -1,7 +1,8 @@
 # Changelog
 
-## 1.1.0 (...)
+## 2.0.0 (...)
 - switch to new template engine
+- rewrite parsing SAML IdP metadata
 
 ## 1.0.12 (2018-08-03)
 - add `psalm.xml` for static code analysis
