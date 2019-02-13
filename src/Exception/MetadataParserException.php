@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-namespace fkooman\SAML\DS;
+namespace fkooman\SAML\DS\Exception;
 
 use Exception;
 
-class ParserException extends Exception
+class MetadataParserException extends Exception
 {
 }

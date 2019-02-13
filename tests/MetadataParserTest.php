@@ -18,22 +18,22 @@
 
 namespace fkooman\SAML\DS\Tests;
 
-use fkooman\SAML\DS\XmlIdpInfoSource;
+use fkooman\SAML\DS\MetadataParser;
 use PHPUnit\Framework\TestCase;
 
-class XmlIdpInfoSourceTest extends TestCase
+class MetadataParserTest extends TestCase
 {
     public function testSURFconextOld()
     {
-        $xmlIdpInfoSource = new XmlIdpInfoSource(__DIR__.'/data/SURFconext_old.xml');
-        $idpInfo = $xmlIdpInfoSource->get('https://idp.surfnet.nl');
+        $MetadataParser = new MetadataParser(__DIR__.'/data/SURFconext_old.xml');
+        $idpInfo = $MetadataParser->get('https://idp.surfnet.nl');
         $this->assertSame('https://idp.surfnet.nl', $idpInfo->getEntityId());
     }
 
     public function testSURFconextNew()
     {
-        $xmlIdpInfoSource = new XmlIdpInfoSource(__DIR__.'/data/SURFconext_new.xml');
-        $idpInfo = $xmlIdpInfoSource->get('https://idp.surfnet.nl');
+        $MetadataParser = new MetadataParser(__DIR__.'/data/SURFconext_new.xml');
+        $idpInfo = $MetadataParser->get('https://idp.surfnet.nl');
         $this->assertSame('https://idp.surfnet.nl', $idpInfo->getEntityId());
     }
 }

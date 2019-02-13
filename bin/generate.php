@@ -22,8 +22,8 @@ $baseDir = \dirname(__DIR__);
 use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\HttpClient\CurlHttpClient;
 use fkooman\SAML\DS\Logo;
+use fkooman\SAML\DS\MetadataParser;
 use fkooman\SAML\DS\TemplateEngine;
-use fkooman\SAML\DS\XmlIdpInfoSource;
 
 $dataDir = \sprintf('%s/data', $baseDir);
 $logoDir = \sprintf('%s/logo/idp', $dataDir);
@@ -50,7 +50,7 @@ try {
         foreach ($idpEntityIdList as $idpEntityId) {
             // find the IdP entityID in any of the metadata files...
             foreach ($metadataFiles as $metadataFile) {
-                $idpInfoSource = new XmlIdPInfoSource($metadataFile);
+                $idpInfoSource = new MetadataParser($metadataFile);
                 if (false !== $idpInfo = $idpInfoSource->get($idpEntityId)) {
                     $idpInfoList[] = $idpInfo;
                 }

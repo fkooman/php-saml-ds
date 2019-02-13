@@ -19,10 +19,10 @@
 namespace fkooman\SAML\DS;
 
 use DOMElement;
-use fkooman\SAML\DS\Exception\XmlIdpInfoSourceException;
+use fkooman\SAML\DS\Exception\MetadataParserException;
 use RuntimeException;
 
-class XmlIdpInfoSource
+class MetadataParser
 {
     /** @var XmlDocument */
     private $xmlDocument;
@@ -56,11 +56,11 @@ class XmlIdpInfoSource
         }
         if (1 !== $domNodeList->length) {
             // IdP found more than once?
-            throw new XmlIdpInfoSourceException(\sprintf('IdP "%s" found more than once', $entityId));
+            throw new MetadataParserException(\sprintf('IdP "%s" found more than once', $entityId));
         }
         $domElement = $domNodeList->item(0);
         if (!($domElement instanceof DOMElement)) {
-            throw new XmlIdpInfoSourceException(\sprintf('element "%s" is not an element', $xPathQuery));
+            throw new MetadataParserException(\sprintf('element "%s" is not an element', $xPathQuery));
         }
 
         return new IdpInfo(
@@ -94,7 +94,7 @@ class XmlIdpInfoSource
         $publicKeys = [];
         $domNodeList = $this->xmlDocument->domXPath->query('md:KeyDescriptor[not(@use) or @use="signing"]/ds:KeyInfo/ds:X509Data/ds:X509Certificate', $domElement);
         if (0 === $domNodeList->length) {
-            throw new XmlIdpInfoSourceException('entry MUST have at least one X509Certificate');
+            throw new MetadataParserException('entry MUST have at least one X509Certificate');
         }
         for ($i = 0; $i < $domNodeList->length; ++$i) {
             $certificateNode = $domNodeList->item($i);
