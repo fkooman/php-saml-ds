@@ -16,12 +16,14 @@
     "name": "fkooman/php-saml-ds",
     "require": {
         "ext-curl": "*",
+        "ext-dom": "*",
         "ext-filter": "*",
         "ext-imagick": "*",
         "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-openssl": "*",
         "ext-pcre": "*",
         "ext-spl": "*",
-        "ext-xml": "*",
         "fkooman/secookie": "^2",
         "php": ">=5.4.0"
     },
