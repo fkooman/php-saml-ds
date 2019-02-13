@@ -12,7 +12,7 @@
         }
     },
     "description": "SAML Discovery Service",
-    "license": "Apache-2.0",
+    "license": "MIT",
     "name": "fkooman/php-saml-ds",
     "require": {
         "ext-curl": "*",
