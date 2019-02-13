@@ -38,7 +38,7 @@ class Wayf
     /** @var string */
     private $dataDir;
 
-    /** @var array */
+    /** @var array<string> */
     private $favoriteIdPs = [];
 
     /**
@@ -76,6 +76,8 @@ class Wayf
     }
 
     /**
+     * @param Http\Request $request
+     *
      * @return Http\Response
      */
     public function run(Request $request)
@@ -101,6 +103,8 @@ class Wayf
     }
 
     /**
+     * @param Http\Request $request
+     *
      * @return Http\Response
      */
     private function get(Request $request)
@@ -173,6 +177,8 @@ class Wayf
     }
 
     /**
+     * @param Http\Request $request
+     *
      * @return Http\Response
      */
     private function post(Request $request)
