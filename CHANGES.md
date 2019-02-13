@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 (...)
+## 2.0.0 (2019-02-13)
 - switch to new template engine, drop `twig/twig` dependency
 - rewrite parsing of SAML IdP metadata and make it more robust
 
