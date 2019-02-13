@@ -1,8 +1,8 @@
 # Changelog
 
 ## 2.0.0 (...)
-- switch to new template engine
-- rewrite parsing SAML IdP metadata
+- switch to new template engine, drop `twig/twig` dependency
+- rewrite parsing of SAML IdP metadata and make it more robust
 
 ## 1.0.12 (2018-08-03)
 - add `psalm.xml` for static code analysis

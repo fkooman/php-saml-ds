@@ -87,7 +87,7 @@ class Wayf
             return $this->$requestMethod($request);
         } catch (HttpException $e) {
             return new Response(
-                $e->getCode(),
+                (int) $e->getCode(),
                 $e->getHeaders(),
                 $this->tpl->render(
                     'error',

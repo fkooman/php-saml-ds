@@ -22,10 +22,12 @@ use Exception;
 
 class HttpException extends Exception
 {
-    /** @var array */
+    /** @var array<string,string> */
     private $headers = [];
 
     /**
+     * @param array<string,string> $headers
+     *
      * @return void
      */
     public function setHeaders(array $headers)
@@ -34,7 +36,7 @@ class HttpException extends Exception
     }
 
     /**
-     * @return array
+     * @return array<string,string>
      */
     public function getHeaders()
     {

@@ -23,7 +23,7 @@ class Response
     /** @var int */
     private $statusCode;
 
-    /** @var array */
+    /** @var array<string,string> */
     private $headers;
 
     /** @var string */
@@ -31,7 +31,7 @@ class Response
 
     /**
      * @param int $statusCode
-     * @apram array $headers
+     * @apram array<string,string> $headers
      *
      * @param string $body
      */
@@ -51,7 +51,7 @@ class Response
     }
 
     /**
-     * @return array
+     * @return array<string,string>
      */
     public function getHeaders()
     {

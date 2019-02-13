@@ -22,19 +22,19 @@ use fkooman\SAML\DS\Http\Exception\HttpException;
 
 class Request
 {
-    /** @var array */
+    /** @var array<string,string> */
     private $serverData;
 
-    /** @var array */
+    /** @var array<string,string> */
     private $getData;
 
-    /** @var array */
+    /** @var array<string,string> */
     private $postData;
 
     /**
-     * @param array $serverData
-     * @param array $getData
-     * @param array $postData
+     * @param array<string,string> $serverData
+     * @param array<string,string> $getData
+     * @param array<string,string> $postData
      */
     public function __construct(array $serverData, array $getData, array $postData)
     {
@@ -60,7 +60,7 @@ class Request
     }
 
     /**
-     * @return array
+     * @return array<string,string>
      */
     public function getQueryParameters()
     {
@@ -92,7 +92,7 @@ class Request
     }
 
     /**
-     * @return array
+     * @return array<string,string>
      */
     public function getPostParameters()
     {
