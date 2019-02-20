@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1 (2019-02-20)
+- show IdP entity ID instead of empty string when metadata does not contain 
+  "display name"
+
 ## 2.0.0 (2019-02-13)
 - switch to new template engine, drop `twig/twig` dependency
 - rewrite parsing of SAML IdP metadata and make it more robust

@@ -20,7 +20,13 @@
                 <?php foreach ($lastChosenList as $key => $idp): ?>
                 <li>
                     <form class="entity" method="post">
-                        <button class="<?=$this->e($idp['encodedEntityID']); ?>" <?php if (0 === $key): ?>autofocus="autofocus"<?php endif; ?> name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" tabindex="<?=$this->e($key + 2); ?>"><?=$this->e($idp['displayName']); ?></button>
+                        <button class="<?=$this->e($idp['encodedEntityID']); ?>" <?php if (0 === $key): ?>autofocus="autofocus"<?php endif; ?> name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" tabindex="<?=$this->e($key + 2); ?>">
+<?php if (null === $idp['displayName']): ?>
+                            <?=$this->e($idp['entityID']); ?>
+<?php else: ?>
+                            <?=$this->e($idp['displayName']); ?>
+<?php endif; ?>
+                        </button>
                     </form>
                 </li>
                 <?php endforeach; ?>
@@ -35,7 +41,13 @@
                 <?php foreach ($idpList as $key => $idp): ?>
                     <li>
                         <form class="entity" method="post">
-                            <button <?php if ($filter && 0 === $key): ?>autofocus="autofocus"<?php endif; ?> name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" tabindex="<?=$key + \count($lastChosenList) + 2; ?>" class="<?=$this->e($idp['encodedEntityID']); ?>" data-keywords="<?=$this->e(\implode(' ', $idp['keywords'])); ?>"><?=$this->e($idp['displayName']); ?></button>
+                            <button <?php if ($filter && 0 === $key): ?>autofocus="autofocus"<?php endif; ?> name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" tabindex="<?=$key + \count($lastChosenList) + 2; ?>" class="<?=$this->e($idp['encodedEntityID']); ?>" data-keywords="<?=$this->e(\implode(' ', $idp['keywords'])); ?>">
+<?php if (null === $idp['displayName']): ?>
+                            <?=$this->e($idp['entityID']); ?>
+<?php else: ?>
+                            <?=$this->e($idp['displayName']); ?>
+<?php endif; ?>
+                            </button>
                         </form>
                     </li>
                 <?php endforeach; ?>

@@ -31,15 +31,25 @@ class MetadataParserTest extends TestCase
 {
     public function testSURFconextOld()
     {
-        $MetadataParser = new MetadataParser(__DIR__.'/data/SURFconext_old.xml');
-        $idpInfo = $MetadataParser->get('https://idp.surfnet.nl');
+        $metadataParser = new MetadataParser(__DIR__.'/data/SURFconext_old.xml');
+        $idpInfo = $metadataParser->get('https://idp.surfnet.nl');
         $this->assertSame('https://idp.surfnet.nl', $idpInfo->getEntityId());
+        $this->assertSame('SURFnet bv', $idpInfo->getDisplayName());
     }
 
     public function testSURFconextNew()
     {
-        $MetadataParser = new MetadataParser(__DIR__.'/data/SURFconext_new.xml');
-        $idpInfo = $MetadataParser->get('https://idp.surfnet.nl');
+        $metadataParser = new MetadataParser(__DIR__.'/data/SURFconext_new.xml');
+        $idpInfo = $metadataParser->get('https://idp.surfnet.nl');
         $this->assertSame('https://idp.surfnet.nl', $idpInfo->getEntityId());
+        $this->assertSame('SURFnet bv', $idpInfo->getDisplayName());
+    }
+
+    public function testNoDisplayName()
+    {
+        $metadataParser = new MetadataParser(__DIR__.'/data/eva-saml-idp.eduroam.nl.xml');
+        $idpInfo = $metadataParser->get('https://eva-saml-idp.eduroam.nl/simplesamlphp/saml2/idp/metadata.php');
+        $this->assertSame('https://eva-saml-idp.eduroam.nl/simplesamlphp/saml2/idp/metadata.php', $idpInfo->getEntityId());
+        $this->assertNull($idpInfo->getDisplayName());
     }
 }

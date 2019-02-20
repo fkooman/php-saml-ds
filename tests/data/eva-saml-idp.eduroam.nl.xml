@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://eva-saml-idp.eduroam.nl/simplesamlphp/saml2/idp/metadata.php">
+  <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <md:KeyDescriptor use="signing">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>MIIDBDCCAeygAwIBAgIJAOSbgd7lXSg5MA0GCSqGSIb3DQEBCwUAMBcxFTATBgNVBAMMDGVWQSBTQU1MIElkUDAeFw0xODAyMDYxNjM0NTVaFw0yODAyMDYxNjM0NTVaMBcxFTATBgNVBAMMDGVWQSBTQU1MIElkUDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL/aEEq/o3svmjxzhEKkA4PyTJJNLGGBp/QeSyAP9UzowLZh7rNVSVIdBnnHqKb9ZVp/PUjKMjr2fRR9eRIMsHCGtV54rTKWTLvzyV6dfvO/jP1Ci5+NkX0IiN55t5J/cM6zSDa5eWLi0GdGF1oorEquKL5td+2qZMaYk7AKtv4i7RPOV9Vq0sDbL5COuJSlopEWHmMYm2ei++ud9+Fejy3xd0L0/LQgZ96El8MSOVqQskewtPhN1/nktjZxU1cB2DsaFZTv637LRger2uk49iO0PaYKCS+uauFlXmr8pJy/4xJVthrfTubN0vrW88ybCkx7gNSAR/Iw35nyD8R8iE0CAwEAAaNTMFEwHQYDVR0OBBYEFLl2IuqgCGKAMC/W57lGhnyDY9qGMB8GA1UdIwQYMBaAFLl2IuqgCGKAMC/W57lGhnyDY9qGMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAAKxzPK0FfHTfu1qO9DDokhlFkwrtR5aj9OOhJtfbWeHDtPbTj0zpyt7a3iq2j5fQqrHdhylRb2xSmeVm1+uQKrAg2F24h7W774H4rAJfYviG28rXifH8sGQiWu2HKTViuBV3NdjegHFIkYMpOqaU4TV8otmxeP4MfCQmHoan+jA8VHeSQzKQSd5Qol/RgB4hqUTMMufsSNoQPT3V+aV5dwq9oIDfMAZfpPe5SLlG1p1v8l2ezxSQJoYyFT07T1hNPCCQxVmwc0NqG7jmK/H4rfx7E9kaC4gEXTOKdt+dgTYpQCbnaDPVJ8ZLJxlJl1Ssm0RkV11XolkuOxOOpbCGfo=</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:KeyDescriptor use="encryption">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>MIIDBDCCAeygAwIBAgIJAOSbgd7lXSg5MA0GCSqGSIb3DQEBCwUAMBcxFTATBgNVBAMMDGVWQSBTQU1MIElkUDAeFw0xODAyMDYxNjM0NTVaFw0yODAyMDYxNjM0NTVaMBcxFTATBgNVBAMMDGVWQSBTQU1MIElkUDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL/aEEq/o3svmjxzhEKkA4PyTJJNLGGBp/QeSyAP9UzowLZh7rNVSVIdBnnHqKb9ZVp/PUjKMjr2fRR9eRIMsHCGtV54rTKWTLvzyV6dfvO/jP1Ci5+NkX0IiN55t5J/cM6zSDa5eWLi0GdGF1oorEquKL5td+2qZMaYk7AKtv4i7RPOV9Vq0sDbL5COuJSlopEWHmMYm2ei++ud9+Fejy3xd0L0/LQgZ96El8MSOVqQskewtPhN1/nktjZxU1cB2DsaFZTv637LRger2uk49iO0PaYKCS+uauFlXmr8pJy/4xJVthrfTubN0vrW88ybCkx7gNSAR/Iw35nyD8R8iE0CAwEAAaNTMFEwHQYDVR0OBBYEFLl2IuqgCGKAMC/W57lGhnyDY9qGMB8GA1UdIwQYMBaAFLl2IuqgCGKAMC/W57lGhnyDY9qGMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAAKxzPK0FfHTfu1qO9DDokhlFkwrtR5aj9OOhJtfbWeHDtPbTj0zpyt7a3iq2j5fQqrHdhylRb2xSmeVm1+uQKrAg2F24h7W774H4rAJfYviG28rXifH8sGQiWu2HKTViuBV3NdjegHFIkYMpOqaU4TV8otmxeP4MfCQmHoan+jA8VHeSQzKQSd5Qol/RgB4hqUTMMufsSNoQPT3V+aV5dwq9oIDfMAZfpPe5SLlG1p1v8l2ezxSQJoYyFT07T1hNPCCQxVmwc0NqG7jmK/H4rfx7E9kaC4gEXTOKdt+dgTYpQCbnaDPVJ8ZLJxlJl1Ssm0RkV11XolkuOxOOpbCGfo=</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://eva-saml-idp.eduroam.nl/simplesamlphp/saml2/idp/SingleLogoutService.php"/>
+    <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+    <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://eva-saml-idp.eduroam.nl/simplesamlphp/saml2/idp/SSOService.php"/>
+  </md:IDPSSODescriptor>
+  <md:ContactPerson contactType="technical">
+    <md:GivenName>Paul</md:GivenName>
+    <md:SurName>Dekkers</md:SurName>
+    <md:EmailAddress>paul@surfnet.nl</md:EmailAddress>
+  </md:ContactPerson>
+</md:EntityDescriptor>
