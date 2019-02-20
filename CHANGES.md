@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.1 (2019-02-20)
+## 2.0.1 (...)
 - show IdP entity ID instead of empty string when metadata does not contain 
   "display name"
 
