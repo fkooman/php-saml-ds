@@ -12,6 +12,9 @@
             </ds:KeyInfo>
           </md:KeyDescriptor>
 <?php endforeach; ?>
+<?php if (null !== $idpInfo->getSloUrl()): ?>
+          <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="<?=$this->e($idpInfo->getSloUrl()); ?>"/>
+<?php endif; ?>
           <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="<?=$this->e($idpInfo->getSsoUrl()); ?>"/>
         </md:IDPSSODescriptor>
     </md:EntityDescriptor>

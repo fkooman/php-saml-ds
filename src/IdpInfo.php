@@ -32,6 +32,9 @@ class IdpInfo
     /** @var string */
     private $ssoUrl;
 
+    /** @var string|null */
+    private $sloUrl;
+
     /** @var array<PublicKey> */
     private $publicKeys = [];
 
@@ -47,15 +50,17 @@ class IdpInfo
     /**
      * @param string           $entityId
      * @param string           $ssoUrl
+     * @param string|null      $sloUrl
      * @param array<PublicKey> $publicKeys
      * @param array<string>    $keywords
      * @param string|null      $displayName
      * @param array<LogoInfo>  $logos
      */
-    public function __construct($entityId, $ssoUrl, array $publicKeys, array $keywords, $displayName, array $logos)
+    public function __construct($entityId, $ssoUrl, $sloUrl, array $publicKeys, array $keywords, $displayName, array $logos)
     {
         $this->entityId = $entityId;
         $this->ssoUrl = $ssoUrl;
+        $this->sloUrl = $sloUrl;
         $this->publicKeys = $publicKeys;
         $this->keywords = $keywords;
         $this->displayName = $displayName;
@@ -92,6 +97,14 @@ class IdpInfo
     public function getSsoUrl()
     {
         return $this->ssoUrl;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSloUrl()
+    {
+        return $this->sloUrl;
     }
 
     /**

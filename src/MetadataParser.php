@@ -72,6 +72,7 @@ class MetadataParser
         return new IdpInfo(
             $entityId,
             $this->getSingleSignOnService($domElement),
+            $this->getSingleLogoutService($domElement),
             $this->getPublicKey($domElement),
             $this->getKeywords($domElement),
             $this->getDisplayName($domElement),
@@ -86,8 +87,29 @@ class MetadataParser
      */
     private function getSingleSignOnService(DOMElement $domElement)
     {
-        // what happens if there is more than one element that matches this?
-        return $this->xmlDocument->domXPath->evaluate('string(md:SingleSignOnService[@Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"]/@Location)', $domElement);
+        $domNodeList = $this->xmlDocument->domXPath->query('md:SingleSignOnService[@Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"]/@Location', $domElement);
+        // return the first one, also if multiple are available
+        if (null === $firstNode = $domNodeList->item(0)) {
+            throw new MetadataParserException('no "md:SingleSignOnService" available');
+        }
+
+        return $firstNode->textContent;
+    }
+
+    /**
+     * @param \DOMElement $domElement
+     *
+     * @return string|null
+     */
+    private function getSingleLogoutService(DOMElement $domElement)
+    {
+        $domNodeList = $this->xmlDocument->domXPath->query('md:SingleLogoutService[@Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"]/@Location', $domElement);
+        // return the first one, also if multiple are available
+        if (null === $firstNode = $domNodeList->item(0)) {
+            return null;
+        }
+
+        return $firstNode->textContent;
     }
 
     /**
