@@ -35,6 +35,19 @@ class MetadataParserTest extends TestCase
         $idpInfo = $metadataParser->get('https://idp.surfnet.nl');
         $this->assertSame('https://idp.surfnet.nl', $idpInfo->getEntityId());
         $this->assertSame('SURFnet bv', $idpInfo->getDisplayName());
+        $this->assertSame(
+            [
+                'SURFnet',
+                'bv',
+                'SURF',
+                'konijn',
+                'surf',
+                'surfnet',
+                'powered',
+                'by',
+            ],
+            $idpInfo->getKeywords()
+        );
     }
 
     public function testSURFconextNew()

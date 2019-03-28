@@ -69,13 +69,20 @@ class MetadataParser
             throw new MetadataParserException(\sprintf('element "%s" is not an element', $xPathQuery));
         }
 
+        // add the display name also to the keywords to help with search
+        $keywords = $this->getKeywords($domElement);
+        $displayName = $this->getDisplayName($domElement);
+        if (null !== $displayName) {
+            $keywords = \array_unique(\array_merge($keywords, \explode(' ', $displayName)));
+        }
+
         return new IdpInfo(
             $entityId,
             $this->getSingleSignOnService($domElement),
             $this->getSingleLogoutService($domElement),
             $this->getPublicKey($domElement),
-            $this->getKeywords($domElement),
-            $this->getDisplayName($domElement),
+            $keywords,
+            $displayName,
             $this->getLogo($domElement)
         );
     }

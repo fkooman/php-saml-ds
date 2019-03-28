@@ -4,6 +4,7 @@
 - show IdP entity ID instead of empty string when metadata does not contain 
   "display name"
 - support SLO again
+- also add IdP's DisplayName to the keywords to improve search results
 
 ## 2.0.0 (2019-02-13)
 - switch to new template engine, drop `twig/twig` dependency
