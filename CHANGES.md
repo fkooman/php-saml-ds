@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.1 (...)
+## 2.0.1 (2019-03-28)
 - show IdP entity ID instead of empty string when metadata does not contain 
   "display name"
 - support SLO again
