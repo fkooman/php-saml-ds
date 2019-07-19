@@ -23,10 +23,16 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", function () {
-    // disable standard form submit when JS is enabled
     if(null !== document.querySelector("form.filter")) {
         document.querySelector("form.filter").addEventListener("submit", function (e) {
+            // disable standard form submit when JS is enabled for the search box
             e.preventDefault();
+            // instead submit the first item in the list...
+            // Hack: we need to get the "button" and "click" it, because 
+            // submitting the form does not send the id/value of the button 
+            // itself...
+            var firstEntry = document.querySelector("ul#disco li form.entity button");
+            firstEntry.click();
         });
 
         document.querySelector("form.filter input#filter").addEventListener("keyup", function () {
@@ -34,17 +40,17 @@ document.addEventListener("DOMContentLoaded", function () {
             var entries = document.querySelectorAll("ul#disco li");
             var visibleCount = 0;
             var keywords;
-            var i;
-            for (i = 0; i < entries.length; i += 1) {
-                // look through the keywords
-                keywords = entries[i].querySelector("form.entity button").dataset.keywords;
+
+            entries.forEach(function(entry) {
+                // loop through the keywords
+                keywords = entry.querySelector("form.entity button").dataset.keywords;
                 if (keywords.toUpperCase().indexOf(filter) !== -1) {
-                    entries[i].style.display = "list-item";
+                    entry.style.display = "list-item";
                     visibleCount += 1;
                 } else {
-                    entries[i].style.display = "none";
+                    entry.style.display = "none";
                 }
-            }
+            });
 
             if (0 === visibleCount) {
                 // hide the accessList, as there are no entries matching the search
