@@ -76,6 +76,10 @@ class MetadataParser
             $keywords = \array_unique(\array_merge($keywords, \explode(' ', $displayName)));
         }
 
+        // "array_values" is required to have a flat array, as array_unique
+        // preserves keys...
+        $keywords = \array_values($keywords);
+
         return new IdpInfo(
             $entityId,
             $this->getSingleSignOnService($domElement),
