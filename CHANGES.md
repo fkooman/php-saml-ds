@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2 (2019-08-09)
+- make sure keywords is a flat array
+- remove use of deprecated filter flags
+
 ## 2.0.1 (2019-03-28)
 - show IdP entity ID instead of empty string when metadata does not contain 
   "display name"
