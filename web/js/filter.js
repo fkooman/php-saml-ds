@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault();
         });
 
-        document.querySelector("form.filter input#filter").addEventListener("keyup", function () {
+        document.querySelector("form.filter input[type=text]").addEventListener("keyup", function () {
             var filter = this.value.toUpperCase();
             var entries = document.querySelectorAll("ul.disco li");
             var visibleCount = 0;
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var i;
             for (i = 0; i < entries.length; i += 1) {
                 // look through the keywords
-                keywords = entries[i].querySelector("form.entity button").dataset.keywords;
+                keywords = entries[i].querySelector("ul.disco form button").dataset.keywords;
                 if (keywords.toUpperCase().indexOf(filter) !== -1) {
                     entries[i].style.display = "list-item";
                     visibleCount += 1;

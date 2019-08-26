@@ -9,8 +9,7 @@
         <input type="hidden" name="returnIDParam" value="<?=$this->e($returnIDParam); ?>">
         <input type="hidden" name="entityID" value="<?=$this->e($entityID); ?>">
         <input type="hidden" name="return" value="<?=$this->e($return); ?>">
-
-        <input autofocus="autofocus" value="<?=$this->e($filter); ?>" name="filter" id="filter" tabindex="1" type="text" autocomplete="off" placeholder="Search for your organization...">
+        <input type="text" name="filter" value="<?=$this->e($filter); ?>" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder="Search for your organization...">
     </form>
 
     <?php if (0 !== \count($idpList)): ?>
