@@ -9,7 +9,6 @@ seems to support that. So why not?
 
 # Features
 
-* Logo support, extracted from (eduGAIN) metadata;
 * Most browsers are supported;
 * JS not required (works perfectly well with JS disabled);
 * Keyboard navigation using `<TAB>` to select (next/previous) IdP;
@@ -48,13 +47,7 @@ entire eduGAIN metadata file.
 A service that used the JSON file to display a discovery page where the user
 can select their IdP. See the screenshots.
 
-Without logos:
-
 ![screenshot](contrib/screenshot.png)
-
-With logos (optional):
-
-![screenshot](contrib/screenshot_logos.png)
 
 # Templates
 
@@ -64,9 +57,7 @@ additional CSS files.
 
 # Requirements
 
-The software is written in PHP, and requires PHP >= 5.4 together with the 
-[imagick](https://pecl.php.net/package/imagick) PECL extension. This extension 
-is available on RHEL/CentOS (EPEL) and Debian.
+The software is written in PHP, and requires PHP >= 5.4.
 
 # Obtaining Metadata
 
@@ -86,13 +77,10 @@ Specify the entityIDs of the IdPs you want to support in the
 To run the generator, make sure the metadata files are located in the 
 `config/metadata` directory and a writable `data/` directory exists.
 
-```bash
+	$ mkdir data/
     $ php bin/generate.php
-```
 
-This will generate the JSON and XML file mentioned above, and download and 
-scale/compress all IdP logos if enabled, and if they are available in the 
-metadata file.
+This will generate the JSON and XML file mentioned above.
 
 # Alternatives
 
@@ -105,41 +93,27 @@ They were not really what I wanted.
 
 # Development
 
-```bash
     $ git clone https://git.tuxed.net/fkooman/php-saml-ds
     $ cd php-saml-ds
     $ composer install
     $ cp config/config.php.example config/config.php
-```
 
 Now, you need to configure something in `config/config.php` and add some 
 metadata files to read from in `config/metadata`, e.g.:
-    
-```bash
+   
     $ mkdir config/metadata
     $ curl -L -o config/metadata/SURFconext.xml https://engine.surfconext.nl/authentication/proxy/idps-metadata
-```
 
 Create a `data/` directory and run the `generator` script that creates a JSON 
 and SAML metadata file and (optionally) fetches the logos specified in the 
 metadata:
 
-```bash
     $ mkdir data
     $ php bin/generate.php
-```
-
-Create a symlink, so the logos are available under the `web/` directory:
-
-```bash
-    $ (cd web && ln -s ../data/logo)
-```
 
 Now, you can start the PHP built-in web server:
 
-```bash
     $ php -S localhost:8080 -t web/
-```
 
 Browse to [http://localhost:8080/index.php](http://localhost:8080/index.php) 
 and provide the following query parameters:
