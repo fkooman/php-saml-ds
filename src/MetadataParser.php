@@ -86,8 +86,7 @@ class MetadataParser
             $this->getSingleLogoutService($domElement),
             $this->getPublicKey($domElement),
             $keywords,
-            $displayName,
-            $this->getLogo($domElement)
+            $displayName
         );
     }
 
@@ -181,30 +180,5 @@ class MetadataParser
         }
 
         return $displayNameNode->textContent;
-    }
-
-    /**
-     * @param \DOMElement $domElement
-     *
-     * @return array<LogoInfo>
-     */
-    private function getLogo(DOMElement $domElement)
-    {
-        $logoList = [];
-        $domNodeList = $this->xmlDocument->domXPath->query('md:Extensions/mdui:UIInfo/mdui:Logo', $domElement);
-        for ($i = 0; $i < $domNodeList->length; ++$i) {
-            $logoNode = $domNodeList->item($i);
-            if (!($logoNode instanceof \DOMElement)) {
-                continue;
-            }
-
-            $logoList[] = new LogoInfo(
-                (int) $logoNode->getAttribute('width'),
-                (int) $logoNode->getAttribute('height'),
-                $logoNode->textContent
-            );
-        }
-
-        return $logoList;
     }
 }

@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.querySelector("form.filter input#filter").addEventListener("keyup", function () {
             var filter = this.value.toUpperCase();
-            var entries = document.querySelectorAll("ul#disco li");
+            var entries = document.querySelectorAll("ul.disco li");
             var visibleCount = 0;
             var keywords;
             var i;

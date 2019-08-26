@@ -26,13 +26,6 @@ return [
     // set secureCookie flag, so browser only sends them over HTTPS
     'secureCookie' => false,
 
-    // enable the Twig template cache
-    'enableTemplateCache' => true,
-
-    // whether or not to display logos on the discovery page, these are
-    // extracted from the (IdP) metadata if available
-    'useLogos' => false,
-
     // list of SPs for which this service performs discovery
     'spList' => [
         // the entityID of the SP

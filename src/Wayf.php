@@ -146,6 +146,9 @@ class Wayf
             }
         }
 
+        // put lastChosen in the front
+        $idpList = \array_merge($lastChosenList, $idpList);
+
         if ($filter) {
             // remove entries not matching the value in filter
             foreach ($idpList as $k => $v) {
@@ -156,25 +159,14 @@ class Wayf
             }
         }
 
-        // determine the last modified date for the custom CSS, to bust the
-        // cache
-        if (false === $mTime = @\filemtime(\sprintf('%s/logo/idp/%s.css', $this->dataDir, self::encodeEntityID($spEntityID)))) {
-            // in case it fails, set to 0 effectivly disabling cache busting
-            $mTime = 0;
-        }
-
         $discoveryPage = $this->tpl->render(
             'discovery',
             [
-                'useLogos' => $this->config->get('useLogos'),
                 'filter' => $filter,
                 'entityID' => $spEntityID,
-                'encodedEntityID' => self::encodeEntityID($spEntityID),
-                'mTime' => $mTime,  // last modified of CSS file
                 'returnIDParam' => $returnIDParam,
                 'return' => $return,
                 'displayName' => $displayName,
-                'lastChosenList' => $lastChosenList,
                 'idpList' => \array_values($idpList),
             ]
         );

@@ -26,13 +26,10 @@ require_once \dirname(__DIR__).'/vendor/autoload.php';
 $baseDir = \dirname(__DIR__);
 
 use fkooman\SAML\DS\Config;
-use fkooman\SAML\DS\HttpClient\CurlHttpClient;
-use fkooman\SAML\DS\Logo;
 use fkooman\SAML\DS\MetadataParser;
 use fkooman\SAML\DS\TemplateEngine;
 
 $dataDir = \sprintf('%s/data', $baseDir);
-$logoDir = \sprintf('%s/logo/idp', $dataDir);
 
 try {
     $config = Config::fromFile(\sprintf('%s/config/config.php', $baseDir));
@@ -80,29 +77,11 @@ try {
             $jsonData[$entityId] = [
                 'entityID' => $entityId,
                 'displayName' => $idpInfo->getDisplayName(),
-                'encodedEntityID' => $idpInfo->getEncodedEntityId(),
                 'keywords' => $idpInfo->getKeywords(),
-                'cssEncodedEntityID' => $idpInfo->getCssEncodedEntityId(),
             ];
         }
         if (false === \file_put_contents($jsonFile, \json_encode($jsonData))) {
             throw new RuntimeException(\sprintf('unable to write "%s"', $jsonFile));
-        }
-
-        // in case we want logos...
-        if ($config->get('useLogos')) {
-            $httpClient = new CurlHttpClient(['httpsOnly' => false]);
-            $logo = new Logo($logoDir, $httpClient);
-            foreach ($idpInfoList as $idpInfo) {
-                $logo->prepare($idpInfo);
-            }
-
-            // write the CSS file
-            $logoCss = $templateEngine->render('logo-css', ['idpInfoList' => $idpInfoList]);
-            $logoCssFile = \sprintf('%s/%s.css', $logoDir, $encodedSpEntityID);
-            if (false === \file_put_contents($logoCssFile, $logoCss)) {
-                throw new RuntimeException(\sprintf('unable to write "%s"', $logoCssFile));
-            }
         }
     }
 } catch (Exception $e) {

@@ -1,94 +1,49 @@
 body {
-    font-family: "Helvetica Neue", "Calibri Light", Roboto, sans-serif;
-    background-color: #eee;
-    color: #555;
-    margin: 0;
+	background-color: #eee;
 }
 
-p {
-    margin: 0.5em 0;
+header {
+	text-align: center;
+	width: 100%;
+	background-color: #fff;
+	padding: 1em;
+	border-bottom: 1px solid #ddd;
 }
 
-div.header {
-    background-color: #fff;
-    padding: 1em;
-    border-bottom: 2px #555 solid;
-    box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    margin-bottom: 1em;
+main {
+	max-width: 45em;
+	margin: 2em auto;
 }
 
-div.container {
-    max-width: 45em;
-    margin: 1em auto;
-    padding: 0.3em;
-    text-align: justify;
-}
-
-ul {
-    background-color: #fff;
-    list-style: none;
-    background-color: #fff;
-    box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    margin: 0 0 1em 0;
-    padding: 0;
-}
-
-ul li:not(:last-child) {
-    border-bottom: 2px solid #eee;
-}
-
-form.entity button {
-    width: 100%;
-    font-size: 100%;
-    text-align: left;
-    border: 0;
-    background-color: #fff;
-    padding: 1em;
-}
-
-form.entity button:hover, form.entity button:active, form.entity button:focus {
-    background-color: #555;
-    color: #fff;
-    cursor: pointer;
-    outline: none;
-}
-
-form.filter input:focus {
-    outline: none;
-}
-
-form.entity button::-moz-focus-inner {
-    /* firefox work around to disable ugly "outline" */
-    border: 0;
+form.filter {
+	margin: 1em 0;
 }
 
 form.filter input {
-    box-sizing: border-box;
-    width: 100%;
-    font-size: 100%;
-    margin-bottom: 1em;
-    padding: 0.7em 1em;
-    border: 0;
-    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+	width: 100%;
+	padding: 0.4em;
 }
 
-div.listHeader {
-    box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    padding: 1em;
-    border: 0;
-    width: 100%;
-    background-color: #eee;
-    line-height: 1em;
-    font-size: 85%;
-    box-sizing: border-box;
+ul.disco {
+	list-style: none;
+	padding: 0;
 }
 
-div.footer {
-    text-align: center;
-    margin-bottom: 1em;
-    font-size: 85%;
+ul.disco li form button {
+	width: 100%;
+	text-align: left;
+	padding: 0.6em;
+	background-color: #fff;
+	border: 1px solid #ddd;
 }
 
-div.footer, div.footer a {
-    color: #888;
+ul.disco li form button:hover, ul.disco li form button:active {
+	background-color: #444;
+	color: #fff;
+	border: 1px solid #444;
+}
+
+footer {
+	text-align: center;
+	font-size: small;
 }
