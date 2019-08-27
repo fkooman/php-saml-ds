@@ -7,7 +7,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "fkooman\\SAML\\DS\\": "src/",
+            "fkooman\\SAML\\DS\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "fkooman\\SAML\\DS\\Tests\\": "tests/"
         }
     },
@@ -15,6 +19,7 @@
     "license": "MIT",
     "name": "fkooman/php-saml-ds",
     "require": {
+        "ext-date": "*",
         "ext-dom": "*",
         "ext-filter": "*",
         "ext-json": "*",

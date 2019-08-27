@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8a1986f62463e16be6e0db203b24897",
+    "content-hash": "58756db220ceb3a1445ec9efad89def7",
     "packages": [
         {
             "name": "fkooman/secookie",
@@ -1521,6 +1521,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+        "ext-date": "*",
         "ext-dom": "*",
         "ext-filter": "*",
         "ext-json": "*",
