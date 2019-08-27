@@ -17,9 +17,8 @@
 	<main>	
 		<?=$this->section('main'); ?>
 	</main>
-	
     <footer>
-        <a href="https://git.tuxed.net/fkooman/php-saml-ds">SAML Discovery Service</a>
+        Powered by <a href="https://git.tuxed.net/fkooman/php-saml-ds/about/">php-saml-ds</a>
 	</footer>
 </body>
 </html>
