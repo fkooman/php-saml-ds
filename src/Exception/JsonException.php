@@ -22,19 +22,10 @@
  * SOFTWARE.
  */
 
-namespace fkooman\SAML\DS\Tests;
+namespace fkooman\SAML\DS\Exception;
 
-use fkooman\SAML\DS\Json;
-use fkooman\SAML\DS\TplInterface;
+use Exception;
 
-class TestTpl implements TplInterface
+class JsonException extends Exception
 {
-    public function render($templateName, array $templateVariables)
-    {
-        return Json::encode(
-            [
-                $templateName => $templateVariables,
-            ]
-        );
-    }
 }

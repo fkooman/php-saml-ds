@@ -26,6 +26,7 @@ require_once \dirname(__DIR__).'/vendor/autoload.php';
 $baseDir = \dirname(__DIR__);
 
 use fkooman\SAML\DS\Config;
+use fkooman\SAML\DS\Json;
 use fkooman\SAML\DS\MetadataParser;
 use fkooman\SAML\DS\TemplateEngine;
 
@@ -80,7 +81,7 @@ try {
                 'keywords' => $idpInfo->getKeywords(),
             ];
         }
-        if (false === \file_put_contents($jsonFile, \json_encode($jsonData))) {
+        if (false === \file_put_contents($jsonFile, Json::encode($jsonData))) {
             throw new RuntimeException(\sprintf('unable to write "%s"', $jsonFile));
         }
     }

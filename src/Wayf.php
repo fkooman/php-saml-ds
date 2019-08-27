@@ -198,7 +198,7 @@ class Wayf
         // enough for most use cases
         $this->cookie->set(
             'favoriteIdPs',
-            \json_encode(
+            Json::encode(
                 \array_slice($favoriteList, 0, 3)
             )
         );
@@ -230,10 +230,7 @@ class Wayf
             throw new RuntimeException(\sprintf('unable to read "%s"', $idpListFile));
         }
 
-        $idpList = \json_decode($jsonData, true);
-        if (JSON_ERROR_NONE !== \json_last_error()) {
-            throw new RuntimeException(\sprintf('unable to decode "%s"', $idpListFile));
-        }
+        $idpList = Json::decode($jsonData);
 
         \uasort($idpList,
         /**
