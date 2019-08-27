@@ -1,9 +1,7 @@
 <?php $this->layout('base'); ?>
-
 <?php $this->start('header'); ?>
     Select your organization to login to <strong><?=$this->e($displayName); ?></strong>
-<?php $this->stop(); ?>
-    
+<?php $this->stop('header'); ?>
 <?php $this->start('main'); ?>
     <form class="filter" method="get">
         <input type="hidden" name="returnIDParam" value="<?=$this->e($returnIDParam); ?>">
@@ -29,4 +27,4 @@
                 <?php endforeach; ?>
             </ul>
     <?php endif; ?>
-<?php $this->stop(); ?>
+<?php $this->stop('main'); ?>
