@@ -7,7 +7,7 @@
         <input type="hidden" name="returnIDParam" value="<?=$this->e($returnIDParam); ?>">
         <input type="hidden" name="entityID" value="<?=$this->e($entityID); ?>">
         <input type="hidden" name="return" value="<?=$this->e($return); ?>">
-        <input type="text" name="filter" value="<?=$this->e($filter); ?>" autofocus="autofocus" tabindex="1" autocomplete="off" placeholder="Search for your organization...">
+        <input type="text" name="filter" value="<?=$this->e($filter); ?>" autofocus="autofocus" autocomplete="off" placeholder="Search for your organization...">
     </form>
 
     <?php if (0 !== \count($idpList)): ?>
@@ -15,7 +15,7 @@
                 <?php foreach ($idpList as $key => $idp): ?>
                     <li>
                         <form method="post">
-                            <button <?php if ($filter && 0 === $key): ?>autofocus="autofocus"<?php endif; ?> name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" tabindex="<?=$key + 2; ?>" data-keywords="<?=$this->e(\implode(' ', $idp['keywords'])); ?>">
+                            <button name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" data-keywords="<?=$this->e(\implode(' ', $idp['keywords'])); ?>">
 <?php if (null === $idp['displayName']): ?>
                             <?=$this->e($idp['entityID']); ?>
 <?php else: ?>
