@@ -29,7 +29,7 @@ use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\Http\Request;
 use fkooman\SAML\DS\Http\Response;
 use fkooman\SAML\DS\Json;
-use fkooman\SAML\DS\TemplateEngine;
+use fkooman\SAML\DS\Tpl;
 use fkooman\SAML\DS\Wayf;
 use fkooman\SeCookie\Cookie;
 
@@ -46,7 +46,7 @@ try {
 
     $secureCookie = $config->has('secureCookie') ? $config->get('secureCookie') : true;
 
-    $templateEngine = new TemplateEngine($templateDirs);
+    $tpl = new Tpl($templateDirs);
     $request = new Request($_SERVER, $_GET, $_POST);
     $cookie = new Cookie(
         [
@@ -59,7 +59,7 @@ try {
     $wayf = new Wayf(
         \sprintf('%s/data', $baseDir),
         $config,
-        $templateEngine,
+        $tpl,
         $cookie
     );
 

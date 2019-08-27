@@ -26,6 +26,6 @@ namespace fkooman\SAML\DS\Exception;
 
 use Exception;
 
-class TemplateException extends Exception
+class TplException extends Exception
 {
 }

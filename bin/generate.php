@@ -28,7 +28,7 @@ $baseDir = \dirname(__DIR__);
 use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\Json;
 use fkooman\SAML\DS\MetadataParser;
-use fkooman\SAML\DS\TemplateEngine;
+use fkooman\SAML\DS\Tpl;
 
 $dataDir = \sprintf('%s/data', $baseDir);
 
@@ -36,7 +36,7 @@ try {
     $config = Config::fromFile(\sprintf('%s/config/config.php', $baseDir));
     $metadataFiles = \glob(\sprintf('%s/config/metadata/*.xml', $baseDir));
 
-    $templateEngine = new TemplateEngine(
+    $tpl = new Tpl(
         [
             \sprintf('%s/views', $baseDir),
         ]
@@ -65,7 +65,7 @@ try {
 
         // write the XML file
         $xmlFile = \sprintf('%s/%s.xml', $dataDir, $encodedSpEntityID);
-        $metadataContent = $templateEngine->render('metadata', ['idpInfoList' => $idpInfoList]);
+        $metadataContent = $tpl->render('metadata', ['idpInfoList' => $idpInfoList]);
         if (false === \file_put_contents($xmlFile, $metadataContent)) {
             throw new RuntimeException(\sprintf('unable to write "%s"', $xmlFile));
         }

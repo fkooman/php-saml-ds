@@ -24,43 +24,45 @@
 
 namespace fkooman\SAML\DS;
 
-use fkooman\SAML\DS\Exception\TemplateException;
+use DateTime;
+use DateTimeZone;
+use fkooman\SAML\DS\Exception\TplException;
 
-class TemplateEngine implements TplInterface
+class Tpl implements TplInterface
 {
     /** @var array<string> */
     private $templateFolderList;
 
-    /** @var string|null */
-    private $translationFile;
+    /** @var array<string> */
+    private $translationFileList;
 
     /** @var string|null */
     private $activeSectionName = null;
 
-    /** @var array */
+    /** @var array<string,string> */
     private $sectionList = [];
 
-    /** @var array */
+    /** @var array<string,array> */
     private $layoutList = [];
 
-    /** @var array */
+    /** @var array<string,mixed> */
     private $templateVariables = [];
 
-    /** @var array */
+    /** @var array<string,callable> */
     private $callbackList = [];
 
     /**
      * @param array<string> $templateFolderList
-     * @param string        $translationFile
+     * @param array<string> $translationFileList
      */
-    public function __construct(array $templateFolderList, $translationFile = null)
+    public function __construct(array $templateFolderList, array $translationFileList = [])
     {
         $this->templateFolderList = $templateFolderList;
-        $this->translationFile = $translationFile;
+        $this->translationFileList = $translationFileList;
     }
 
     /**
-     * @param array $templateVariables
+     * @param array<string,mixed> $templateVariables
      *
      * @return void
      */
@@ -81,8 +83,8 @@ class TemplateEngine implements TplInterface
     }
 
     /**
-     * @param string $templateName
-     * @param array  $templateVariables
+     * @param string              $templateName
+     * @param array<string,mixed> $templateVariables
      *
      * @return string
      */
@@ -108,8 +110,8 @@ class TemplateEngine implements TplInterface
     }
 
     /**
-     * @param string $templateName
-     * @param array  $templateVariables
+     * @param string              $templateName
+     * @param array<string,mixed> $templateVariables
      *
      * @return string
      */
@@ -126,7 +128,7 @@ class TemplateEngine implements TplInterface
     private function start($sectionName)
     {
         if (null !== $this->activeSectionName) {
-            throw new TemplateException(\sprintf('section "%s" already started', $this->activeSectionName));
+            throw new TplException(\sprintf('section "%s" already started', $this->activeSectionName));
         }
 
         $this->activeSectionName = $sectionName;
@@ -134,12 +136,24 @@ class TemplateEngine implements TplInterface
     }
 
     /**
+     * @param string $sectionName
+     *
      * @return void
      */
-    private function stop()
+    private function stop($sectionName)
     {
         if (null === $this->activeSectionName) {
-            throw new TemplateException('no section started');
+            throw new TplException('no section started');
+        }
+
+        if ($sectionName !== $this->activeSectionName) {
+            throw new TplException(
+                \sprintf(
+                    'attempted to end section "%s" but current section is "%s"',
+                    $sectionName,
+                    $this->activeSectionName
+                )
+            );
         }
 
         $this->sectionList[$this->activeSectionName] = \ob_get_clean();
@@ -147,8 +161,8 @@ class TemplateEngine implements TplInterface
     }
 
     /**
-     * @param string $layoutName
-     * @param array  $templateVariables
+     * @param string              $layoutName
+     * @param array<string,mixed> $templateVariables
      *
      * @return void
      */
@@ -165,7 +179,7 @@ class TemplateEngine implements TplInterface
     private function section($sectionName)
     {
         if (!\array_key_exists($sectionName, $this->sectionList)) {
-            throw new TemplateException(\sprintf('section "%s" does not exist', $sectionName));
+            throw new TplException(\sprintf('section "%s" does not exist', $sectionName));
         }
 
         return $this->sectionList[$sectionName];
@@ -204,7 +218,7 @@ class TemplateEngine implements TplInterface
                 $f = $this->callbackList[$f];
             } else {
                 if (!\function_exists($f)) {
-                    throw new TemplateException(\sprintf('function "%s" does not exist', $f));
+                    throw new TplException(\sprintf('function "%s" does not exist', $f));
                 }
             }
             $v = \call_user_func($f, $v);
@@ -214,24 +228,40 @@ class TemplateEngine implements TplInterface
     }
 
     /**
+     * Format a date.
+     *
+     * @param string $dateString
+     * @param string $dateFormat
+     *
+     * @return string
+     */
+    private function d($dateString, $dateFormat = 'Y-m-d H:i:s')
+    {
+        $dateTime = new DateTime($dateString);
+        $dateTime->setTimeZone(new DateTimeZone(\date_default_timezone_get()));
+
+        return $this->e(\date_format($dateTime, $dateFormat));
+    }
+
+    /**
      * @param string $v
      *
      * @return string
      */
     private function t($v)
     {
-        if (null === $this->translationFile) {
-            // no translation file, use original
-            $translatedText = $v;
-        } else {
+        // use original, unless it is found in any of the translation files...
+        $translatedText = $v;
+        foreach ($this->translationFileList as $translationFile) {
+            // XXX should we make sure the file exists?
             /** @psalm-suppress UnresolvableInclude */
-            $translationData = include $this->translationFile;
+            $translationData = include $translationFile;
             if (\array_key_exists($v, $translationData)) {
-                // translation found
+                // translation found!
                 $translatedText = $translationData[$v];
-            } else {
-                // not found, use original
-                $translatedText = $v;
+                // XXX do we want to loop over all of them?! take the first,
+                // or the last?
+                break;
             }
         }
 
@@ -277,6 +307,6 @@ class TemplateEngine implements TplInterface
             }
         }
 
-        throw new TemplateException(\sprintf('template "%s" does not exist', $templateName));
+        throw new TplException(\sprintf('template "%s" does not exist', $templateName));
     }
 }
