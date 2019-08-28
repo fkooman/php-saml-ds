@@ -105,8 +105,7 @@ metadata files to read from in `config/metadata`, e.g.:
     $ curl -L -o config/metadata/SURFconext.xml https://engine.surfconext.nl/authentication/proxy/idps-metadata
 
 Create a `data/` directory and run the `generator` script that creates a JSON 
-and SAML metadata file and (optionally) fetches the logos specified in the 
-metadata:
+and SAML metadata file:
 
     $ mkdir data
     $ php bin/generate.php
