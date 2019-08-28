@@ -46,4 +46,5 @@ ul.disco li form button:hover, ul.disco li form button:active {
 footer {
 	text-align: center;
 	font-size: 85%;
+	margin: 1em;
 }
