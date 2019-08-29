@@ -32,27 +32,14 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("form.filter input[type=text]").addEventListener("keyup", function () {
             var filter = this.value.toUpperCase();
             var entries = document.querySelectorAll("ul.disco li");
-            var visibleCount = 0;
-            var keywords;
-            var i;
-            for (i = 0; i < entries.length; i += 1) {
+            entries.forEach(function(entry) {
                 // look through the keywords
-                keywords = entries[i].querySelector("ul.disco form button").dataset.keywords;
-                if (keywords.toUpperCase().indexOf(filter) !== -1) {
-                    entries[i].style.display = "list-item";
-                    visibleCount += 1;
+                if (entry.dataset.keywords.toUpperCase().indexOf(filter) !== -1) {
+                    entry.style.display = "list-item";
                 } else {
-                    entries[i].style.display = "none";
+                    entry.style.display = "none";
                 }
-            }
-
-            if (0 === visibleCount) {
-                // hide the accessList, as there are no entries matching the search
-                document.getElementById("accessList").style.display = "none";
-            } else {
-                // show the accessList (again)
-                document.getElementById("accessList").style.display = "block";
-            }
+            });
         });
     }
 });

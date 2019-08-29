@@ -1,13 +1,9 @@
-body {
-	background-color: #eee;
-}
-
 header {
 	text-align: center;
 	width: 100%;
-	background-color: #fff;
+	background-color: #f8f8f8;
 	padding: 1em;
-	border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ccc;
 }
 
 main {
@@ -21,7 +17,9 @@ form.filter {
 
 form.filter input {
 	width: 100%;
-	padding: 0.4em;
+    padding: 0.6em;
+    border: 1px solid #ccc;
+    outline: none;
 }
 
 ul.disco {
@@ -29,18 +27,27 @@ ul.disco {
 	padding: 0;
 }
 
-ul.disco li form button {
+ul.disco li {
+    margin: 0.2em 0;
+}
+
+ul.disco li form input[type=submit] {
 	width: 100%;
 	text-align: left;
 	padding: 0.6em;
 	background-color: #fff;
-	border: 1px solid #ddd;
+    border: 0;
+	border: 1px solid #ccc;
 }
 
-ul.disco li form button:hover, ul.disco li form button:active {
+ul.disco li form input[type=submit]:hover, ul.disco li form input[type=submit]:active, ul.disco li form input[type=submit]:focus {
 	background-color: #444;
 	color: #fff;
 	border: 1px solid #444;
+}
+
+ul.disco li form input[type=submit]:focus {
+    outline: none;
 }
 
 footer {

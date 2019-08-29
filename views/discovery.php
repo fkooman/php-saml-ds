@@ -12,19 +12,18 @@
 
     <?php if (0 !== \count($idpList)): ?>
             <ul class="disco">
-                <?php foreach ($idpList as $key => $idp): ?>
-                    <li>
-                        <form method="post">
-                            <button name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" data-keywords="<?=$this->e(\implode(' ', $idp['keywords'])); ?>">
+<?php foreach ($idpList as $idp): ?>
+                <li data-keywords="<?=$this->e(\implode(' ', $idp['keywords'])); ?>">
+                    <form method="post">
+                        <input type="hidden" name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>">
 <?php if (null === $idp['displayName']): ?>
-                            <?=$this->e($idp['entityID']); ?>
+                        <input type="submit" value="<?=$this->e($idp['entityID']); ?>">
 <?php else: ?>
-                            <?=$this->e($idp['displayName']); ?>
+                        <input type="submit" value="<?=$this->e($idp['displayName']); ?>">
 <?php endif; ?>
-                            </button>
-                        </form>
-                    </li>
-                <?php endforeach; ?>
+                    </form>
+                </li>
+<?php endforeach; ?>
             </ul>
     <?php endif; ?>
 <?php $this->stop('main'); ?>
