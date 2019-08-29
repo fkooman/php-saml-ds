@@ -8,7 +8,7 @@ header {
 
 main {
 	max-width: 45em;
-	margin: 2em auto;
+	margin: 1em auto;
 }
 
 form.filter {
@@ -53,5 +53,5 @@ ul.disco li form input[type=submit]:focus {
 footer {
 	text-align: center;
 	font-size: 85%;
-	margin: 1em;
+    margin-bottom: 1em;
 }
