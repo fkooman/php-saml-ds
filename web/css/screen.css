@@ -9,6 +9,7 @@ header {
 main {
 	max-width: 45em;
 	margin: 1em auto;
+    padding: 0.5em;
 }
 
 form.filter {
