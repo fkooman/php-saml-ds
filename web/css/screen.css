@@ -47,6 +47,12 @@ ul.disco li form input[type=submit]:hover, ul.disco li form input[type=submit]:a
 	border: 1px solid #444;
 }
 
+ul.disco li form input[type=submit]:hover {
+    background-color: #ccc;
+    color: #212529;
+    border: 1px solid #ccc;
+}
+
 ul.disco li form input[type=submit]:focus {
     outline: none;
 }
