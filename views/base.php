@@ -7,9 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SAML Discovery Service</title>
     <link rel="stylesheet" type="text/css" href="css/screen.css">
-    <?php if ($useLogos): ?>
-        <link rel="stylesheet" type="text/css" href="logo/idp/<?=$this->e($encodedEntityID); ?>.css?mTime=<?=$this->e($mTime); ?>">
-    <?php endif; ?>
     <script type="text/javascript" src="js/filter.js"></script>
 </head>
 <body>

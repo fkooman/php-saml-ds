@@ -1,4 +1,4 @@
-<?php $this->layout('base', ['useLogos' => false]); ?>
+<?php $this->layout('base'); ?>
 
 <?php $this->start('header'); ?>
         <strong>Error</strong>

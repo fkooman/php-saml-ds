@@ -1,4 +1,4 @@
-<?php $this->layout('base', ['useLogos' => $useLogos, 'encodedEntityID' => $encodedEntityID, 'mTime' => $mTime]); ?>
+<?php $this->layout('base', ['encodedEntityID' => $encodedEntityID]); ?>
 
 <?php $this->start('header'); ?>
     Select an institution to login to <span class="serviceName"><?=$this->e($displayName); ?></span>

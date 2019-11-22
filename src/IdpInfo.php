@@ -44,9 +44,6 @@ class IdpInfo
     /** @var string|null */
     private $displayName;
 
-    /** @var array<LogoInfo> */
-    private $logos;
-
     /**
      * @param string           $entityId
      * @param string           $ssoUrl
@@ -54,9 +51,8 @@ class IdpInfo
      * @param array<PublicKey> $publicKeys
      * @param array<string>    $keywords
      * @param string|null      $displayName
-     * @param array<LogoInfo>  $logos
      */
-    public function __construct($entityId, $ssoUrl, $sloUrl, array $publicKeys, array $keywords, $displayName, array $logos)
+    public function __construct($entityId, $ssoUrl, $sloUrl, array $publicKeys, array $keywords, $displayName)
     {
         $this->entityId = $entityId;
         $this->ssoUrl = $ssoUrl;
@@ -64,7 +60,6 @@ class IdpInfo
         $this->publicKeys = $publicKeys;
         $this->keywords = $keywords;
         $this->displayName = $displayName;
-        $this->logos = $logos;
     }
 
     /**
@@ -81,14 +76,6 @@ class IdpInfo
     public function getEncodedEntityId()
     {
         return \preg_replace('/__*/', '_', \preg_replace('/[^A-Za-z.]/', '_', $this->getEntityId()));
-    }
-
-    /**
-     * @return string
-     */
-    public function getCssEncodedEntityId()
-    {
-        return \preg_replace('/\./', '\.', $this->getEncodedEntityId());
     }
 
     /**
@@ -129,13 +116,5 @@ class IdpInfo
     public function getDisplayName()
     {
         return $this->displayName;
-    }
-
-    /**
-     * @return array<LogoInfo>
-     */
-    public function getLogos()
-    {
-        return $this->logos;
     }
 }
