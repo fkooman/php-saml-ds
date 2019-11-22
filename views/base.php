@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -10,15 +9,11 @@
     <script type="text/javascript" src="js/filter.js"></script>
 </head>
 <body>
-    <div class="header">
-        <?=$this->section('header'); ?>
-    </div> <!-- header -->
-    <div class="container">
-        <?=$this->section('container'); ?>
-    </div> <!-- container -->
-
-    <div class="footer">
+    <main>
+        <?=$this->section('main'); ?>
+    </main>
+    <footer>
         <a href="https://git.tuxed.net/fkooman/php-saml-ds">SAML Discovery Service</a>
-    </div> <!-- footer -->
+    </footer>
 </body>
 </html>

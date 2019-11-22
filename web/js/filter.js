@@ -34,17 +34,16 @@ document.addEventListener("DOMContentLoaded", function () {
             var entries = document.querySelectorAll("ul#disco li");
             var visibleCount = 0;
             var keywords;
-            var i;
-            for (i = 0; i < entries.length; i += 1) {
+            entries.forEach(function(entry) {
                 // look through the keywords
-                keywords = entries[i].querySelector("form.entity button").dataset.keywords;
+                keywords = entry.querySelector("form.entity button").dataset.keywords;
                 if (keywords.toUpperCase().indexOf(filter) !== -1) {
-                    entries[i].style.display = "list-item";
+                    entry.style.display = "list-item";
                     visibleCount += 1;
                 } else {
-                    entries[i].style.display = "none";
+                    entry.style.display = "none";
                 }
-            }
+            });
 
             if (0 === visibleCount) {
                 // hide the accessList, as there are no entries matching the search

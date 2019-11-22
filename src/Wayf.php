@@ -156,7 +156,6 @@ class Wayf
             [
                 'filter' => $filter,
                 'entityID' => $spEntityID,
-                'encodedEntityID' => self::encodeEntityID($spEntityID),
                 'returnIDParam' => $returnIDParam,
                 'return' => $return,
                 'displayName' => $displayName,

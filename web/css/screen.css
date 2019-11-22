@@ -9,15 +9,7 @@ p {
     margin: 0.5em 0;
 }
 
-div.header {
-    background-color: #fff;
-    padding: 1em;
-    border-bottom: 2px #555 solid;
-    box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    margin-bottom: 1em;
-}
-
-div.container {
+main {
     max-width: 45em;
     margin: 1em auto;
     padding: 0.3em;
@@ -83,12 +75,12 @@ div.listHeader {
     box-sizing: border-box;
 }
 
-div.footer {
+footer {
     text-align: center;
     margin-bottom: 1em;
     font-size: 85%;
 }
 
-div.footer, div.footer a {
+footer, footer a {
     color: #888;
 }

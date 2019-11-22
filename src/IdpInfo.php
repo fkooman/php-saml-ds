@@ -73,14 +73,6 @@ class IdpInfo
     /**
      * @return string
      */
-    public function getEncodedEntityId()
-    {
-        return \preg_replace('/__*/', '_', \preg_replace('/[^A-Za-z.]/', '_', $this->getEntityId()));
-    }
-
-    /**
-     * @return string
-     */
     public function getSsoUrl()
     {
         return $this->ssoUrl;

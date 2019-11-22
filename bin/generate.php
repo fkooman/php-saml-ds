@@ -77,7 +77,6 @@ try {
             $jsonData[$entityId] = [
                 'entityID' => $entityId,
                 'displayName' => $idpInfo->getDisplayName(),
-                'encodedEntityID' => $idpInfo->getEncodedEntityId(),
                 'keywords' => $idpInfo->getKeywords(),
             ];
         }

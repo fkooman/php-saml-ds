@@ -1,16 +1,11 @@
-<?php $this->layout('base', ['encodedEntityID' => $encodedEntityID]); ?>
-
-<?php $this->start('header'); ?>
-    Select an institution to login to <span class="serviceName"><?=$this->e($displayName); ?></span>
-<?php $this->stop(); ?>
-    
-<?php $this->start('container'); ?>
+<?php $this->layout('base'); ?>
+<?php $this->start('main'); ?>
     <form class="filter" method="get">
         <input type="hidden" name="returnIDParam" value="<?=$this->e($returnIDParam); ?>">
         <input type="hidden" name="entityID" value="<?=$this->e($entityID); ?>">
         <input type="hidden" name="return" value="<?=$this->e($return); ?>">
 
-        <input <?php if (0 === \count($lastChosenList)): ?> autofocus="autofocus"<?php endif; ?> value="<?=$this->e($filter); ?>" name="filter" id="filter" tabindex="1" type="text" autocomplete="off" placeholder="Search for an institution...">
+        <input <?php if (0 === \count($lastChosenList)): ?> autofocus="autofocus"<?php endif; ?> value="<?=$this->e($filter); ?>" name="filter" id="filter" tabindex="1" type="text" autocomplete="off" placeholder="Search for an organization...">
     </form>
 
     <?php if (0 !== \count($lastChosenList)): ?>
@@ -20,7 +15,7 @@
                 <?php foreach ($lastChosenList as $key => $idp): ?>
                 <li>
                     <form class="entity" method="post">
-                        <button class="<?=$this->e($idp['encodedEntityID']); ?>" <?php if (0 === $key): ?>autofocus="autofocus"<?php endif; ?> name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" tabindex="<?=$this->e($key + 2); ?>">
+                        <button <?php if (0 === $key): ?>autofocus="autofocus"<?php endif; ?> name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" tabindex="<?=$this->e($key + 2); ?>">
 <?php if (null === $idp['displayName']): ?>
                             <?=$this->e($idp['entityID']); ?>
 <?php else: ?>
@@ -36,12 +31,12 @@
 
     <?php if (0 !== \count($idpList)): ?>
         <div id="accessList">
-            <div class="listHeader">Institutes with access</div>
+            <div class="listHeader">Organizations with access</div>
             <ul id="disco">
                 <?php foreach ($idpList as $key => $idp): ?>
                     <li>
                         <form class="entity" method="post">
-                            <button <?php if ($filter && 0 === $key): ?>autofocus="autofocus"<?php endif; ?> name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" tabindex="<?=$key + \count($lastChosenList) + 2; ?>" class="<?=$this->e($idp['encodedEntityID']); ?>" data-keywords="<?=$this->e(\implode(' ', $idp['keywords'])); ?>">
+                            <button <?php if ($filter && 0 === $key): ?>autofocus="autofocus"<?php endif; ?> name="idpEntityID" value="<?=$this->e($idp['entityID']); ?>" tabindex="<?=$key + \count($lastChosenList) + 2; ?>" data-keywords="<?=$this->e(\implode(' ', $idp['keywords'])); ?>">
 <?php if (null === $idp['displayName']): ?>
                             <?=$this->e($idp['entityID']); ?>
 <?php else: ?>
@@ -54,4 +49,4 @@
             </ul>
         </div>
     <?php endif; ?>
-<?php $this->stop(); ?>
+<?php $this->stop('main'); ?>
