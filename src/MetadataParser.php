@@ -92,8 +92,6 @@ class MetadataParser
     }
 
     /**
-     * @param \DOMElement $domElement
-     *
      * @return string
      */
     private function getSingleSignOnService(DOMElement $domElement)
@@ -108,8 +106,6 @@ class MetadataParser
     }
 
     /**
-     * @param \DOMElement $domElement
-     *
      * @return string|null
      */
     private function getSingleLogoutService(DOMElement $domElement)
@@ -124,8 +120,6 @@ class MetadataParser
     }
 
     /**
-     * @param \DOMElement $domElement
-     *
      * @return array<PublicKey>
      */
     private function getPublicKey(DOMElement $domElement)
@@ -146,8 +140,6 @@ class MetadataParser
     }
 
     /**
-     * @param \DOMElement $domElement
-     *
      * @return array<string>
      */
     private function getKeywords(DOMElement $domElement)
@@ -165,8 +157,6 @@ class MetadataParser
     }
 
     /**
-     * @param \DOMElement $domElement
-     *
      * @return string|null
      */
     private function getDisplayName(DOMElement $domElement)
@@ -184,8 +174,6 @@ class MetadataParser
     }
 
     /**
-     * @param \DOMElement $domElement
-     *
      * @return array<LogoInfo>
      */
     private function getLogo(DOMElement $domElement)

@@ -60,8 +60,6 @@ class TemplateEngine implements TplInterface
     }
 
     /**
-     * @param array $templateVariables
-     *
      * @return void
      */
     public function addDefault(array $templateVariables)
@@ -70,8 +68,7 @@ class TemplateEngine implements TplInterface
     }
 
     /**
-     * @param string   $callbackName
-     * @param callable $cb
+     * @param string $callbackName
      *
      * @return void
      */
@@ -82,7 +79,6 @@ class TemplateEngine implements TplInterface
 
     /**
      * @param string $templateName
-     * @param array  $templateVariables
      *
      * @return string
      */
@@ -109,7 +105,6 @@ class TemplateEngine implements TplInterface
 
     /**
      * @param string $templateName
-     * @param array  $templateVariables
      *
      * @return string
      */
@@ -148,7 +143,6 @@ class TemplateEngine implements TplInterface
 
     /**
      * @param string $layoutName
-     * @param array  $templateVariables
      *
      * @return void
      */

@@ -48,10 +48,7 @@ class Wayf
     private $favoriteIdPs = [];
 
     /**
-     * @param string                            $dataDir
-     * @param Config                            $config
-     * @param TplInterface                      $tpl
-     * @param \fkooman\SeCookie\CookieInterface $cookie
+     * @param string $dataDir
      */
     public function __construct($dataDir, Config $config, TplInterface $tpl, CookieInterface $cookie)
     {
@@ -62,8 +59,6 @@ class Wayf
     }
 
     /**
-     * @param array $favoriteIdPs
-     *
      * @return void
      */
     public function setFavoriteIdPs(array $favoriteIdPs)

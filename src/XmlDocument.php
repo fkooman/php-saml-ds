@@ -36,9 +36,6 @@ class XmlDocument
     /** @var \DOMXPath */
     public $domXPath;
 
-    /**
-     * @param \DOMDocument $domDocument
-     */
     private function __construct(DOMDocument $domDocument)
     {
         $this->domDocument = $domDocument;

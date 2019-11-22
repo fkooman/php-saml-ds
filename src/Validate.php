@@ -51,10 +51,7 @@ class Validate
     public static function spEntityID($spEntityID, array $spEntityIDs)
     {
         if (!\in_array($spEntityID, $spEntityIDs, true)) {
-            throw new HttpException(
-                \sprintf('SP with entityID "%s" not registered in discovery service', $spEntityID),
-                400
-            );
+            throw new HttpException(\sprintf('SP with entityID "%s" not registered in discovery service', $spEntityID), 400);
         }
 
         return $spEntityID;
@@ -112,10 +109,7 @@ class Validate
     public static function idpEntityID($idpEntityID, array $idpEntityIDs)
     {
         if (!\in_array($idpEntityID, $idpEntityIDs, true)) {
-            throw new HttpException(
-                \sprintf('IdP with entityID "%s" not available for this SP', $idpEntityID),
-                400
-            );
+            throw new HttpException(\sprintf('IdP with entityID "%s" not available for this SP', $idpEntityID), 400);
         }
 
         return $idpEntityID;

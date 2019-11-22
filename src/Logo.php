@@ -46,8 +46,7 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     private $errorLog = [];
 
     /**
-     * @param string                                          $logoDir
-     * @param \fkooman\SAML\DS\HttpClient\HttpClientInterface $httpClient
+     * @param string $logoDir
      */
     public function __construct($logoDir, HttpClientInterface $httpClient)
     {
@@ -69,8 +68,6 @@ AAAAA1BMVEWqqqoRfvv5AAAADUlEQVQYGWMYBUMKAAABsAABgx2r6QAAAABJRU5ErkJggg==';
     }
 
     /**
-     * @param IdpInfo $idpInfo
-     *
      * @return void
      */
     public function prepare(IdpInfo $idpInfo)
