@@ -24,6 +24,7 @@
         "ext-curl": "*",
         "ext-dom": "*",
         "ext-filter": "*",
+        "ext-imagick": "*",
         "ext-json": "*",
         "ext-libxml": "*",
         "ext-openssl": "*",
