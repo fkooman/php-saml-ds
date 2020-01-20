@@ -28,9 +28,11 @@ $baseDir = \dirname(__DIR__);
 use fkooman\SAML\DS\Config;
 use fkooman\SAML\DS\Http\Request;
 use fkooman\SAML\DS\Http\Response;
+use fkooman\SAML\DS\Http\SeCookie;
 use fkooman\SAML\DS\TemplateEngine;
 use fkooman\SAML\DS\Wayf;
 use fkooman\SeCookie\Cookie;
+use fkooman\SeCookie\CookieOptions;
 
 try {
     $config = Config::fromFile(\sprintf('%s/config/config.php', $baseDir));
@@ -48,23 +50,20 @@ try {
     $templateEngine = new TemplateEngine($templateDirs);
     $request = new Request($_SERVER, $_GET, $_POST);
     $cookie = new Cookie(
-        [
-            'SameSite' => 'Lax',
-            'Secure' => $secureCookie,
-            'Max-Age' => 60 * 60 * 24 * 90,   // 90 days
-        ]
+        CookieOptions::init()->setSecure($secureCookie)->setSameSite('Lax')->setMaxAge(60 * 60 * 24 * 90)
     );
+    $seCookie = new SeCookie($cookie);
 
     $wayf = new Wayf(
         \sprintf('%s/data', $baseDir),
         $config,
         $templateEngine,
-        $cookie
+        $seCookie
     );
 
     // provide the favorite IdP list
-    if (\array_key_exists('favoriteIdPs', $_COOKIE)) {
-        $favoriteIdPs = \json_decode($_COOKIE['favoriteIdPs'], true);
+    if (null !== $cookieValue = $seCookie->get('favoriteIdPs')) {
+        $favoriteIdPs = \json_decode($cookieValue, true);
         // json_decode returns null on error
         if (\is_array($favoriteIdPs)) {
             $wayf->setFavoriteIdPs($favoriteIdPs);
@@ -72,13 +71,10 @@ try {
     } else {
         // legacy, migrate old 'entityID' cookie to new 'favoriteIdPs' and
         // delete the old cookie
-        if (\array_key_exists('entityID', $_COOKIE)) {
-            $entityID = $_COOKIE['entityID'];
-            if (\is_string($entityID)) {
-                $cookie->set('favoriteIdPs', \json_encode([$entityID]));
-                $wayf->setFavoriteIdPs([$entityID]);
-            }
-            $cookie->delete('entityID');
+        if (null !== $entityID = $seCookie->get('entityID')) {
+            $seCookie->set('favoriteIdPs', \json_encode([$entityID]));
+            $wayf->setFavoriteIdPs([$entityID]);
+            $seCookie->delete('entityID');
         }
     }
 

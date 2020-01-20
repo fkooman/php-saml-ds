@@ -22,24 +22,29 @@
  * SOFTWARE.
  */
 
-namespace fkooman\SAML\DS\Tests\Http;
+namespace fkooman\SAML\DS\Http;
 
-use fkooman\SAML\DS\Http\CookieInterface;
-
-class TestCookie implements CookieInterface
+interface CookieInterface
 {
-    public function set($name, $value)
-    {
-        // NOP
-    }
+    /**
+     * @param string $cookieName
+     *
+     * @return void
+     */
+    public function delete($cookieName);
 
-    public function delete($name)
-    {
-        // NOP
-    }
+    /**
+     * @param string $cookieName
+     *
+     * @return string|null
+     */
+    public function get($cookieName);
 
-    public function get($name)
-    {
-        return 'foo';
-    }
+    /**
+     * @param string $cookieName
+     * @param string $cookieValue
+     *
+     * @return void
+     */
+    public function set($cookieName, $cookieValue);
 }

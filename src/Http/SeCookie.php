@@ -22,24 +22,56 @@
  * SOFTWARE.
  */
 
-namespace fkooman\SAML\DS\Tests\Http;
+namespace fkooman\SAML\DS\Http;
 
-use fkooman\SAML\DS\Http\CookieInterface;
+use fkooman\SeCookie\Cookie;
 
-class TestCookie implements CookieInterface
+class SeCookie implements CookieInterface
 {
-    public function set($name, $value)
+    /** var \fkooman\SeCookie\Cookie */
+    private $cookie;
+
+    public function __construct(Cookie $cookie)
     {
-        // NOP
+        $this->cookie = $cookie;
     }
 
-    public function delete($name)
+    /**
+     * @param string $cookieName
+     *
+     * @return void
+     */
+    public function delete($cookieName)
     {
-        // NOP
+        $this->cookie->delete($cookieName);
     }
 
-    public function get($name)
+    /**
+     * @param string $cookieName
+     * @param string $cookieValue
+     *
+     * @return void
+     */
+    public function set($cookieName, $cookieValue)
     {
-        return 'foo';
+        $this->cookie->set($cookieName, $cookieValue);
+    }
+
+    /**
+     * @param string $cookieName
+     *
+     * @return string|null
+     */
+    public function get($cookieName)
+    {
+        if (!\array_key_exists($cookieName, $_COOKIE)) {
+            return null;
+        }
+
+        if (!\is_string($_COOKIE[$cookieName])) {
+            return null;
+        }
+
+        return $_COOKIE[$cookieName];
     }
 }
