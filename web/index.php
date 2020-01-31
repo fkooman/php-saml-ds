@@ -49,8 +49,9 @@ try {
 
     $templateEngine = new TemplateEngine($templateDirs);
     $request = new Request($_SERVER, $_GET, $_POST);
+    $cookieOptions = CookieOptions::init()->withSameSiteLax()->withMaxAge(60 * 60 * 24 * 90);
     $cookie = new Cookie(
-        CookieOptions::init()->setSecure($secureCookie)->setSameSite('Lax')->setMaxAge(60 * 60 * 24 * 90)
+        $secureCookie ? $cookieOptions : $cookieOptions->withoutSecure()
     );
     $seCookie = new SeCookie($cookie);
 
