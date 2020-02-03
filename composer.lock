@@ -4,15 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4a767c843539ee6349ea50af20e8cbd",
+    "content-hash": "4d9a8fbc85b800a538a0f499ddd2fd59",
     "packages": [
         {
             "name": "fkooman/secookie",
-            "version": "dev-master",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.tuxed.net/fkooman/php-secookie",
-                "reference": "83728374434789a684b1697faf189c46a916e238"
+                "reference": "64c4138142dd908a9d537dae54ab42f9b5c5e910"
             },
             "require": {
                 "ext-date": "*",
@@ -49,7 +49,7 @@
                 "email": "fkooman@tuxed.net",
                 "source": "https://git.tuxed.net/fkooman/php-secookie"
             },
-            "time": "2020-01-31T08:06:50+00:00"
+            "time": "2020-02-03T16:29:25+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -1631,9 +1631,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "fkooman/secookie": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

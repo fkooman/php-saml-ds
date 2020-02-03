@@ -30,7 +30,7 @@
         "ext-openssl": "*",
         "ext-pcre": "*",
         "ext-spl": "*",
-        "fkooman/secookie": "dev-master",
+        "fkooman/secookie": "^4",
         "php": ">=5.4.0"
     },
     "require-dev": {
