@@ -1,7 +1,7 @@
 # Changelog
 
-## 2.1.0 (...)
-- update to `fkooman/secookie` >= 3
+## 2.1.0 (2020-02-13)
+- update for `fkooman/secookie` (4.0.0)
 
 ## 2.0.2 (2019-08-09)
 - make sure keywords is a flat array
